@@ -59,7 +59,7 @@
             android:id="@+id/edt_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
+            android:hint="Name"
             android:inputType="textEmailAddress"
             android:textColor="#EBD7D7" />
     </com.google.android.material.textfield.TextInputLayout>
