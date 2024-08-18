@@ -1,14 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.recipe.fragments.RecipeDetailFragment">
+    android:background="#1E1E1E"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="fragment_recipe_detail" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="#141414"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="35dp"
+                android:src="@drawable/detail" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="80dp"
+                android:src="@drawable/baseline_play_circle_outline_24" />
+
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/fav"
+                android:src="@drawable/baseline_favorite_border_24"
+                android:layout_marginLeft="350dp"
+                android:layout_marginTop="20dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/description"
+                android:text="Description"
+                android:textStyle="bold"
+                android:textColor="#FEC0A0"
+                android:textSize="32dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                />
+        </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#FEC0A0"
+            android:layout_marginLeft="20dp"
+            android:textSize="15dp"
+
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae orci non lacus mattis facilisis ut sed neque. "/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/detailicon"
+                android:text="more details"
+                android:textColor="#FEC0A0"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="15dp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/detail"
+                android:src="@drawable/baseline_expand_more_24"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="180dp"
+                />
+
+        </FrameLayout>
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#FEC0A0"
+            android:layout_marginLeft="20dp"
+            android:textSize="15dp"
+
+            android:text="perdiet magna velit, id bibendum diam mollis in. In hac habitasse platea dictumst. Morbi molestie, lectus at congue finibus, enim elit accumsan augue, a dictum diam justo malesuada nisi. Donec odio justo, sodales ac maximus pret"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:textColor="#2A1D1D"
+            android:text="Steps"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            />
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1"
+            android:padding="16dp"
+            android:background="#FFFFFF"
+            android:layout_margin="20dp"
+            >
+        </TableLayout>
+
+
+
+    </LinearLayout>
+
+</ScrollView>
