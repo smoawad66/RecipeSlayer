@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.example.recipeslayer.R
@@ -33,6 +34,9 @@ class RecipeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
+
+        onBackPressedDispatcher.addCallback(this) { moveTaskToBack(true) }
+
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -125,12 +129,12 @@ class RecipeActivity : AppCompatActivity() {
 //                    editor.putBoolean("fromRecipeActivity", true)
 //                    editor.apply()
 
-                    Auth.logout()
-
                     // Navigate to AuthActivity
+                    Auth.logout()
                     val intent = Intent(this, AuthActivity::class.java)
+                    intent.putExtra("splashTime", 0L)
                     startActivity(intent)
-                    finish()
+                    finishAffinity()
                     true
                 }
                 R.id.menu_about -> {

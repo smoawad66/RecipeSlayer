@@ -30,7 +30,7 @@ class SplashFragment : Fragment() {
         }
 
         val extras = activity?.intent?.extras
-        val splashTime = extras?.getLong("splashTime") ?: 5000
+        val splashTime = extras?.getLong("splashTime", 5000) ?: 5000
 
         splash(::navigateToLogin, splashTime)
 
