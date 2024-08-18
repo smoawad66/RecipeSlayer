@@ -64,12 +64,13 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     kapt("androidx.lifecycle:lifecycle-compiler:2.8.4")
+    // annotationProcessor ("androidx.lifecycle:lifecycle-compiler:2.8.4")
 
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -81,9 +82,9 @@ dependencies {
     //Glide
     implementation("com.github.bumptech.glide:glide:4.15.0")
 
-    // For Splash
+    implementation("org.mindrot:jbcrypt:0.4")
+
     implementation("com.airbnb.android:lottie:6.0.0")
 
-    // Encryption
-    implementation("org.mindrot:jbcrypt:0.4")
+    implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
 }

@@ -1,19 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.recipe.RecipeActivity"
     android:background="#2A1D1D">
 
-    <TextView
-        android:id="@+id/logout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello World"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="#D36A63"
-        android:textSize="30dp"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1F1515"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/fragment_title"
+            android:padding="10dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@+id/logo_46"
+            app:layout_constraintEnd_toStartOf="@+id/option_menu"
+            android:text="Home"
+            android:textStyle="bold"
+            android:textSize="35sp"
+            android:textColor="#D36A63"
+            />
+        <ImageView
+            android:id="@+id/logo_46"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@drawable/logo_46"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="5dp"/>
+
+
+        <ImageView
+            android:id="@+id/option_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_overflow"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="15dp"
+            android:layout_marginEnd="5dp"
+            android:defaultFocusHighlightEnabled="false"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:navGraph="@navigation/recipe_navigation"
+        app:defaultNavHost="true"
+        app:layout_constraintTop_toBottomOf="@+id/cl"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1F1515"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cnb_menuResource="@menu/bottom_menu"
+        app:cnb_orientationMode="horizontal"
+        app:cnb_addBottomInset="false"
+        app:cnb_addLeftInset="false"
+        app:cnb_textAppearance="@style/BottomMenuTextAppearance"
+        app:cnb_addRightInset="false"
+        app:cnb_addTopInset="false"
+        app:cnb_unselectedColor="#797979"
+        app:cnb_badgeColor="#D36A63"
+        app:cnb_iconSize="30dp"
+        android:padding="20dp"
+        android:elevation="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

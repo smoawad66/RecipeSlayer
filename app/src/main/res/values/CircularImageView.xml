@@ -1,0 +1,6 @@
+<resources>
+    <style name="CircularImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0%</item>
+    </style>
+</resources>

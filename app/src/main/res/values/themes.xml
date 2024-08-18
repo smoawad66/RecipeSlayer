@@ -2,8 +2,15 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.RecipeSlayer" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">#1F1515</item>
+        <item name="colorPrimaryDark">#1F1515</item>
+        <item name="android:textColorPrimary">#D36A63</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
     <style name="Theme.RecipeSlayer" parent="Base.Theme.RecipeSlayer" />
+
+
 </resources>

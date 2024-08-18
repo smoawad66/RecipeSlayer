@@ -1,0 +1,10 @@
+<!-- res/values/styles.xml -->
+<resources>
+    <style name="BottomMenuTextAppearance" parent="TextAppearance.AppCompat">
+        <!-- Customize the text appearance -->
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#D36A63</item>
+        <item name="android:textStyle">bold</item>
+        <item name="paddingStart">5dp</item>
+    </style>
+</resources>

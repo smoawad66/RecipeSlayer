@@ -3,5 +3,15 @@
     <style name="Base.Theme.RecipeSlayer" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">#1F1515</item>
+        <item name="colorPrimaryDark">#1F1515</item>
+        <item name="android:textColorPrimary">#D36A63</item>
+
+    </style>
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">#1F1515</item>
+        <item name="android:textColor">#D36A63</item> <!-- Text color for menu items -->
     </style>
 </resources>
