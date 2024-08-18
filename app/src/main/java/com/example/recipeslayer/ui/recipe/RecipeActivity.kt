@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.example.recipeslayer.R
 import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.utils.Auth
@@ -140,6 +141,9 @@ class RecipeActivity : AppCompatActivity() {
                 R.id.menu_about -> {
                     // Handle about
                     Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
+                    val navController = findNavController(R.id.nav_host_fragment)
+                    navController.navigate(R.id.aboutFragment)
+
                     true
                 }
                 else -> false

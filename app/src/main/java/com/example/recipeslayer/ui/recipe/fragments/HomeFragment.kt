@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.recipeslayer.databinding.FragmentHomeBinding
+import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.ui.recipe.RecipeAdapter
 import com.example.recipeslayer.ui.recipe.RecipeViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -40,6 +42,15 @@ class HomeFragment : Fragment() {
             } else {
                 Log.i("null", "Its null!")
             }
+        }
+        adapter.setOnItemClickListener{
+            val recipe=adapter.getData()[it]
+                val action=HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(
+
+                    recipe
+                )
+                findNavController().navigate(action)
+
         }
 
         recipeViewModel.getAllRecipes()

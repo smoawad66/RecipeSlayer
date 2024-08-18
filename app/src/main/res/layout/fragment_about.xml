@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutFragment"
+    android:background="#2A1D1D">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+
+        android:src="@drawable/logo_1024"
+        android:id="@+id/img"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Who are we"
+        android:textColor="#D36A63"
+        android:textStyle="bold"
+        android:id="@+id/txt"
+        android:textSize="40dp"
+        android:layout_gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+         >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="-40dp">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo_1024"
+                android:layout_marginTop="440dp"
+                android:layout_marginLeft="100dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Elsayed Moawad"
+                android:textColor="#D36A63"
+                android:layout_marginTop="455dp"
+                android:textSize="20dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo_1024"
+                android:layout_marginLeft="100dp"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abdallah Habsa"
+                android:textSize="20dp"
+                android:textColor="#D36A63"
+                android:layout_marginTop="18dp"
+
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo_1024"
+                android:layout_marginLeft="100dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yasmeen Mohammed"
+                android:textSize="20dp"
+                android:textColor="#D36A63"
+                android:layout_marginTop="18dp"
+
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

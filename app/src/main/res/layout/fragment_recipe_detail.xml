@@ -2,8 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E1E1E"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#1E1E1E">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_marginTop="35dp"
-                android:src="@drawable/detail" />
+                android:src="@drawable/detail"
+                android:id="@+id/recipeimg"/>
 
             <ImageView
                 android:layout_width="100dp"
@@ -34,6 +36,16 @@
                 android:src="@drawable/baseline_play_circle_outline_24" />
 
         </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Tittle"
+            android:id="@+id/title"
+            android:textColor="#FEC0A0"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+
+            />
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -48,8 +60,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/description"
-                android:text="Description"
+                android:id="@+id/instruction"
+                android:text="Instructions"
                 android:textStyle="bold"
                 android:textColor="#FEC0A0"
                 android:textSize="32dp"
@@ -64,6 +76,7 @@
             android:textColor="#FEC0A0"
             android:layout_marginLeft="20dp"
             android:textSize="15dp"
+            android:id="@+id/instruction1"
 
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae orci non lacus mattis facilisis ut sed neque. "/>
         <FrameLayout
@@ -72,7 +85,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/detailicon"
+                android:id="@+id/moredetail"
                 android:text="more details"
                 android:textColor="#FEC0A0"
                 android:layout_marginBottom="20dp"
@@ -83,7 +96,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:id="@+id/detail"
+                android:id="@+id/detailicon"
                 android:src="@drawable/baseline_expand_more_24"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="180dp"
@@ -97,6 +110,7 @@
             android:textColor="#FEC0A0"
             android:layout_marginLeft="20dp"
             android:textSize="15dp"
+            android:id="@+id/instruction2"
 
             android:text="perdiet magna velit, id bibendum diam mollis in. In hac habitasse platea dictumst. Morbi molestie, lectus at congue finibus, enim elit accumsan augue, a dictum diam justo malesuada nisi. Donec odio justo, sodales ac maximus pret"/>
         <Button
@@ -106,17 +120,29 @@
             android:text="Steps"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
+            android:id="@+id/btnigredient"
             />
-        <TableLayout
-            android:id="@+id/tableLayout"
+<!--        <TableLayout-->
+<!--            android:id="@+id/tableLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:stretchColumns="1"-->
+<!--            android:padding="16dp"-->
+<!--            android:background="#FFFFFF"-->
+<!--            android:layout_margin="20dp"-->
+<!--            >-->
+<!--        </TableLayout>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:padding="16dp"
-            android:background="#FFFFFF"
-            android:layout_margin="20dp"
-            >
-        </TableLayout>
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+           tools:listitem="@layout/ingredient"/>
 
 
 
