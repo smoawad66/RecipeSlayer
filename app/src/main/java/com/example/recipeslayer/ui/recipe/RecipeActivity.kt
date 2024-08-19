@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.Navigation
 import com.example.recipeslayer.R
 import com.example.recipeslayer.ui.auth.AuthActivity

@@ -9,6 +9,7 @@ import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.repo.Repo
 import com.example.recipeslayer.utils.Cache
+import com.example.recipeslayer.utils.Converters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -42,5 +43,9 @@ class RecipeViewModel: ViewModel() {
         Cache.recipesCache = _recipes.value
     }
 
+
+    suspend fun getRecipeDetails(recipeId: String): Recipe? {
+        return repo.getRecipeById(recipeId).meals?.first()
+    }
 
 }

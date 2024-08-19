@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient_background"
+    tools:context=".ui.recipe.fragments.AboutFragment"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_about_cl"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <ImageView
+            android:id="@+id/logo_1023_login"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/logo_1024"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/whoarewe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="whoarewe"
+            android:textColor="#D36A63"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_1023_login"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            app:layout_constraintStart_toStartOf="@+id/whoarewe"
+            app:layout_constraintEnd_toEndOf="@+id/whoarewe"
+            app:layout_constraintTop_toBottomOf="@+id/whoarewe"
+            android:background="#D36A63"
+            />
+
+        <ImageView
+            android:id="@+id/elsayed_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/elsayed"
+            app:layout_constraintTop_toBottomOf="@+id/whoarewe"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="30dp"
+            />
+
+        <TextView
+            android:id="@+id/elsayed_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="Elsayed Moawad"
+            android:textColor="#D36A63"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/elsayed_img"
+            app:layout_constraintStart_toEndOf="@+id/elsayed_img"
+            app:layout_constraintTop_toTopOf="@+id/elsayed_img" />
+
+        <ImageView
+            android:id="@+id/habsa_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/habsa"
+            app:layout_constraintTop_toBottomOf="@+id/elsayed_img"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="30dp"
+            />
+
+        <TextView
+            android:id="@+id/habsa_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="Abdallah Habsa"
+            android:textColor="#D36A63"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/habsa_img"
+            app:layout_constraintStart_toEndOf="@+id/habsa_img"
+            app:layout_constraintTop_toTopOf="@+id/habsa_img" />
+
+        <ImageView
+            android:id="@+id/yasmeen_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/yasmeen"
+            app:layout_constraintTop_toBottomOf="@+id/habsa_img"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="30dp"
+            />
+
+        <TextView
+            android:id="@+id/yasmeen_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="Yasmeen Mohammed"
+            android:textColor="#D36A63"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/yasmeen_img"
+            app:layout_constraintStart_toEndOf="@+id/yasmeen_img"
+            app:layout_constraintTop_toTopOf="@+id/yasmeen_img" />
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -10,7 +10,7 @@ object Converters {
     private val gson: Gson = GsonBuilder().serializeNulls().create()
 
     @TypeConverter
-    fun fromRecipeToString(recipe: Recipe): String {
+    fun fromRecipeToString(recipe: Recipe?): String? {
         return gson.toJson(recipe)
     }
 

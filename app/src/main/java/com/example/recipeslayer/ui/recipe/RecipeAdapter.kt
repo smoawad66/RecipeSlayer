@@ -9,7 +9,6 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.recipeslayer.R
 import com.example.recipeslayer.models.Recipe
-import com.example.recipeslayer.ui.recipe.OnItemClickListener
 
 class RecipeAdapter(private var data: List<Recipe>) :
     RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
@@ -36,7 +35,7 @@ class RecipeAdapter(private var data: List<Recipe>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_view_recipe, parent, false)
         return ViewHolder(layout)
     }
 

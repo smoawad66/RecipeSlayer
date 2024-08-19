@@ -86,5 +86,7 @@ dependencies {
 
     implementation("com.airbnb.android:lottie:6.0.0")
 
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
+
     implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
 }

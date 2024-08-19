@@ -17,6 +17,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"
-        tools:listitem="@layout/item_view" />
+        tools:listitem="@layout/item_view_recipe" />
 
 </FrameLayout>

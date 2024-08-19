@@ -3,6 +3,7 @@ package com.example.recipeslayer.repo
 import androidx.lifecycle.LiveData
 import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
+import com.example.recipeslayer.models.RecipeDetailResponse
 import com.example.recipeslayer.models.User
 
 interface IRepo {
@@ -20,6 +21,6 @@ interface IRepo {
     suspend fun getFavouriteId(userId: Long, recipe: Recipe): Long?
 
     suspend fun getRecipes(category: String): List<Recipe>?
-    suspend fun getRecipeById(recipeId: String): Recipe?
+    suspend fun getRecipeById(recipeId: String): RecipeDetailResponse
     suspend fun searchByName(name: String): List<Recipe>?
 }
