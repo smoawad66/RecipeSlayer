@@ -16,6 +16,7 @@ class RecipeAdapter(private var data: List<Recipe>) :
 
     fun setData(data: List<Recipe>) {
         this.data = data
+        notifyDataSetChanged() // Refresh the UI when the data changes
     }
 
     fun getData() = data

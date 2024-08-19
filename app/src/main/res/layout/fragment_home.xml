@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,16 +7,195 @@
     tools:context=".ui.recipe.fragments.HomeFragment"
     android:background="#2A1D1D">
 
+    <ScrollView
+        android:id="@+id/filter_sv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/all"
+                android:layout_width="70dp"
+                android:layout_height="33dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#6F3733"
+                android:text="All"
+                android:textColor="#fec0a0"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/vegetarian"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:text="Vegetarian"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#fec0a0"
+                android:backgroundTint="#6F3733" />
+
+            <Button
+                android:id="@+id/beef"
+                android:layout_width="74dp"
+                android:layout_height="33dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#6F3733"
+                android:text="Beef"
+                android:textSize="10sp"
+                android:textColor="#fec0a0"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/chicken"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:text="Chicken"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#fec0a0"
+                android:backgroundTint="#6F3733" />
+
+            <Button
+                android:id="@+id/dessert"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:text="Dessert"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#fec0a0"
+                android:backgroundTint="#6F3733" />
+
+<!--            <Button-->
+<!--                android:id="@+id/lamb"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Lamb"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/miscellaneous"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Miscellaneous"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/pasta"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Pasta"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/seafood"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Seafood"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/side"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Side"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/starter"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Starter"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/vegan"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Vegan"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/breakfast"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Breakfast"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/goat"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="8dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Goat"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:backgroundTint="#6F3733" />-->
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:padding="16dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_view"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_sv"
+        app:spanCount="2"
+        tools:listitem="@layout/item_view" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

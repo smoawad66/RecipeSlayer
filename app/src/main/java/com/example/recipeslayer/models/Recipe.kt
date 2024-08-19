@@ -2,6 +2,7 @@ package com.example.recipeslayer.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @Entity(tableName = "recipes")
@@ -9,11 +10,11 @@ data class Recipe(
     @PrimaryKey
     val idMeal: String,
     val strMeal: String,
-    val strCategory: String,
-    val strArea: String,
-    val strMealThumb: String,
-    val strYoutube: String,
-    val strInstructions: String,
+    val strCategory: String?,
+    val strArea: String?,
+    val strMealThumb: String?,
+    val strYoutube: String?,
+    val strInstructions: String?,
 ): Serializable
 
 /*

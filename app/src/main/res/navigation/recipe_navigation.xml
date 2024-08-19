@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -30,6 +33,9 @@
         <action
             android:id="@+id/action_favoriteFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -41,9 +47,21 @@
         <action
             android:id="@+id/action_searchFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="com.example.recipeslayer.ui.recipe.fragments.RecipeDetailFragment"
-        android:label="RecipeDetailFragment" />
+        android:label="RecipeDetailFragment" >
+        <argument
+            android:name="recipe"
+            app:argType="com.example.recipeslayer.models.Recipe" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>
