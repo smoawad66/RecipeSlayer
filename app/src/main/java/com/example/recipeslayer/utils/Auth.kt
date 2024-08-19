@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 object Auth {
     lateinit var sharedPreferences: SharedPreferences
 
+    fun id() = sharedPreferences.getLong("userId", -1)
+
     fun login(userId: Long) {
         sharedPreferences.edit().apply {
             putBoolean("isLoggedIn", true)

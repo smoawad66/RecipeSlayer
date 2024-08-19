@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.recipeslayer.ui.recipe.fragments.FavoriteFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.FavouriteFragment"
         android:label="FavoriteFragment" >
         <action
             android:id="@+id/action_favoriteFragment_to_homeFragment"
@@ -45,5 +45,9 @@
     <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="com.example.recipeslayer.ui.recipe.fragments.RecipeDetailFragment"
-        android:label="RecipeDetailFragment" />
+        android:label="RecipeDetailFragment" >
+        <argument
+            android:name="recipe"
+            app:argType="com.example.recipeslayer.models.Recipe" />
+    </fragment>
 </navigation>

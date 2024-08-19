@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.recipeslayer.databinding.FragmentHomeBinding
 import com.example.recipeslayer.ui.recipe.RecipeAdapter
 import com.example.recipeslayer.ui.recipe.RecipeViewModel
@@ -28,10 +30,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         val adapter = RecipeAdapter(emptyList())
         binding.rv.adapter = adapter
+
+        recipeViewModel.getAllRecipes()
 
         recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             if (recipes != null) {
@@ -42,7 +44,15 @@ class HomeFragment : Fragment() {
             }
         }
 
-        recipeViewModel.getAllRecipes()
+        adapter.setOnItemClickListener{ position ->
+            val recipe = adapter.getData()[position]
+            val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(recipe)
+            findNavController().navigate(action)
+        }
+
+
+//        requireActivity().onBackPressedDispatcher.addCallback(this) { requireActivity().moveTaskToBack(true) }
+
 
     }
 }
