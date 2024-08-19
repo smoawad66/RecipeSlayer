@@ -1,101 +1,114 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.recipeslayer.R
-import android.graphics.Color // Make sure to import android.graphics.Color
-import android.widget.ImageView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.RecyclerView
-import com.example.recipeslayer.ui.recipe.IngredientAdapter
+import com.bumptech.glide.Glide
+import com.example.recipeslayer.R
+import com.example.recipeslayer.databinding.FragmentRecipeDetailBinding
+import com.example.recipeslayer.models.Recipe
+import com.example.recipeslayer.models.RecipeResponse
+import com.example.recipeslayer.remote.ApiService
+import com.example.recipeslayer.repo.Repo
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class RecipeDetailFragment : Fragment() {
-    private lateinit var webView: WebView
+    private lateinit var binding: FragmentRecipeDetailBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_detail, container, false)
+    private val args: RecipeDetailFragmentArgs by navArgs()
+
+    private val apiService: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://www.themealdb.com/api/json/v1/1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
     }
 
+    private val repo = Repo()
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentRecipeDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-        var recyclerView = view.findViewById<RecyclerView>(R.id.rv)
-        var webView = view.findViewById<WebView>(R.id.webview)
-        var image = view.findViewById<ImageView>(R.id.recipeimg)
-        var title = view.findViewById<TextView>(R.id.title)
-        var instruction1 = view.findViewById<TextView>(R.id.instruction1)
-        var instruction2 = view.findViewById<TextView>(R.id.instruction2)
 
-        //val args = RecipeDetailFragmentArgs.fromBundle(requireArguments())
+        // Use coroutine to make network request
+        lifecycleScope.launch {
+            try {
+                val recipeResponse = repo.getRecipeById(args.recipe.idMeal)
+                val recipe: Recipe? = recipeResponse
 
-        webView = view.findViewById(R.id.webview)
+                if (recipe != null) {
+                    // Update UI with recipe details
+                    binding.title.text = recipe.strMeal
+                    binding.instructionsBreif.text = recipe.strInstructions?.substringBefore(".") + "."
+                    binding.instructionsComplete.text = recipe.strInstructions?.substringAfter(".")
 
-        // Table
-//        val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
-//        val args:RecipeDetailFragmentArgs by navArgs()
-//        val recipe=args.recipe
-//
-//        for (i in 1..5) {
-//            // Create a new TableRow
-//            val tableRow = TableRow(requireContext())
-//
-//            // Set layout parameters for the TableRow
-//            tableRow.layoutParams = TableRow.LayoutParams(
-//                TableRow.LayoutParams.MATCH_PARENT,
-//                TableRow.LayoutParams.WRAP_CONTENT
-//            )
-//
-//            // Create TextViews for each cell in the row
-//            val cell1 = TextView(requireContext()).apply {
-//                text = "Row $i, Col 1"
-//                setTextColor(Color.BLACK) // Use Color.BLACK instead of Color.Black
-//                setPadding(16, 16, 16, 16)
-//                gravity = Gravity.CENTER
-//            }
-//
-//            val cell2 = TextView(requireContext()).apply { // Use requireContext()
-//                text = "Row $i, Col 2"
-//                setTextColor(Color.BLACK) // Use Color.BLACK instead of Color.Black
-//                setPadding(16, 16, 16, 16)
-//                gravity = Gravity.CENTER
-//            }
-//
-//
-//            tableRow.addView(cell1)
-//            tableRow.addView(cell2)
-//
-//            // Add the TableRow to the TableLayout
-//            tableLayout.addView(tableRow)
-//        }
+                    // WebView setup
+                    val webView = binding.webview
+                    webView.webViewClient = WebViewClient()
+                    val webSettings: WebSettings = webView.settings
+                    webSettings.javaScriptEnabled = true
+                    recipe.strYoutube?.let { webView.loadUrl(it) }
 
-        // Load the video in the WebView
-        val videoUrl = "https://www.youtube.com/embed/V2KCAfHjySQ?si=r2cL1eRk0aotRoiK"
+                    // Handle more details click
+                    binding.moreDetails.setOnClickListener {
+                        if (binding.instructionsComplete.visibility == View.VISIBLE) {
+                            binding.instructionsComplete.visibility = View.GONE
+                            binding.moreDetailsBtn.text = "show more"
+                            binding.moreDetailsIconBtn.setImageResource(R.drawable.more_btn_icon)
+                        } else {
+                            binding.instructionsComplete.visibility = View.VISIBLE
+                            binding.moreDetailsBtn.text = "show less"
+                            binding.moreDetailsIconBtn.setImageResource(R.drawable.less_btn_icon)
+                        }
+                    }
 
-        // Set WebViewClient to handle page navigation in the WebView
-        webView.webViewClient = WebViewClient()
+                    // Favorite button logic
+                    var isFav = false
+                    binding.favBtn.setOnClickListener {
+                        if (!isFav) {
+                            binding.favBtn.setImageResource(R.drawable.faved_btn_icon)
+                            isFav = true
+                        } else {
+                            binding.favBtn.setImageResource(R.drawable.fav_btn_icon)
+                            isFav = false
+                        }
+                    }
 
-        // Enable JavaScript if needed
-        val webSettings: WebSettings = webView.settings
-        webSettings.javaScriptEnabled = true
+                    Log.i("data", "onViewCreated: ${recipe.toString()}")
 
-        // Load the video in the WebView
+                    // Load image
+//                    Glide.with(this)
+//                        .load(recipe.strMealThumb)
+//                        .error(R.drawable.baseline_error_24)
+//                        .into(binding.thumbnail)
 
-        webView.loadUrl(videoUrl)
-        val adapter=IngredientAdapter(listOf())
-        recyclerView.adapter=adapter
+                } else {
+                    // Handle the case where the recipe is not found
+                    Log.e("RecipeDetailFragment", "Recipe not found")
+                }
+            } catch (e: Exception) {
+                // Handle network errors
+                e.printStackTrace()
+                Log.e("RecipeDetailFragment", "Network request failed", e)
+            }
+        }
     }
 }

@@ -9,10 +9,12 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.example.recipeslayer.R
 import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.utils.Auth
@@ -21,6 +23,10 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar
 class RecipeActivity : AppCompatActivity() {
     lateinit var bottomBar : ChipNavigationBar
     private var isMenuVisible = false
+    private lateinit var navController: NavController
+    private lateinit var actionBarCl: ConstraintLayout
+    private lateinit var fragment_title: TextView
+
 
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
 //    val navController = findNavController(R.id.nav_host_fragment)
@@ -35,9 +41,6 @@ class RecipeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
-
-        onBackPressedDispatcher.addCallback(this) { moveTaskToBack(true) }
-
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -46,11 +49,17 @@ class RecipeActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
+        actionBarCl =findViewById<ConstraintLayout>(R.id.cl)
+        actionBarCl.visibility = View.VISIBLE
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fragment_title: TextView = findViewById(R.id.fragment_title)
+        fragment_title = findViewById(R.id.fragment_title)
         val toggleButton: ImageView = findViewById(R.id.option_menu)
         toggleButton.setOnClickListener {
             showPopupMenu(toggleButton)
@@ -58,6 +67,7 @@ class RecipeActivity : AppCompatActivity() {
 
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         bottomBar = findViewById(R.id.bottom_bar)
+//        bottomBar.visibility = View.VISIBLE
         bottomBar.setItemSelected(R.id.home, true)
         bottomBar.showBadge(R.id.favorites, 7)
 //        bottomBar.visibility = INVISIBLE
@@ -130,20 +140,26 @@ class RecipeActivity : AppCompatActivity() {
 //                    editor.putBoolean("fromRecipeActivity", true)
 //                    editor.apply()
 
-                    // Navigate to AuthActivity
                     Auth.logout()
+
+                    // Navigate to AuthActivity
                     val intent = Intent(this, AuthActivity::class.java)
-                    intent.putExtra("splashTime", 0L)
                     startActivity(intent)
-                    finishAffinity()
+                    finish()
                     true
                 }
                 R.id.menu_about -> {
                     // Handle about
-                    Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
-                    val navController = findNavController(R.id.nav_host_fragment)
                     navController.navigate(R.id.aboutFragment)
+//                    actionBarCl.visibility = View.GONE
+//                    bottomBar.visibility = View.GONE
+                    bottomBar.setItemSelected(R.id.home, false)
+                    bottomBar.setItemSelected(R.id.favorites, false)
+                    bottomBar.setItemSelected(R.id.search, false)
+                    fragment_title.text = "About Us"
 
+
+//                    Toast.makeText(this, "About Clicked!", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
