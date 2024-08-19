@@ -11,10 +11,9 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FavouriteViewModel: ViewModel() {
+class FavouriteViewModel : ViewModel() {
 
-    private val _favouriteRecipes = MutableLiveData<List<Recipe>>(emptyList())
-    val favouriteRecipes: LiveData<List<Recipe>> = _favouriteRecipes
+    var favouriteRecipes: LiveData<List<Recipe>?> = MutableLiveData()
     private val repo = Repo()
 
 
@@ -34,9 +33,8 @@ class FavouriteViewModel: ViewModel() {
         return repo.getFavouriteId(userId, recipe)
     }
 
-    fun getFavourites(userId: Long) = viewModelScope.launch {
-        val fetched = withContext(IO) { repo.getFavourites(userId) }
-        _favouriteRecipes.postValue(fetched.value)
+    fun getFavourites(userId: Long) {
+        favouriteRecipes = repo.getFavourites(userId)
     }
 
 }

@@ -6,7 +6,6 @@
     tools:context=".ui.recipe.fragments.SearchFragment"
     android:background="#2A1D1D">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
