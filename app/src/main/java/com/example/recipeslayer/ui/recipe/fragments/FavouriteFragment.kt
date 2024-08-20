@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.recipeslayer.databinding.FragmentFavouriteBinding
-import com.example.recipeslayer.databinding.FragmentRecipeDetailBinding
 import com.example.recipeslayer.ui.recipe.FavouriteViewModel
-import com.example.recipeslayer.ui.recipe.RecipeAdapter
+import com.example.recipeslayer.ui.recipe.adapters.FavouriteAdapter
+import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
 import com.example.recipeslayer.utils.Auth
 
 class FavouriteFragment : Fragment() {
@@ -28,23 +28,24 @@ class FavouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = RecipeAdapter(emptyList())
+        val adapter = FavouriteAdapter(emptyList())
         binding.rvFavourite.adapter = adapter
 
         favouriteViewModel.getFavourites(Auth.id())
+        favouriteViewModel.favourites.observe(viewLifecycleOwner) { favourites ->
+            adapter.setData(favourites ?: listOf())
+            binding.rvFavourite.adapter = adapter
 
-        favouriteViewModel.favouriteRecipes.observe(viewLifecycleOwner) { recipes ->
-            if (recipes != null) {
-                adapter.setData(recipes)
-                binding.rvFavourite.adapter = adapter
+            if (favourites.isNullOrEmpty()) {
+                binding.favFill.visibility = View.VISIBLE
             } else {
-                Log.i("null", "Its null!")
+                binding.favFill.visibility = View.GONE
             }
         }
 
         adapter.setOnItemClickListener{ position ->
-            val recipe = adapter.getData()[position]
-            val action = FavouriteFragmentDirections.actionFavoriteFragmentToRecipeDetailFragment(recipe)
+            val favourite = adapter.getData()[position]
+            val action = FavouriteFragmentDirections.actionFavoriteFragmentToRecipeDetailFragment(favourite, favourite.recipe)
             findNavController().navigate(action)
         }
     }

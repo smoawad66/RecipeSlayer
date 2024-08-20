@@ -1,4 +1,4 @@
-package com.example.recipeslayer.ui.recipe
+package com.example.recipeslayer.ui.recipe.adapters
 
 import android.view.LayoutInflater
 import android.view.View

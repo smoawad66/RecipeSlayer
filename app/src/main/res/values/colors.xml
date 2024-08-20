@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="button_selected_background">#392221</color> <!-- Selected color -->
+    <color name="button_unselected_background">#2c2424</color> <!-- Unselected color -->
+    <color name="button_selected_text">#d36a63</color> <!-- Selected text color -->
+    <color name="button_unselected_text">#797979</color> <!-- Unselected text color -->
 </resources>

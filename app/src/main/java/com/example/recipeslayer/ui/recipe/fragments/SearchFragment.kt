@@ -1,24 +1,69 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeslayer.R
+import com.example.recipeslayer.databinding.FragmentSearchBinding
+import com.example.recipeslayer.models.Recipe
+import com.example.recipeslayer.ui.recipe.RecipeViewModel
+import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val recipeViewModel: RecipeViewModel by viewModels()
+    private lateinit var binding: FragmentSearchBinding
+    private lateinit var recyclerView: RecyclerView
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = binding.searchRv
+
+        binding.searchView.setOnQueryTextListener(this)
+
+        val adapter = RecipeAdapter(emptyList())
+        recyclerView.adapter = adapter
+
+        recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
+            adapter.setData(recipes.filter { it.strCategory != "Pork" })
+            recyclerView.adapter = adapter
+
+            if (recipes.isEmpty()) {
+                binding.searchFill.visibility = View.VISIBLE
+            } else {
+                binding.searchFill.visibility = View.GONE
+            }
+
+        }
+
+
+        adapter.setOnItemClickListener { position ->
+            val recipe = adapter.getData()[position]
+            val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(null, recipe)
+            findNavController().navigate(action)
+        }
+
     }
 
+    override fun onQueryTextSubmit(query: String): Boolean {
+        recipeViewModel.searchByName(query)
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        recipeViewModel.searchByName(newText)
+        return true
+    }
 }

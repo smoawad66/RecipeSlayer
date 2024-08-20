@@ -1,7 +1,10 @@
 package com.example.recipeslayer
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
 import android.util.Log
+import androidx.core.net.ConnectivityManagerCompat
 import com.example.recipeslayer.local.RecipeRoomDatabase
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.utils.Converters

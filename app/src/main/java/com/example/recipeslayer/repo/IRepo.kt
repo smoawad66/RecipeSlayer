@@ -14,7 +14,7 @@ interface IRepo {
     suspend fun insertRecipe(recipe: Recipe)
     suspend fun deleteRecipe(recipe: Recipe)
 
-    fun getFavourites(userId: Long): LiveData<List<Recipe>?>
+    fun getFavourites(userId: Long): LiveData<List<Favourite>?>
     suspend fun insertFavourite(favourite: Favourite): Long
     suspend fun getFavourite(userId: Long, recipe: Recipe): Favourite?
     suspend fun deleteFavourite(favourite: Favourite)

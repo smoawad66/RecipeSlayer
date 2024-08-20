@@ -22,8 +22,35 @@ class RecipeViewModel: ViewModel() {
     private val repo = Repo()
 
 
-    fun getAllRecipes() = viewModelScope.launch {
+    ///////////////////////////////////////////////////////////////////
+    private val _categories = MutableLiveData<List<String>>(emptyList())
 
+    fun setCategories(categories: List<String>) {
+        _categories.value = categories
+    }
+
+
+    fun getCat() = viewModelScope.launch(IO) {
+
+        _recipes.postValue(emptyList())
+
+        val selectedCategories = _categories.value ?: emptyList()
+
+        for (category in selectedCategories) {
+            val fetched = repo.getRecipes(category) ?: continue
+            val current = _recipes.value ?: emptyList()
+            _recipes.postValue(current + fetched)
+        }
+
+        // Caching
+        Cache.recipesCache = _recipes.value
+    }
+    ///////////////////////////////////////////////////////////////////
+
+
+
+
+    fun getAllRecipes() = viewModelScope.launch(IO) {
         // Check if data exists in cache
         Cache.recipesCache?.let {
             _recipes.postValue(it)
@@ -33,8 +60,7 @@ class RecipeViewModel: ViewModel() {
         val categories = listOf("Vegetarian", "Beef", "Chicken", "Dessert", "Lamb", "Miscellaneous", "Pasta", "Seafood", "Side", "Starter", "Vegan", "Breakfast", "Goat")
 
         for(category in categories) {
-            val fetched = withContext(IO) { repo.getRecipes(category) }
-            if (fetched == null) continue
+            val fetched = repo.getRecipes(category) ?: continue
             val current = _recipes.value as List<Recipe>
             _recipes.postValue(current.plus(fetched))
         }
@@ -46,6 +72,16 @@ class RecipeViewModel: ViewModel() {
 
     suspend fun getRecipeDetails(recipeId: String): Recipe? {
         return repo.getRecipeById(recipeId).meals?.first()
+    }
+
+
+    fun searchByName(name: String) = viewModelScope.launch(IO) {
+        if (name.isEmpty()) {
+            _recipes.postValue(listOf())
+            return@launch
+        }
+        val result = repo.searchByName(name)
+        _recipes.postValue(result ?: listOf())
     }
 
 }

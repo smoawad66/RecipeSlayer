@@ -112,6 +112,6 @@ class LoginFragment : Fragment() {
     private fun navigateToHome() {
         val intent = Intent(activity, RecipeActivity::class.java)
         startActivity(intent)
-        activity?.finish()
+        activity?.finishAffinity()
     }
 }

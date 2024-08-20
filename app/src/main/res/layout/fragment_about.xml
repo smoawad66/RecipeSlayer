@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_about_cl"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="30dp"
         android:layout_width="match_parent">
 
         <ImageView
@@ -66,7 +67,7 @@
             android:layout_margin="30dp"
             android:text="Elsayed Moawad"
             android:textColor="#D36A63"
-            android:textSize="25sp"
+            android:textSize="23dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/elsayed_img"
             app:layout_constraintStart_toEndOf="@+id/elsayed_img"
@@ -89,7 +90,7 @@
             android:layout_margin="30dp"
             android:text="Abdallah Habsa"
             android:textColor="#D36A63"
-            android:textSize="25sp"
+            android:textSize="23sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/habsa_img"
             app:layout_constraintStart_toEndOf="@+id/habsa_img"
@@ -112,15 +113,11 @@
             android:layout_margin="30dp"
             android:text="Yasmeen Mohammed"
             android:textColor="#D36A63"
-            android:textSize="25sp"
+            android:textSize="23sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/yasmeen_img"
             app:layout_constraintStart_toEndOf="@+id/yasmeen_img"
             app:layout_constraintTop_toTopOf="@+id/yasmeen_img" />
-
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

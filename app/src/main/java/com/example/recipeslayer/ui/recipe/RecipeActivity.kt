@@ -1,6 +1,5 @@
 package com.example.recipeslayer.ui.recipe
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuInflater
@@ -9,10 +8,11 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.addCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.example.recipeslayer.R
 import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.utils.Auth
@@ -22,7 +22,12 @@ class RecipeActivity : AppCompatActivity() {
     lateinit var bottomBar : ChipNavigationBar
     private var isMenuVisible = false
 
+
+    private lateinit var navController: NavController
+
+    private val favouriteViewModel: FavouriteViewModel by viewModels()
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+
 //    val navController = findNavController(R.id.nav_host_fragment)
 //    private var _binding: ActivityRecipyBinding? = null
 //    private val binding get() = _binding!!
@@ -32,8 +37,11 @@ class RecipeActivity : AppCompatActivity() {
 //
 //    lateinit var logout : TextView
 
+//    private lateinit var
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_recipe)
 
         window.decorView.systemUiVisibility = (
@@ -44,6 +52,9 @@ class RecipeActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -57,7 +68,15 @@ class RecipeActivity : AppCompatActivity() {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         bottomBar = findViewById(R.id.bottom_bar)
         bottomBar.setItemSelected(R.id.home, true)
-        bottomBar.showBadge(R.id.favorites, 7)
+
+
+        favouriteViewModel.getFavourites(Auth.id())
+        favouriteViewModel.favourites.observe(this) {
+            if (it != null) {
+                bottomBar.showBadge(R.id.favorites, it.size)
+            }
+        }
+
 //        bottomBar.visibility = INVISIBLE
 //        bottomBar.visibility = VISIBLE
 
@@ -120,7 +139,7 @@ class RecipeActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.menu_logout -> {
 //                    // Handle logout
-                    Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show()
 
 //                    // Add your logout logic here, e.g., clearing SharedPreferences
 //                    val editor = getSharedPreferences("Flags", Context.MODE_PRIVATE).edit()
@@ -138,7 +157,10 @@ class RecipeActivity : AppCompatActivity() {
                 }
                 R.id.menu_about -> {
                     // Handle about
-                    Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
+
+                    navController.navigate(R.id.aboutFragment)
+
                     true
                 }
                 else -> false

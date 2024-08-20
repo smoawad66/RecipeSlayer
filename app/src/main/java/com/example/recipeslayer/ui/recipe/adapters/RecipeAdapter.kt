@@ -1,4 +1,4 @@
-package com.example.recipeslayer.ui.recipe
+package com.example.recipeslayer.ui.recipe.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.recipeslayer.R
 import com.example.recipeslayer.models.Recipe
+import com.example.recipeslayer.ui.recipe.OnItemClickListener
 
 class RecipeAdapter(private var data: List<Recipe>) :
     RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
@@ -45,6 +46,7 @@ class RecipeAdapter(private var data: List<Recipe>) :
         Glide.with(holder.itemView)
             .load(data[position].strMealThumb)
             .error(R.drawable.baseline_error_24)
+            .placeholder(R.drawable.loading)
             .into(holder.iv)
     }
 

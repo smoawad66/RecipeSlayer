@@ -3,17 +3,15 @@ package com.example.recipeslayer.ui.recipe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.repo.Repo
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FavouriteViewModel : ViewModel() {
 
-    var favouriteRecipes: LiveData<List<Recipe>?> = MutableLiveData()
+    var favourites: LiveData<List<Favourite>?> = MutableLiveData()
+    private val _recipes = MutableLiveData<List<Recipe>>(emptyList())
+
     private val repo = Repo()
 
 
@@ -34,7 +32,7 @@ class FavouriteViewModel : ViewModel() {
     }
 
     fun getFavourites(userId: Long) {
-        favouriteRecipes = repo.getFavourites(userId)
+        favourites = repo.getFavourites(userId)
     }
 
 }

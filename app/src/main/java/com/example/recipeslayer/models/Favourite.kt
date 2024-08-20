@@ -1,9 +1,9 @@
 package com.example.recipeslayer.models
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(
     tableName = "favourites",
@@ -23,4 +23,4 @@ data class Favourite(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0
-)
+): Serializable
