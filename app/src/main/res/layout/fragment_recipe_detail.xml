@@ -1,158 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#2A1D1D"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2A1D1D">
+    android:layout_marginBottom="0dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <WebView
-            android:id="@+id/webview"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="#2A1D1D"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:text="Title"
-            android:textColor="#FEC0A0"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/webview" />
-
-        <ImageView
-            android:id="@+id/thumbnail"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintEnd_toStartOf="@id/fav_btn"
-            app:layout_constraintStart_toEndOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-        <ImageView
-            android:id="@+id/fav_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="30dp"
-            android:src="@drawable/fav_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/webview" />
-
-        <TextView
-            android:id="@+id/instructions_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:text="Instructions"
-            android:textColor="#FEC0A0"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/thumbnail" />
-
-        <TextView
-            android:id="@+id/instructions_breif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="30dp"
-            android:justificationMode="inter_word"
-            android:lineSpacingExtra="2dp"
-            android:paddingHorizontal="30sp"
-            android:text="To justify text in an Android XML layout, you can use the TextView with the following attributes."
-            android:textAlignment="viewStart"
-            android:textColor="#FEC0A0"
-            android:textSize="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/instructions_label" />
+        android:layout_height="match_parent"
+        android:background="#2A1D1D"
+        android:layout_marginBottom="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/more_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/instructions_breif">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
-            <TextView
-                android:id="@+id/more_details_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="more details"
-                android:textColor="#FEC0A0"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="#2A1D1D"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:text="Title"
+                android:textColor="#FEC0A0"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/webview" />
+
             <ImageView
-                android:id="@+id/more_details_icon_btn"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:layout_marginHorizontal="5dp"
-                android:src="@drawable/more_btn_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/more_details_btn"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_margin="30dp"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"/>
+
+            <ImageView
+                android:id="@+id/fav_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="30dp"
+                android:src="@drawable/fav_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/webview" />
+
+            <TextView
+                android:id="@+id/instructions_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:text="Instructions"
+                android:textColor="#FEC0A0"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/thumbnail" />
+
+            <TextView
+                android:id="@+id/instructions_breif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="30dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:focusable="true"
+                android:freezesText="false"
+                android:focusableInTouchMode="true"
+                android:paddingHorizontal="30sp"
+                android:text="To justify text in an Android XML layout, you can use the TextView with the following attributes."
+                android:textColor="#FEC0A0"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/instructions_label" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/more_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/instructions_breif">
+
+                <TextView
+                    android:id="@+id/more_details_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="more details"
+                    android:textColor="#FEC0A0"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/more_details_icon_btn"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:src="@drawable/more_btn_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/more_details_btn"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/instructions_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="30dp"
+                android:justificationMode="inter_word"
+                android:lineSpacingExtra="2dp"
+                android:paddingHorizontal="30sp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent rhoncus tempor mauris, ut pellentesque justo varius eget. Aliquam interdum nisl ut viverra mattis. Nulla id mi mollis, vestibulum urna quis, tristique quam. Sed accumsan augue orci, quis mollis purus mattis et. Praesent dui justo, vehicula gravida ante eu, fringilla tempus ligula. Duis rhoncus aliquet viverra. Nunc hendrerit nunc sit amet nisi rutrum, quis dapibus ipsum iaculis."
+                android:textAlignment="viewStart"
+                android:textColor="#FEC0A0"
+                android:textSize="15sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/more_details" />
+
+            <TextView
+                android:id="@+id/ingredients_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:text="Ingredients"
+                android:textColor="#FEC0A0"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/instructions_complete" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients_label"
+                android:background="#201616"
+                tools:listitem="@layout/item_view_ingredient"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#2A1D1D"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_ingredients"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/instructions_complete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="30dp"
-            android:justificationMode="inter_word"
-            android:lineSpacingExtra="2dp"
-            android:paddingHorizontal="30sp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent rhoncus tempor mauris, ut pellentesque justo varius eget. Aliquam interdum nisl ut viverra mattis. Nulla id mi mollis, vestibulum urna quis, tristique quam. Sed accumsan augue orci, quis mollis purus mattis et. Praesent dui justo, vehicula gravida ante eu, fringilla tempus ligula. Duis rhoncus aliquet viverra. Nunc hendrerit nunc sit amet nisi rutrum, quis dapibus ipsum iaculis."
-            android:textAlignment="viewStart"
-            android:textColor="#FEC0A0"
-            android:textSize="15sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/more_details" />
-
-        <TextView
-            android:id="@+id/ingredients_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:text="Ingredients"
-            android:textColor="#FEC0A0"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/instructions_complete" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_ingredients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ingredients_label"
-            tools:listitem="@layout/item_view_ingredient" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

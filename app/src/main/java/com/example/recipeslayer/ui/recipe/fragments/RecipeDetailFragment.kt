@@ -1,16 +1,13 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import kotlin.reflect.full.memberProperties
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebSettings
-import android.webkit.WebViewClient
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -28,6 +25,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.reflect.full.memberProperties
+
 
 class RecipeDetailFragment : Fragment() {
 
@@ -129,8 +128,8 @@ class RecipeDetailFragment : Fragment() {
                 .into(thumbnail)
 
             title.text = recipe.strMeal
-            instructionsBreif.text = recipeDetails?.strInstructions?.substringBefore(".") + "."
-            instructionsComplete.text = recipeDetails?.strInstructions?.substringAfter(". ")
+            instructionsBreif.text = recipeDetails?.strInstructions
+            instructionsComplete.text = recipeDetails?.strInstructions
 
 
 //            Log.i("url", "${recipeDetails?.strYoutube}")
@@ -141,10 +140,12 @@ class RecipeDetailFragment : Fragment() {
             moreDetails.setOnClickListener {
                 if (instructionsComplete.visibility == View.VISIBLE) {
                     instructionsComplete.visibility = View.GONE
+                    instructionsBreif.visibility = View.VISIBLE
                     moreDetailsBtn.text = "show more"
                     moreDetailsIconBtn.setImageResource(R.drawable.more_btn_icon)
                 } else {
                     instructionsComplete.visibility = View.VISIBLE
+                    instructionsBreif.visibility = View.GONE
                     moreDetailsBtn.text = "show less"
                     moreDetailsIconBtn.setImageResource(R.drawable.less_btn_icon)
                 }
@@ -153,12 +154,13 @@ class RecipeDetailFragment : Fragment() {
     }
 
     private fun loadVideo(youtubeLink: String?) {
-        val webView = binding.webview
-        webView.webViewClient = WebViewClient()
-        val webSettings: WebSettings = webView.settings
-        webSettings.javaScriptEnabled = true
-
-        youtubeLink?.let { webView.loadUrl(it) }
+        val webView: WebView = binding.webview
+        val youtubeId = youtubeLink?.substringAfter("?v=")
+        val video =
+            "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/$youtubeId\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        webView.loadData(video, "text/html", "utf-8")
+        webView.settings.javaScriptEnabled = true
+        webView.webChromeClient = WebChromeClient()
     }
 
 

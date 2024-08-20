@@ -56,4 +56,9 @@
             android:name="recipe"
             app:argType="com.example.recipeslayer.models.Recipe" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

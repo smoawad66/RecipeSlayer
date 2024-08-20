@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
@@ -16,6 +17,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RecipeViewModel: ViewModel() {
+
+
+    fun searchByName(name: String): LiveData<List<Recipe>> = liveData {
+        val recipes = repo.searchByName(name)
+        if (recipes != null) {
+            emit(recipes)
+        }
+        else emit(emptyList())
+    }
 
     private val _recipes = MutableLiveData<List<Recipe>>(emptyList())
     val recipes: LiveData<List<Recipe>> = _recipes

@@ -10,9 +10,12 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.example.recipeslayer.R
 import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.utils.Auth
@@ -21,6 +24,10 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar
 class RecipeActivity : AppCompatActivity() {
     lateinit var bottomBar : ChipNavigationBar
     private var isMenuVisible = false
+
+    private lateinit var fragment_title: TextView
+    private lateinit var navController: NavController
+    private val favouriteViewModel: FavouriteViewModel by viewModels()
 
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
 //    val navController = findNavController(R.id.nav_host_fragment)
@@ -45,10 +52,14 @@ class RecipeActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
 
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        fragment_title = findViewById(R.id.fragment_title)
+
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fragment_title: TextView = findViewById(R.id.fragment_title)
         val toggleButton: ImageView = findViewById(R.id.option_menu)
         toggleButton.setOnClickListener {
             showPopupMenu(toggleButton)
@@ -57,8 +68,12 @@ class RecipeActivity : AppCompatActivity() {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         bottomBar = findViewById(R.id.bottom_bar)
         bottomBar.setItemSelected(R.id.home, true)
-        bottomBar.showBadge(R.id.favorites, 7)
-//        bottomBar.visibility = INVISIBLE
+        favouriteViewModel.getFavourites(Auth.id())
+        favouriteViewModel.favouriteRecipes.observe(this) {
+            if (it != null) {
+                bottomBar.showBadge(R.id.favorites, it.size)
+            }
+        }//        bottomBar.visibility = INVISIBLE
 //        bottomBar.visibility = VISIBLE
 
         bottomBar.setOnItemSelectedListener { id ->
@@ -138,7 +153,17 @@ class RecipeActivity : AppCompatActivity() {
                 }
                 R.id.menu_about -> {
                     // Handle about
-                    Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
+                    navController.navigate(R.id.aboutFragment)
+//                    actionBarCl.visibility = View.GONE
+//                    bottomBar.visibility = View.GONE
+                    bottomBar.setItemSelected(R.id.home, false)
+                    bottomBar.setItemSelected(R.id.favorites, false)
+                    bottomBar.setItemSelected(R.id.search, false)
+                    fragment_title.text = "About Us"
+
+
+//                    Toast.makeText(this, "About Clicked!", Toast.LENGTH_SHORT).show()
+                    true
                     true
                 }
                 else -> false
