@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
+import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.recipeslayer.R
@@ -59,7 +63,9 @@ class RecipeDetailFragment : Fragment() {
         recipeId = recipe.idMeal
         userId = Auth.id()
 
-
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            findNavController().popBackStack()
+//        }
 
         lifecycleScope.launch(IO) {
 
@@ -94,6 +100,7 @@ class RecipeDetailFragment : Fragment() {
         binding.favBtn.setOnClickListener { handleFavourite() }
 
     }
+
 
     private fun handleFavourite() {
 
@@ -154,13 +161,35 @@ class RecipeDetailFragment : Fragment() {
     }
 
     private fun loadVideo(youtubeLink: String?) {
-        val webView: WebView = binding.webview
-        val youtubeId = youtubeLink?.substringAfter("?v=")
-        val video =
-            "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/$youtubeId\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
-        webView.loadData(video, "text/html", "utf-8")
+        val webView = binding.webview
+
+        // Enable JavaScript
         webView.settings.javaScriptEnabled = true
+
+        // Enable media playback
+        webView.settings.mediaPlaybackRequiresUserGesture = false
+
+        // Set WebView client
+        webView.webViewClient = WebViewClient()
+
+        // Set WebChromeClient to handle loading progress
         webView.webChromeClient = WebChromeClient()
+
+        webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+        webView.settings.domStorageEnabled = true
+        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null)
+
+        // Load the YouTube video
+        val videoId = youtubeLink?.substringAfter("=")
+        val videoUrl = "https://www.youtube.com/embed/$videoId"
+        val htmlData = """
+            <html>
+            <body style="margin:0;padding:0;">
+            <iframe width="100%" height="100%" src="$videoUrl" frameborder="0" allowfullscreen></iframe>
+            </body>
+            </html>
+        """
+        webView.loadData(htmlData, "text/html", "utf-8")
     }
 
 

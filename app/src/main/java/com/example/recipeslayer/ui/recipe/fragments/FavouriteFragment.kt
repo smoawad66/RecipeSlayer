@@ -33,12 +33,16 @@ class FavouriteFragment : Fragment() {
 
         favouriteViewModel.getFavourites(Auth.id())
 
+
         favouriteViewModel.favouriteRecipes.observe(viewLifecycleOwner) { recipes ->
-            if (recipes != null) {
+            if (recipes != null && recipes.isNotEmpty()) {
+                Log.i("lol", "____________________ ${recipes.toString()}")
                 adapter.setData(recipes)
                 binding.rvFavourite.adapter = adapter
+                binding.favFill.visibility = View.GONE
             } else {
                 Log.i("null", "Its null!")
+                binding.favFill.visibility = View.VISIBLE
             }
         }
 

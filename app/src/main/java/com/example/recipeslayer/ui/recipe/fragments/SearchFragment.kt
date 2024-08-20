@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,7 @@ class SearchFragment : Fragment() {
     private lateinit var recipeViewModel: RecipeViewModel
     private lateinit var recipeAdapter: RecipeAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var searchFill: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,8 @@ class SearchFragment : Fragment() {
         recyclerView = view.findViewById(R.id.searc_rv)
         recipeAdapter = RecipeAdapter(emptyList())
         recyclerView.adapter = recipeAdapter
+
+        searchFill = view.findViewById(R.id.search_fill)
 
         // Find the SearchView
         val searchView = view.findViewById<SearchView>(R.id.search_view)
@@ -75,6 +79,7 @@ class SearchFragment : Fragment() {
         recipeViewModel.searchByName("%$name%").observe(viewLifecycleOwner, { recipes ->
             if (recipes != null && recipes.isNotEmpty()) {
                 updateRecyclerView(recipes)
+                searchFill.visibility = View.GONE
             } else {
                 clearSearchResults() // Clear RecyclerView if no recipes found
             }
@@ -91,5 +96,6 @@ class SearchFragment : Fragment() {
         // Clear the RecyclerView by submitting an empty list to the adapter
         recipeAdapter.setData(emptyList())
         recipeAdapter.notifyDataSetChanged()
+        searchFill.visibility = View.VISIBLE
     }
 }
