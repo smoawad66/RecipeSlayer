@@ -17,6 +17,6 @@ class RemoteSource private constructor(): IRemoteSource {
     }
 
     override suspend fun getRecipes(category: String) = api.getRecipes(category).meals
-    override suspend fun getRecipeById(recipeId: String) = api.getRecipeById(recipeId)
-    override suspend fun searchByName(name: String) = api.searchByName(name).meals
+    override suspend fun getRecipe(recipeId: Long) = api.getRecipe(recipeId).meals?.first()
+    override suspend fun searchRecipes(name: String) = api.searchRecipes(name).meals
 }

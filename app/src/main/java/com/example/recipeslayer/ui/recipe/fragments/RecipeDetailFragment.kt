@@ -2,10 +2,13 @@ package com.example.recipeslayer.ui.recipe.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import kotlin.reflect.full.memberProperties
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
@@ -25,6 +28,8 @@ import com.example.recipeslayer.ui.recipe.FavouriteViewModel
 import com.example.recipeslayer.ui.recipe.adapters.IngredientAdapter
 import com.example.recipeslayer.ui.recipe.RecipeViewModel
 import com.example.recipeslayer.utils.Auth
+import com.example.recipeslayer.utils.Internet.isInternetAvailable
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -36,13 +41,13 @@ class RecipeDetailFragment : Fragment() {
     private val favouriteViewModel: FavouriteViewModel by viewModels()
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val args: RecipeDetailFragmentArgs by navArgs()
-    private lateinit var recipeDetails: Recipe
+    private var recipe: Recipe? = null
     private var ingredients: MutableList<Ingredient> = mutableListOf()
     private val BASE_INGREDIENT_URL = "https://www.themealdb.com/images/ingredients"
 
     private var userId = -1L
-    private lateinit var recipeId: String
-    private var favouriteId: Long? = null
+    private var recipeId = -1L
+    private var isFavourite = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,119 +58,108 @@ class RecipeDetailFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recipeId = args.recipe.idMeal
         userId = Auth.id()
+        recipeId = args.recipeId
 
         lifecycleScope.launch(IO) {
 
-            if (args.favourite != null) {
-                recipeDetails = args.recipe
-                favouriteId = args.favourite!!.id
-            }
-            else {
-                recipeDetails = recipeViewModel.getRecipeDetails(recipeId)!!
-                favouriteId = favouriteViewModel.getFavouriteId(userId, recipeDetails)
-            }
+            isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
 
-            withContext(Main) {
-                if (favouriteId != null) { // if it is favourite, change the icon
-                    binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
-                }
-                bindRecipeData(view)
+            if (isInternetAvailable(requireContext())) {
+                recipe = recipeViewModel.getRecipeOnline(recipeId)
+                recipeViewModel.insertRecipe(recipe!!)
+            } else {
+                recipe = recipeViewModel.getRecipeOffline(recipeId)
+            }
+            if (recipe == null) {
+                Log.i("internet", "Check your internet connection and try again.")
+                return@launch
             }
 
             getIngredients()
-
-            withContext(Main) {
-                val adapter = IngredientAdapter(ingredients)
-                binding.rvIngredients.adapter = adapter
-            }
+            withContext(Main) { bindRecipeData(view) }
         }
-
-        binding.favBtn.setOnClickListener { handleFavourite() }
 
     }
 
-    private fun handleFavourite() = lifecycleScope.launch {
-        if (favouriteId != null) { // if is favourite
-            withContext(IO) { favouriteViewModel.deleteFavourite(Favourite(Auth.id(), recipeDetails, favouriteId!!)) }
+    private fun handleFavouriteButton() = lifecycleScope.launch {
+        if (isFavourite) {
+            withContext(IO) { favouriteViewModel.deleteFavourite(Favourite(Auth.id(), recipeId)) }
             binding.favBtn.setImageResource(R.drawable.fav_icon)
             toast("Recipe unsaved.")
-            favouriteId = null
-        } else { // if is not favourite
-            val newId = withContext(IO) { favouriteViewModel.insertFavourite(Favourite(Auth.id(), recipeDetails)) }
+        } else {
+            withContext(IO) { favouriteViewModel.insertFavourite(Favourite(Auth.id(), recipeId)) }
             binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
             toast("Recipe saved.")
-            favouriteId = newId
         }
-
+        isFavourite = !isFavourite
     }
 
     @SuppressLint("SetTextI18n")
     private fun bindRecipeData(view: View) = binding.apply {
-        loadVideo(recipeDetails.strYoutube)
 
-        title.text = recipeDetails.strMeal
-        tvCategory.text = recipeDetails.strCategory
+        loadVideo(recipe?.strYoutube)
+        title.text = recipe?.strMeal
+        tvCategory.text = recipe?.strCategory
+
+        if (isFavourite)
+            binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
+        binding.favBtn.setOnClickListener { handleFavouriteButton() }
+
         Glide.with(view)
-            .load(recipeDetails.strMealThumb)
+            .load(recipe?.strMealThumb)
             .placeholder(R.drawable.loading)
             .error(R.drawable.baseline_error_24)
             .into(thumbnail)
 
-        title.text = recipeDetails.strMeal
-//        instructionsBreif.text = recipeDetails.strInstructions?.substringBefore(".") + "."
-        instructionsComplete.text = recipeDetails.strInstructions
-
-
-        // Handle more details click
+        instructionsComplete.text = recipe?.strInstructions
         moreDetails.setOnClickListener {
-            if (instructionsComplete.visibility == View.VISIBLE) {
-                instructionsComplete.visibility = View.GONE
+            if (instructionsComplete.visibility == VISIBLE) {
+                instructionsComplete.visibility = GONE
                 moreDetailsBtn.text = "Show instructions"
                 moreDetailsIconBtn.setImageResource(R.drawable.more_btn_icon)
             } else {
-                instructionsComplete.visibility = View.VISIBLE
+                instructionsComplete.visibility = VISIBLE
                 moreDetailsBtn.text = "Hide instructions"
                 moreDetailsIconBtn.setImageResource(R.drawable.less_btn_icon)
             }
         }
 
+        rvIngredients.adapter = IngredientAdapter(ingredients)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun loadVideo(youtubeLink: String?) {
         val webView = binding.webview
 
 //        webView.settings.mediaPlaybackRequiresUserGesture = false
         webView.webViewClient = WebViewClient()
         webView.settings.javaScriptEnabled = true
-        webView.webChromeClient = WebChromeClient()
+//        webView.webChromeClient = WebChromeClient()
 //        webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
 //        webView.settings.domStorageEnabled = true
 //        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null)
 
         val videoId = youtubeLink?.substringAfter("=")
-        val videoUrl = "https://www.youtube.com/embed/$videoId"
         val htmlData = """
             <html>
             <body style="margin:0;padding:0;">
-            <iframe width="100%" height="100%" src="$videoUrl" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/$videoId" frameborder="0" allowfullscreen></iframe>
             </body>
             </html>
         """
         webView.loadData(htmlData, "text/html", "utf-8")
     }
 
-
     private fun toast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun getIngredients() {
-        // Get Ingredients
         for (i in 1..20) {
             val name = getMember("strIngredient$i")
             val measure = getMember("strMeasure$i")
@@ -179,6 +173,6 @@ class RecipeDetailFragment : Fragment() {
     private fun getMember(memberName: String): String? {
         return Recipe::class.memberProperties
             .firstOrNull { it.name == memberName }
-            ?.get(recipeDetails) as? String
+            ?.get(recipe!!) as? String
     }
 }

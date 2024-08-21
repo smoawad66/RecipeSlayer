@@ -24,11 +24,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,12 +41,14 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             adapter.setData(recipes.filter { it.strCategory != "Pork" })
             recyclerView.adapter = adapter
+
             binding.searchFill.visibility = if (recipes.isEmpty()) VISIBLE else GONE
         }
 
+
         adapter.setOnItemClickListener { position ->
             val recipe = adapter.getData()[position]
-            val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(null, recipe)
+            val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(recipe.idMeal)
             findNavController().navigate(action)
         }
 

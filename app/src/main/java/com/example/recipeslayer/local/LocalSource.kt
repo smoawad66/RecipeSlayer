@@ -29,14 +29,15 @@ class LocalSource private constructor(): ILocalSource {
     override suspend fun insertUser(user: User) = userDao.insertUser(user)
 
     // Recipe
+    override suspend fun getRecipe(recipeId: Long) = recipeDao.getRecipe(recipeId)
     override suspend fun insertRecipe(recipe: Recipe) = recipeDao.insertRecipe(recipe)
     override suspend fun deleteRecipe(recipe: Recipe) = recipeDao.deleteRecipe(recipe)
-    override suspend fun getRecipe(recipeId: String) = recipeDao.getRecipe(recipeId)
 
     // Favourite
-    override fun getFavourites(userId: Long) = favouriteDao.getFavourites(userId)
+    override fun getFavouriteRecipes(userId: Long) = favouriteDao.getFavouriteRecipes(userId)
     override suspend fun insertFavourite(favourite: Favourite) = favouriteDao.insertFavourite(favourite)
-    override suspend fun getFavourite(userId: Long, recipe: Recipe) = favouriteDao.getFavourite(userId, recipe)
     override suspend fun deleteFavourite(favourite: Favourite) = favouriteDao.deleteFavourite(favourite)
-    override suspend fun getFavouriteId(userId: Long, recipe: Recipe) = favouriteDao.getFavouriteId(userId, recipe)
+    override suspend fun isFavourite(userId: Long, recipeId: Long) = favouriteDao.isFavourite(userId, recipeId)
+//    override suspend fun getFavourite(userId: Long, recipe: Recipe) = favouriteDao.getFavourite(userId, recipe)
+//    override suspend fun getFavouriteId(userId: Long, recipe: Recipe) = favouriteDao.getFavouriteId(userId, recipe)
 }

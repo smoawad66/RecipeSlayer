@@ -34,6 +34,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:padding="16dp"
+        android:focusedByDefault="true"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

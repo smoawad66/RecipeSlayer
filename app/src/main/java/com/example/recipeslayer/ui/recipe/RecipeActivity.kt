@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -70,8 +69,8 @@ class RecipeActivity : AppCompatActivity() {
         bottomBar.setItemSelected(R.id.home, true)
 
 
-        favouriteViewModel.getFavourites(Auth.id())
-        favouriteViewModel.favourites.observe(this) {
+        favouriteViewModel.getFavouriteRecipes(Auth.id())
+        favouriteViewModel.recipes.observe(this) {
             if (it != null) {
                 bottomBar.showBadge(R.id.favorites, it.size)
             }

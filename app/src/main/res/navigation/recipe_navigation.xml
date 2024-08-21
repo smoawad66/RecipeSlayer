@@ -18,6 +18,8 @@
             app:destination="@id/favoriteFragment" />
         <action
             android:id="@+id/action_homeFragment_to_recipeDetailFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/recipeDetailFragment" />
     </fragment>
     <fragment
@@ -53,12 +55,8 @@
         android:name="com.example.recipeslayer.ui.recipe.fragments.RecipeDetailFragment"
         android:label="RecipeDetailFragment" >
         <argument
-            android:name="favourite"
-            app:argType="com.example.recipeslayer.models.Favourite"
-            app:nullable="true"/>
-        <argument
-            android:name="recipe"
-            app:argType="com.example.recipeslayer.models.Recipe" />
+            android:name="recipeId"
+            app:argType="long" />
     </fragment>
 
     <fragment

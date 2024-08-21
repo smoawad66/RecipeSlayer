@@ -12,19 +12,19 @@ import com.example.recipeslayer.models.Recipe
 @Dao
 interface FavouriteDao {
 
-    @Query("SELECT * FROM favourites WHERE userId = :userId")
-    fun getFavourites(userId: Long): LiveData<List<Favourite>?>
+    @Query("SELECT r.* FROM recipes r JOIN favourites f ON r.idMeal = f.recipeId WHERE f.userId = :userId ORDER BY f.createdAt DESC")
+    fun getFavouriteRecipes(userId: Long): LiveData<List<Recipe>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavourite(favourite: Favourite): Long
+    suspend fun insertFavourite(favourite: Favourite)
 
     @Delete
     suspend fun deleteFavourite(favourite: Favourite)
 
-    @Query("SELECT * FROM favourites WHERE userId = :userId AND recipe = :recipe")
-    suspend fun getFavourite(userId: Long, recipe: Recipe): Favourite?
+    @Query("SELECT EXISTS(SELECT 1 FROM favourites WHERE userId = :userId AND recipeId = :recipeId)")
+    suspend fun isFavourite(userId: Long, recipeId: Long): Boolean
 
-    @Query("SELECT id FROM favourites WHERE userId = :userId AND recipe = :recipe")
-    suspend fun getFavouriteId(userId: Long, recipe: Recipe): Long?
+//    @Query("SELECT id FROM favourites WHERE userId = :userId AND recipe = :recipe")
+//    suspend fun getFavouriteId(userId: Long, recipe: Recipe): Long?
 
 }

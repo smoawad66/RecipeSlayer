@@ -11,7 +11,7 @@ import com.example.recipeslayer.models.Recipe
 interface RecipeDao {
 
     @Query("SELECT * FROM recipes WHERE idMeal =:recipeId")
-    suspend fun getRecipe(recipeId: String): Recipe?
+    suspend fun getRecipe(recipeId: Long): Recipe?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecipe(recipe: Recipe)

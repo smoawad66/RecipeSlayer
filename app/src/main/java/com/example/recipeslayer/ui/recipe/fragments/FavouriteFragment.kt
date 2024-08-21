@@ -1,16 +1,16 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.recipeslayer.databinding.FragmentFavouriteBinding
 import com.example.recipeslayer.ui.recipe.FavouriteViewModel
-import com.example.recipeslayer.ui.recipe.adapters.FavouriteAdapter
 import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
 import com.example.recipeslayer.utils.Auth
 
@@ -28,24 +28,20 @@ class FavouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = FavouriteAdapter(emptyList())
+        val adapter = RecipeAdapter(emptyList())
         binding.rvFavourite.adapter = adapter
 
-        favouriteViewModel.getFavourites(Auth.id())
-        favouriteViewModel.favourites.observe(viewLifecycleOwner) { favourites ->
-            adapter.setData(favourites ?: listOf())
+        favouriteViewModel.getFavouriteRecipes(Auth.id())
+        favouriteViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
+            adapter.setData(recipes ?: listOf())
             binding.rvFavourite.adapter = adapter
 
-            if (favourites.isNullOrEmpty()) {
-                binding.favFill.visibility = View.VISIBLE
-            } else {
-                binding.favFill.visibility = View.GONE
-            }
+            binding.favFill.visibility = if (recipes.isEmpty()) VISIBLE else GONE
         }
 
         adapter.setOnItemClickListener{ position ->
-            val favourite = adapter.getData()[position]
-            val action = FavouriteFragmentDirections.actionFavoriteFragmentToRecipeDetailFragment(favourite, favourite.recipe)
+            val recipe = adapter.getData()[position]
+            val action = FavouriteFragmentDirections.actionFavoriteFragmentToRecipeDetailFragment(recipe.idMeal)
             findNavController().navigate(action)
         }
     }

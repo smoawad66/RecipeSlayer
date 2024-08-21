@@ -1,7 +1,5 @@
 package com.example.recipeslayer.remote
 
-import com.example.recipeslayer.models.Recipe
-import com.example.recipeslayer.models.RecipeDetailResponse
 import com.example.recipeslayer.models.RecipeResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,9 +11,9 @@ interface ApiService {
 
 
     @GET("lookup.php")
-    suspend fun getRecipeById(@Query("i") recipeId: String): RecipeDetailResponse
+    suspend fun getRecipe(@Query("i") recipeId: Long): RecipeResponse
 
 
     @GET("search.php")
-    suspend fun searchByName(@Query("s") name: String): RecipeResponse
+    suspend fun searchRecipes(@Query("s") name: String): RecipeResponse
 }

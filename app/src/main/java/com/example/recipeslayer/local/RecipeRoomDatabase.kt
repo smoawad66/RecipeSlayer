@@ -11,7 +11,7 @@ import com.example.recipeslayer.models.User
 import com.example.recipeslayer.utils.Converters
 
 @Database(entities = [User::class, Favourite::class, Recipe::class], version = 1, exportSchema = false)
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 
 abstract class RecipeRoomDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
