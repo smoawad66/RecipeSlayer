@@ -94,7 +94,7 @@ class RegisterFragment : Fragment() {
             }
 
             if (!Validator.validatePassword(password)) {
-                toast("Password should be at least 8 characters.")
+                toast("Password enter stronger password.")
                 return false
             }
         }

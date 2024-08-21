@@ -46,7 +46,6 @@ class RecipeAdapter(private var data: List<Recipe>) :
         Glide.with(holder.itemView)
             .load(data[position].strMealThumb)
             .error(R.drawable.baseline_error_24)
-            .placeholder(R.drawable.loading)
             .into(holder.iv)
     }
 

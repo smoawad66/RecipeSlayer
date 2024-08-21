@@ -139,13 +139,13 @@ class RecipeDetailFragment : Fragment() {
     private fun loadVideo(youtubeLink: String?) {
         val webView = binding.webview
 
-        webView.settings.mediaPlaybackRequiresUserGesture = false
+//        webView.settings.mediaPlaybackRequiresUserGesture = false
         webView.webViewClient = WebViewClient()
         webView.settings.javaScriptEnabled = true
         webView.webChromeClient = WebChromeClient()
-        webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-        webView.settings.domStorageEnabled = true
-        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null)
+//        webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+//        webView.settings.domStorageEnabled = true
+//        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null)
 
         val videoId = youtubeLink?.substringAfter("=")
         val videoUrl = "https://www.youtube.com/embed/$videoId"
