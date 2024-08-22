@@ -18,8 +18,6 @@
             app:destination="@id/favoriteFragment" />
         <action
             android:id="@+id/action_homeFragment_to_recipeDetailFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"
             app:destination="@id/recipeDetailFragment" />
     </fragment>
     <fragment

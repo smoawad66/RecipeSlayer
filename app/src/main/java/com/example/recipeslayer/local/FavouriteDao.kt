@@ -12,7 +12,8 @@ import com.example.recipeslayer.models.Recipe
 @Dao
 interface FavouriteDao {
 
-    @Query("SELECT r.* FROM recipes r JOIN favourites f ON r.idMeal = f.recipeId WHERE f.userId = :userId ORDER BY f.createdAt DESC")
+    @Query("SELECT r.* FROM recipes r JOIN favourites f ON r.idMeal = f.recipeId " +
+            "WHERE f.userId = :userId ORDER BY f.createdAt DESC")
     fun getFavouriteRecipes(userId: Long): LiveData<List<Recipe>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

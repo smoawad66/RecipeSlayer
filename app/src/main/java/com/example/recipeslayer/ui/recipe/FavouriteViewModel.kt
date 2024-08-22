@@ -10,7 +10,6 @@ import com.example.recipeslayer.repo.Repo
 class FavouriteViewModel : ViewModel() {
 
     var recipes: LiveData<List<Recipe>> = MutableLiveData()
-
     private val repo = Repo()
 
     fun getFavouriteRecipes(userId: Long) {

@@ -1,5 +1,6 @@
 package com.example.recipeslayer.local
 
+import androidx.lifecycle.LiveData
 import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.models.User
@@ -26,12 +27,14 @@ class LocalSource private constructor(): ILocalSource {
 
     // User
     override suspend fun getUser(email: String) = userDao.getUser(email)
+    override suspend fun getUser(id: Long) = userDao.getUser(id)
     override suspend fun insertUser(user: User) = userDao.insertUser(user)
 
     // Recipe
     override suspend fun getRecipe(recipeId: Long) = recipeDao.getRecipe(recipeId)
     override suspend fun insertRecipe(recipe: Recipe) = recipeDao.insertRecipe(recipe)
     override suspend fun deleteRecipe(recipe: Recipe) = recipeDao.deleteRecipe(recipe)
+    override fun getRecommendedRecipes() = recipeDao.getRecommendedRecipes()
 
     // Favourite
     override fun getFavouriteRecipes(userId: Long) = favouriteDao.getFavouriteRecipes(userId)
