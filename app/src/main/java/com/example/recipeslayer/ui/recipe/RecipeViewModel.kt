@@ -5,83 +5,58 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.repo.Repo
-import com.example.recipeslayer.utils.Cache
-import com.example.recipeslayer.utils.Converters
-import kotlinx.coroutines.Dispatchers
+import com.example.recipeslayer.utils.Cache.RECIPES_CACHE
+import com.example.recipeslayer.utils.Constants.CATEGORIES
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RecipeViewModel: ViewModel() {
+class RecipeViewModel : ViewModel() {
 
-    private val _recipes = MutableLiveData<List<Recipe>>(emptyList())
+    private val _recipes = MutableLiveData<List<Recipe>>(listOf())
     val recipes: LiveData<List<Recipe>> = _recipes
     private val repo = Repo()
 
+    fun getRecipes(category: String = "All") {
 
-    ///////////////////////////////////////////////////////////////////
-    private val _categories = MutableLiveData<List<String>>(emptyList())
-
-    fun setCategories(categories: List<String>) {
-        _categories.value = categories
-    }
-
-
-    fun getCat() = viewModelScope.launch(IO) {
-
-        _recipes.postValue(emptyList())
-
-        val selectedCategories = _categories.value ?: emptyList()
-
-        for (category in selectedCategories) {
-            val fetched = repo.getRecipes(category) ?: continue
-            val current = _recipes.value ?: emptyList()
-            _recipes.postValue(current + fetched)
+        if (!RECIPES_CACHE[category].isNullOrEmpty()) {
+            _recipes.postValue(RECIPES_CACHE[category])
+            return
         }
 
-        // Caching
-        Cache.recipesCache = _recipes.value
-    }
-    ///////////////////////////////////////////////////////////////////
+        viewModelScope.launch(IO) {
+            val categories = when (category) {
+                "All" -> CATEGORIES.shuffled()
+                else -> listOf(category)
+            }
+            _recipes.postValue(listOf())
+            for (cat in categories) {
+                val fetched = repo.getRecipes(cat) ?: listOf()
+                val current = _recipes.value ?: listOf()
+                _recipes.postValue(current.plus(fetched))
+            }
 
-
-
-
-    fun getAllRecipes() = viewModelScope.launch(IO) {
-        // Check if data exists in cache
-        Cache.recipesCache?.let {
-            _recipes.postValue(it)
-            return@launch
+            withContext(Main) {
+                RECIPES_CACHE[category] = _recipes.value ?: listOf()
+            }
         }
-
-        val categories = listOf("Vegetarian", "Beef", "Chicken", "Dessert", "Lamb", "Miscellaneous", "Pasta", "Seafood", "Side", "Starter", "Vegan", "Breakfast", "Goat")
-
-        for(category in categories) {
-            val fetched = repo.getRecipes(category) ?: continue
-            val current = _recipes.value as List<Recipe>
-            _recipes.postValue(current.plus(fetched))
-        }
-
-        // Caching
-        Cache.recipesCache = _recipes.value
     }
-
 
     suspend fun getRecipeDetails(recipeId: String): Recipe? {
         return repo.getRecipeById(recipeId).meals?.first()
     }
 
-
-    fun searchByName(name: String) = viewModelScope.launch(IO) {
+    fun searchByName(name: String) {
         if (name.isEmpty()) {
-            _recipes.postValue(listOf())
-            return@launch
+            _recipes.value = listOf()
         }
-        val result = repo.searchByName(name)
-        _recipes.postValue(result ?: listOf())
+        viewModelScope.launch(IO) {
+            val result = repo.searchByName(name)
+            _recipes.postValue(result ?: listOf())
+        }
     }
-
 }

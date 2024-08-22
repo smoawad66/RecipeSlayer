@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -22,7 +24,11 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,15 +45,8 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             adapter.setData(recipes.filter { it.strCategory != "Pork" })
             recyclerView.adapter = adapter
-
-            if (recipes.isEmpty()) {
-                binding.searchFill.visibility = View.VISIBLE
-            } else {
-                binding.searchFill.visibility = View.GONE
-            }
-
+            binding.searchFill.visibility = if (recipes.isEmpty()) VISIBLE else GONE
         }
-
 
         adapter.setOnItemClickListener { position ->
             val recipe = adapter.getData()[position]
