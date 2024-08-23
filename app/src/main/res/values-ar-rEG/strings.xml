@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">مطرشم الوصفات</string>
+    <string name="home">الرئيسية</string>
+    <string name="search">بحث</string>
+    <string name="favorites">المفضلة</string>
+    <string name="about_us">عن الديفيلوبرز</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="all">الكل</string>
+    <string name="vegetarian">نباتي</string>
+    <string name="dessert">حلويات</string>
+    <string name="beef">لحوم</string>
+    <string name="chicken">دجاج</string>
+    <string name="breakfast">إفطار</string>
+    <string name="seafood">سمك</string>
+    <string name="lamb">حمَل</string>
+    <string name="miscellaneous">متنوع</string>
+    <string name="pasta">مكرونة</string>
+    <string name="side">جانبي</string>
+    <string name="starter">مقبلات</string>
+    <string name="vegan">نباتي فشخ</string>
+    <string name="goat">معيز</string>
+    <string name="sign_up">اشتراك</string>
+    <string name="name">الأسم</string>
+    <string name="e_mail">الحساب</string>
+    <string name="password">كلمة السر</string>
+    <string name="already_have_an_account">بالفعل لديك حساب؟</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="logo_description">شعار تطبيقنا، مطرشم الوصفات، وهو عبارة عن فارس يحمل السكاكين وأدوات المطبخ ويرتدي قبعة الشيف.</string>
+    <string name="don_t_have_account">ليس لديك حساب؟</string>
+    <string name="create_now">إنشاء الآن</string>
+    <string name="whoarewe">من نحن؟</string>
+    <string name="elsayed_moawad">السيد معوض</string>
+    <string name="abdallah_habsa">عبدالله حبسه</string>
+    <string name="yasmeen_mohammed">ياسمين محمد</string>
+    <string name="instructions">التعليمات</string>
+    <string name="more_details">تفاصيل أكثر</string>
+    <string name="less_details">تفاصيل أقل</string>
+    <string name="ingredients">المقادير</string>
+    <string name="loading">جاري التحميل</string>
+    <string name="ideas">أفكار</string>
+    <string name="enter_your_ingredients_demands_and_prompts">أدخل مكوناتك، مطالبك، وأوامرك!</string>
+    <string name="generating_a_response_for_your_prompt">جاري إنشاء استجابة لطلبك…</string>
+    <string name="ideas_unleash_your_creativity">!الأفكار، أطلق العنان لإبداعك</string>
+    <string name="generate">إنشاء</string>
+    <string name="profile">الملف التعريفي</string>
+</resources>

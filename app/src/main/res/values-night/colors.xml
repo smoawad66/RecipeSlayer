@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="button_selected_background">#392221</color> <!-- Selected color -->
+    <color name="button_unselected_background">#2c2424</color> <!-- Unselected color -->
+    <color name="button_selected_text">#d36a63</color> <!-- Selected text color -->
+    <color name="button_unselected_text">#797979</color> <!-- Unselected text color -->
+    <color name="main_bg">#2A1D1D</color>
+    <color name="bg_2">#1F1515</color>
+    <color name="ingerdient_bg">#201616</color>
+    <color name="details_text_color">#FEC0A0</color>
+    <color name="ingerdient_name_text_color">#D6D6D6</color>
+    <color name="ingerdient_quantity_text_color">#AAAAAA</color>
+    <color name="card_view">#FEC0A0</color>
+    <color name="api_image_fill_color">#FD8061</color>
+    <color name="api_image_fill_color_2">#D36A63</color>
+    <color name="bg_gradient_start_color">#1D1313</color>
+    <color name="bg_gradient_end_color">#2B1E1E</color>
+    <color name="auth_text_color">#fff</color>
+    <color name="auth_text_color_2">#D49A95</color>
+    <color name="auth_et_text_color_hint">#B89494</color>
+    <color name="auth_et_main_color">#B89494</color>
+    <color name="auth_et_text_color">#EBD7D7</color>
+</resources>

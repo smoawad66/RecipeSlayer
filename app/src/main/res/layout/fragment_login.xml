@@ -11,6 +11,7 @@
         android:id="@+id/logo_1023_login"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:contentDescription="@string/logo_description"
         android:src="@drawable/logo_1024"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
@@ -23,8 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Login"
-        android:textColor="@color/white"
+        android:text="@string/login"
+        android:textColor="@color/auth_text_color"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textColorHint="#B89494"
+        android:textColorHint="@color/auth_et_text_color_hint"
         app:boxBackgroundColor="#00ffffff"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="8dp"
@@ -47,18 +48,18 @@
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
         app:boxStrokeColor="@drawable/text_input_outline_color"
-        app:cursorColor="#B89494"
-        app:hintTextColor="#B89494"
+        app:cursorColor="@color/auth_et_main_color"
+        app:hintTextColor="@color/auth_et_main_color"
         app:layout_constraintTop_toBottomOf="@id/login"
-        app:placeholderTextColor="#B89494">
+        app:placeholderTextColor="@color/auth_et_main_color">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/e_mail"
             android:inputType="textEmailAddress"
-            android:textColor="#EBD7D7" />
+            android:textColor="@color/auth_et_text_color" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -67,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:textColorHint="#B89494"
+        android:textColorHint="@color/auth_et_text_color_hint"
         app:boxBackgroundColor="#00ffffff"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="8dp"
@@ -75,18 +76,18 @@
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
         app:boxStrokeColor="@drawable/text_input_outline_color"
-        app:cursorColor="#B89494"
-        app:hintTextColor="#B89494"
+        app:cursorColor="@color/auth_et_main_color"
+        app:hintTextColor="@color/auth_et_main_color"
         app:layout_constraintTop_toBottomOf="@id/emailInputLayout"
-        app:placeholderTextColor="#B89494">
+        app:placeholderTextColor="@color/auth_et_main_color">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
-            android:textColor="#EBD7D7" />
+            android:textColor="@color/auth_et_text_color" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -97,7 +98,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/button_background"
         android:gravity="center"
-        android:text="Log In"
+        android:text="@string/login"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -118,16 +119,16 @@
             android:id="@+id/dontHaveAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don’t have account? "
-            android:textColor="#D49A95" />
+            android:text="@string/don_t_have_account"
+            android:textColor="@color/auth_text_color_2"/>
 
         <TextView
             android:id="@+id/createNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="4dp"
-            android:text="Create now"
-            android:textColor="#fff"
+            android:text="@string/create_now"
+            android:textColor="@color/auth_text_color"
             android:textStyle="bold" />
 
     </LinearLayout>

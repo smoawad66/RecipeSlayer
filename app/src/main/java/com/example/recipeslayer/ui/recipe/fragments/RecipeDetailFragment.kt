@@ -1,6 +1,7 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,10 @@ import com.example.recipeslayer.ui.recipe.FavouriteViewModel
 import com.example.recipeslayer.ui.recipe.IngredientAdapter
 import com.example.recipeslayer.ui.recipe.RecipeViewModel
 import com.example.recipeslayer.utils.Auth
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -47,6 +52,18 @@ class RecipeDetailFragment : Fragment() {
     private lateinit var recipeId: String
     private var favouriteId: Long? = null
 
+    val conditions = DownloadConditions.Builder()
+        .requireWifi()
+        .build()
+
+    val options = TranslatorOptions.Builder()
+        .setSourceLanguage(TranslateLanguage.ENGLISH)
+        .setTargetLanguage(TranslateLanguage.ARABIC)
+        .build()
+
+    val englishArabicTranslator = Translation.getClient(options)
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,6 +85,9 @@ class RecipeDetailFragment : Fragment() {
 //        }
 
         lifecycleScope.launch(IO) {
+
+
+            val englishArabicTranslator = Translation.getClient(options)
 
             favouriteId = favouriteViewModel.getFavouriteId(userId, recipe)
 
@@ -127,16 +147,57 @@ class RecipeDetailFragment : Fragment() {
 
     private fun bindRecipeData(view: View) {
         binding.apply {
-            title.text = recipe.strMeal
+            englishArabicTranslator.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener {
+                    englishArabicTranslator.translate(recipe.strMeal)
+                        .addOnSuccessListener { translatedText ->
+                            title.text = translatedText
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.i("lol", "onBindViewHolder: $exception.message")
+                        }
+                }
+                .addOnFailureListener { exception ->
+                    Log.i("lol", "onBindViewHolder: $exception.message")
+                }
             Glide.with(view)
                 .load(recipe.strMealThumb)
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.baseline_error_24)
                 .into(thumbnail)
 
-            title.text = recipe.strMeal
-            instructionsBreif.text = recipeDetails?.strInstructions
-            instructionsComplete.text = recipeDetails?.strInstructions
+            englishArabicTranslator.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener {
+                    recipeDetails?.strInstructions?.let { it1 ->
+                        englishArabicTranslator.translate(it1)
+                            .addOnSuccessListener { translatedText ->
+                                instructionsComplete.text = translatedText
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.i("lol", "onBindViewHolder: $exception.message")
+                            }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.i("lol", "onBindViewHolder: $exception.message")
+                }
+
+            englishArabicTranslator.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener {
+                    recipeDetails?.strInstructions?.let { it1 ->
+                        englishArabicTranslator.translate(it1)
+                            .addOnSuccessListener { translatedText ->
+                                instructionsBreif.text = translatedText
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.i("lol", "onBindViewHolder: $exception.message")
+                            }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.i("lol", "onBindViewHolder: $exception.message")
+                }
+
 
 
 //            Log.i("url", "${recipeDetails?.strYoutube}")
@@ -148,12 +209,12 @@ class RecipeDetailFragment : Fragment() {
                 if (instructionsComplete.visibility == View.VISIBLE) {
                     instructionsComplete.visibility = View.GONE
                     instructionsBreif.visibility = View.VISIBLE
-                    moreDetailsBtn.text = "show more"
+                    moreDetailsBtn.text = getString(R.string.more_details)
                     moreDetailsIconBtn.setImageResource(R.drawable.more_btn_icon)
                 } else {
                     instructionsComplete.visibility = View.VISIBLE
                     instructionsBreif.visibility = View.GONE
-                    moreDetailsBtn.text = "show less"
+                    moreDetailsBtn.text = getString(R.string.less_details)
                     moreDetailsIconBtn.setImageResource(R.drawable.less_btn_icon)
                 }
             }

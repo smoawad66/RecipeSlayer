@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_about"
-        android:title="About Us"
+        android:title="@string/about_us"
         android:icon="@drawable/about"
         />
     <item
         android:id="@+id/menu_logout"
-        android:title="Logout"
+        android:title="@string/logout"
         android:icon="@drawable/logout"
         />
 </menu>

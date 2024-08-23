@@ -4,17 +4,23 @@
     <item
         android:id="@+id/home"
         android:icon="@drawable/home"
-        android:title="Home"
+        android:title="@string/home"
         app:cnb_iconColor="#D36A63"/>
     <item
         android:id="@+id/search"
         android:icon="@drawable/search"
-        android:title="Search"
+        android:title="@string/search"
         app:cnb_iconColor="#D36A63"/>
     <item
         android:id="@+id/favorites"
         android:icon="@drawable/fav"
-        android:title="Favorites"
+        android:title="@string/favorites"
+        app:cnb_iconColor="#D36A63"/>
+
+    <item
+        android:id="@+id/ideas"
+        android:icon="@drawable/idea"
+        android:title="@string/ideas"
         app:cnb_iconColor="#D36A63"/>
 
 

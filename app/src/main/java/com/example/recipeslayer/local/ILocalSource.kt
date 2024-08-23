@@ -8,7 +8,9 @@ import com.example.recipeslayer.models.User
 interface ILocalSource {
 
     suspend fun getUser(email: String): User
+    suspend fun getUserById(id: Long): User
     suspend fun insertUser(user: User): Long
+    suspend fun updateUser(user: User)
 
     suspend fun getRecipe(recipeId: String): Recipe?
     suspend fun insertRecipe(recipe: Recipe)

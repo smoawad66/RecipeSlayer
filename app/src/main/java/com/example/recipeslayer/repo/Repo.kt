@@ -16,6 +16,9 @@ class Repo(
     // Local data source (SQLite Room Database)
     override suspend fun getUser(email: String) = localSource.getUser(email)
     override suspend fun insertUser(user: User) = localSource.insertUser(user)
+    override suspend fun getUserById(id: Long) = localSource.getUserById(id)
+    override suspend fun updateUser(user: User) = localSource.updateUser(user)
+
 
 
     override suspend fun getRecipe(recipeId: String) = localSource.getRecipe(recipeId)

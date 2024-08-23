@@ -1,5 +1,6 @@
 package com.example.recipeslayer.ui.recipe
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,10 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.recipeslayer.R
 import com.example.recipeslayer.models.Ingredient
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 
 class IngredientAdapter(private var data: MutableList<Ingredient>) :
     RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
@@ -31,8 +36,44 @@ class IngredientAdapter(private var data: MutableList<Ingredient>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvName.text = data[position].name
-        holder.tvMeasure.text = data[position].measure
+        val conditions = DownloadConditions.Builder()
+            .requireWifi()
+            .build()
+
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(TranslateLanguage.ENGLISH)
+            .setTargetLanguage(TranslateLanguage.ARABIC)
+            .build()
+
+        val englishArabicTranslator = Translation.getClient(options)
+
+        englishArabicTranslator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                englishArabicTranslator.translate(data[position].name)
+                    .addOnSuccessListener { translatedText ->
+                        holder.tvName.text = translatedText
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.i("lol", "onBindViewHolder: $exception.message")
+                    }
+            }
+            .addOnFailureListener { exception ->
+                Log.i("lol", "onBindViewHolder: $exception.message")
+            }
+
+        englishArabicTranslator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                englishArabicTranslator.translate(data[position].measure)
+                    .addOnSuccessListener { translatedText ->
+                        holder.tvMeasure.text = translatedText
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.i("lol", "onBindViewHolder: $exception.message")
+                    }
+            }
+            .addOnFailureListener { exception ->
+                Log.i("lol", "onBindViewHolder: $exception.message")
+            }
         Glide.with(holder.itemView)
             .load(data[position].image)
             .error(R.drawable.baseline_error_24)

@@ -3,6 +3,7 @@ package com.example.recipeslayer.ui.recipe
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuInflater
 import android.view.View
 import android.widget.ImageView
@@ -13,18 +14,32 @@ import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.example.recipeslayer.R
 import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.utils.Auth
+import com.google.ai.client.generativeai.BuildConfig
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.smartreply.SmartReplyGenerator
+import com.google.mlkit.nl.smartreply.TextMessage
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class RecipeActivity : AppCompatActivity() {
     lateinit var bottomBar : ChipNavigationBar
     private var isMenuVisible = false
-
+    private lateinit var profilePic: ImageView
     private lateinit var fragment_title: TextView
     private lateinit var navController: NavController
     private val favouriteViewModel: FavouriteViewModel by viewModels()
@@ -39,9 +54,51 @@ class RecipeActivity : AppCompatActivity() {
 //
 //    lateinit var logout : TextView
 
+    private var conditions = DownloadConditions.Builder()
+        .requireWifi()
+        .build()
+
+    lateinit var conversations: ArrayList<TextMessage>
+
+    lateinit var smartReplyGenerator: SmartReplyGenerator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
+
+        profilePic = findViewById(R.id.profile_pic)
+        profilePic.setOnClickListener {
+
+//                bottomBar.setItemSelected(R.id.home, false)
+//                bottomBar.setItemSelected(R.id.favorites, false)
+//                bottomBar.setItemSelected(R.id.search, false)
+//                bottomBar.setItemSelected(R.id.ideas, false)
+
+        }
+
+
+        ////////////////////////////////////////////////////////////////
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(TranslateLanguage.ENGLISH)
+            .setTargetLanguage(TranslateLanguage.ARABIC)
+            .build()
+
+        val englishArabicTranslator = Translation.getClient(options)
+        var result: String = ""
+        englishArabicTranslator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                englishArabicTranslator.translate("Apple pie koshari")
+                    .addOnSuccessListener { translatedText ->
+                        result = translatedText
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
+            }
+
 
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -80,16 +137,20 @@ class RecipeActivity : AppCompatActivity() {
             when (id) {
                 R.id.home -> {
                     navController.navigate(R.id.homeFragment)
-                    fragment_title.text = "Home"
+                    fragment_title.text = getString(R.string.home)
                 }
                 R.id.search -> {
                     navController.navigate(R.id.searchFragment)
-                    fragment_title.text = "Search"
+                    fragment_title.text = getString(R.string.search)
                 }
                 R.id.favorites -> {
                     navController.navigate(R.id.favoriteFragment)
-                    fragment_title.text = "Favorites"
+                    fragment_title.text = getString(R.string.favorites)
                     bottomBar.dismissBadge(R.id.favorites)
+                }
+                R.id.ideas -> {
+                    navController.navigate(R.id.ideasFragment)
+                    fragment_title.text = getString(R.string.ideas)
                 }
 
             }
@@ -159,7 +220,7 @@ class RecipeActivity : AppCompatActivity() {
                     bottomBar.setItemSelected(R.id.home, false)
                     bottomBar.setItemSelected(R.id.favorites, false)
                     bottomBar.setItemSelected(R.id.search, false)
-                    fragment_title.text = "About Us"
+                    fragment_title.text = getString(R.string.about_us)
 
 
 //                    Toast.makeText(this, "About Clicked!", Toast.LENGTH_SHORT).show()

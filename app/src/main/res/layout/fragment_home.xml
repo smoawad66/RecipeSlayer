@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.recipe.fragments.HomeFragment"
-    android:background="#2A1D1D">
+    android:background="@color/main_bg">
 
     <HorizontalScrollView
         android:id="@+id/filter_sv"
@@ -15,7 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="16dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -30,14 +31,15 @@
                 android:layout_marginHorizontal="8dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:id="@+id/all"
-                    android:text="All"
+                    android:text="@string/all"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="5dp"
                     android:textColor="#fec0a0"
@@ -53,7 +55,8 @@
                 android:layout_marginHorizontal="8dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:id="@+id/Vegetarian"
@@ -63,7 +66,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="5dp"
-                    android:text="Vegetarian"
+                    android:text="@string/vegetarian"
                     android:textColor="#fec0a0"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -76,7 +79,8 @@
                 android:layout_marginHorizontal="8dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
@@ -84,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:id="@+id/dessert"
-                    android:text="Desert"
+                    android:text="@string/dessert"
                     android:textColor="#fec0a0"
                     android:textSize="15sp"
                     android:paddingHorizontal="10dp"
@@ -99,7 +103,8 @@
                 android:layout_marginHorizontal="8dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
@@ -107,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:id="@+id/Beef"
-                    android:text="Beef"
+                    android:text="@string/beef"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="5dp"
@@ -117,20 +122,20 @@
             <androidx.cardview.widget.CardView
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:text="Chickencard"
                 android:id="@+id/Chickencard"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Chicken"
+                    android:text="@string/chicken"
                     android:id="@+id/chicken"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -147,14 +152,15 @@
                 android:layout_marginHorizontal="8dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Breakfast"
+                    android:text="@string/breakfast"
                     android:id="@+id/Breakfast"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -171,14 +177,15 @@
                 android:layout_marginHorizontal="8dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Seafood"
+                    android:text="@string/seafood"
                     android:id="@+id/Seafood"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -195,14 +202,15 @@
                 android:id="@+id/Lambcard"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Lamb"
+                    android:text="@string/lamb"
                     android:id="@+id/Lamb"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -214,20 +222,20 @@
             <androidx.cardview.widget.CardView
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:text="Miscellaneouscard"
                 android:id="@+id/Miscellaneouscard"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Miscellaneous"
+                    android:text="@string/miscellaneous"
                     android:id="@+id/Miscellaneous"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -243,14 +251,15 @@
                 android:id="@+id/Pastacard"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Pasta"
+                    android:text="@string/pasta"
                     android:id="@+id/Pasta"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -266,14 +275,15 @@
                 android:id="@+id/Sidecard"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Side"
+                    android:text="@string/side"
                     android:id="@+id/Side"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -289,14 +299,15 @@
                 app:cardCornerRadius="50dp"
                 android:id="@+id/Startercard"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Starter"
+                    android:text="@string/starter"
                     android:id="@+id/Starter"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -312,14 +323,15 @@
                 android:id="@+id/Vegancard"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text=" Vegan"
+                    android:text="@string/vegan"
                     android:id="@+id/Vegan"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -335,14 +347,15 @@
                 android:id="@+id/Goatcard"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="#6F3733">
+                android:backgroundTint="#6F3733"
+                android:layout_marginVertical="16dp">
 
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Goat"
+                    android:text="@string/goat"
                     android:id="@+id/Goat"
                     android:textColor="#fec0a0"
                     android:paddingHorizontal="10dp"
@@ -359,7 +372,8 @@
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/filter_sv"
         app:layout_constraintBottom_toBottomOf="parent"

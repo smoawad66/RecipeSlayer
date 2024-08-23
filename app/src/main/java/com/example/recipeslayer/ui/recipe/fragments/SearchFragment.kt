@@ -1,6 +1,7 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,10 @@ import com.example.recipeslayer.R
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.ui.recipe.RecipeAdapter
 import com.example.recipeslayer.ui.recipe.RecipeViewModel
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 
 class SearchFragment : Fragment() {
 
@@ -58,11 +63,44 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText!!.isNotEmpty()) {
-                    searchRecipesByName("%$newText%")
-                } else {
-                    clearSearchResults()
-                }
+
+                var newTranslatedText = ""
+                val conditions = DownloadConditions.Builder()
+                    .requireWifi()
+                    .build()
+
+                val options = TranslatorOptions.Builder()
+                    .setSourceLanguage(TranslateLanguage.ARABIC)
+                    .setTargetLanguage(TranslateLanguage.ENGLISH)
+                    .build()
+
+                val englishArabicTranslator = Translation.getClient(options)
+
+                englishArabicTranslator.downloadModelIfNeeded(conditions)
+                    .addOnSuccessListener {
+                        if (newText != null) {
+                            englishArabicTranslator.translate(newText)
+                                .addOnSuccessListener { translatedText ->
+                                    run {
+                                        if (translatedText.isNotEmpty())
+                                            searchRecipesByName("%$translatedText%")
+                                        else clearSearchResults()
+                                    }
+                                    Log.i("lol", "onQueryTextChange: ____________-$translatedText")
+                                }
+                                .addOnFailureListener { exception ->
+                                    Log.i("lol", "onBindViewHolder: $exception.message")
+                                }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.i("lol", "onBindViewHolder: $exception.message")
+                    }
+//                if (newTranslatedText!!.isNotEmpty()) {
+//                    searchRecipesByName("%$newTranslatedText%")
+//                } else {
+//                    clearSearchResults()
+//                }
                 return true
             }
         })

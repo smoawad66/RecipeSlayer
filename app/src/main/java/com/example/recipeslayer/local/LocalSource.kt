@@ -26,7 +26,10 @@ class LocalSource private constructor(): ILocalSource {
 
     // User
     override suspend fun getUser(email: String) = userDao.getUser(email)
+    override suspend fun getUserById(id: Long) = userDao.getUserById(id)
+
     override suspend fun insertUser(user: User) = userDao.insertUser(user)
+    override suspend fun updateUser(user: User) = userDao.updateUser(user)
 
     // Recipe
     override suspend fun insertRecipe(recipe: Recipe) = recipeDao.insertRecipe(recipe)

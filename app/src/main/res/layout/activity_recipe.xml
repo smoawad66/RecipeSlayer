@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.recipe.RecipeActivity"
-    android:background="#2A1D1D">
+    android:background="@color/main_bg">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -20,7 +20,7 @@
         android:id="@+id/cl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1F1515"
+        android:background="@color/bg_2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -31,22 +31,23 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            app:layout_constraintStart_toEndOf="@+id/logo_46"
+            app:layout_constraintStart_toEndOf="@+id/profile_pic"
             app:layout_constraintEnd_toStartOf="@+id/option_menu"
-            android:text="Home"
+            android:text="@string/home"
             android:textStyle="bold"
             android:textSize="35sp"
             android:textColor="#D36A63"
             />
         <ImageView
-            android:id="@+id/logo_46"
+            android:id="@+id/profile_pic"
             android:layout_width="46dp"
             android:layout_height="46dp"
-            android:src="@drawable/logo_46"
+            android:src="@drawable/no_profile_pic"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="10dp"
+            android:defaultFocusHighlightEnabled="false"/>
 
 
         <ImageView
@@ -80,7 +81,7 @@
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1F1515"
+        android:background="@color/bg_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
