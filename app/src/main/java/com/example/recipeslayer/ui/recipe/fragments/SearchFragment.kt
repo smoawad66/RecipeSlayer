@@ -19,6 +19,7 @@ import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
+import java.util.Locale
 
 class SearchFragment : Fragment() {
 
@@ -76,31 +77,38 @@ class SearchFragment : Fragment() {
 
                 val englishArabicTranslator = Translation.getClient(options)
 
-                englishArabicTranslator.downloadModelIfNeeded(conditions)
-                    .addOnSuccessListener {
-                        if (newText != null) {
-                            englishArabicTranslator.translate(newText)
-                                .addOnSuccessListener { translatedText ->
-                                    run {
-                                        if (translatedText.isNotEmpty())
-                                            searchRecipesByName("%$translatedText%")
-                                        else clearSearchResults()
+                if(Locale.getDefault().language == "ar") {
+                    englishArabicTranslator.downloadModelIfNeeded(conditions)
+                        .addOnSuccessListener {
+                            if (newText != null) {
+                                englishArabicTranslator.translate(newText)
+                                    .addOnSuccessListener { translatedText ->
+                                        run {
+                                            if (translatedText.isNotEmpty())
+                                                searchRecipesByName("%$translatedText%")
+                                            else clearSearchResults()
+                                        }
+                                        Log.i(
+                                            "lol",
+                                            "onQueryTextChange: ____________-$translatedText"
+                                        )
                                     }
-                                    Log.i("lol", "onQueryTextChange: ____________-$translatedText")
-                                }
-                                .addOnFailureListener { exception ->
-                                    Log.i("lol", "onBindViewHolder: $exception.message")
-                                }
+                                    .addOnFailureListener { exception ->
+                                        Log.i("lol", "onBindViewHolder: $exception.message")
+                                    }
+                            }
                         }
+                        .addOnFailureListener { exception ->
+                            Log.i("lol", "onBindViewHolder: $exception.message")
+                        }
+                }
+                else {
+                    if (newText.isNullOrEmpty()) {
+                        clearSearchResults()
+                    } else {
+                        searchRecipesByName("%$newText%")
                     }
-                    .addOnFailureListener { exception ->
-                        Log.i("lol", "onBindViewHolder: $exception.message")
-                    }
-//                if (newTranslatedText!!.isNotEmpty()) {
-//                    searchRecipesByName("%$newTranslatedText%")
-//                } else {
-//                    clearSearchResults()
-//                }
+                }
                 return true
             }
         })

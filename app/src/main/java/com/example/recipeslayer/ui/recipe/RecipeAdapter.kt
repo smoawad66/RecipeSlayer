@@ -11,11 +11,15 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.recipeslayer.R
 import com.example.recipeslayer.models.Recipe
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.GenerateContentResponse
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
-
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 class RecipeAdapter(private var data: List<Recipe>) :
@@ -53,30 +57,49 @@ class RecipeAdapter(private var data: List<Recipe>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val conditions = DownloadConditions.Builder()
-            .requireWifi()
-            .build()
+        Log.i("ooo", "onBindViewHolder: ___________${Locale.getDefault().language}")
 
-        val options = TranslatorOptions.Builder()
-            .setSourceLanguage(TranslateLanguage.ENGLISH)
-            .setTargetLanguage(TranslateLanguage.ARABIC)
-            .build()
+        if (Locale.getDefault().language == "ar")
+        {
+            val conditions = DownloadConditions.Builder()
+                .requireWifi()
+                .build()
 
-        val englishArabicTranslator = Translation.getClient(options)
+            val options = TranslatorOptions.Builder()
+                .setSourceLanguage(TranslateLanguage.ENGLISH)
+                .setTargetLanguage(TranslateLanguage.ARABIC)
+                .build()
 
-        englishArabicTranslator.downloadModelIfNeeded(conditions)
-            .addOnSuccessListener {
-                englishArabicTranslator.translate(data[position].strMeal)
-                    .addOnSuccessListener { translatedText ->
-                        holder.tv.text = translatedText
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.i("lol", "onBindViewHolder: $exception.message")
-                    }
-            }
-            .addOnFailureListener { exception ->
-                Log.i("lol", "onBindViewHolder: $exception.message")
-            }
+            val englishArabicTranslator = Translation.getClient(options)
+
+            englishArabicTranslator.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener {
+                    englishArabicTranslator.translate(data[position].strMeal)
+                        .addOnSuccessListener { translatedText ->
+                            holder.tv.text = translatedText
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.i("lol", "onBindViewHolder: $exception.message")
+                        }
+                }
+                .addOnFailureListener { exception ->
+                    Log.i("lol", "onBindViewHolder: $exception.message")
+                }
+        }
+
+        else holder.tv.text = data[position].strMeal
+
+//        val generativeModel = GenerativeModel(
+//            modelName = "gemini-1.5-flash",
+//            apiKey = "AIzaSyBJDwCxczi8DQa6LY5ig0SZNOO-dUIyoYM"
+//        )
+//        var response: GenerateContentResponse
+//        val prompt = "translate ${data[position].strMeal} into arabic, asnwer with the word only"
+//        MainScope().launch {
+//            response = generativeModel.generateContent(prompt)
+//            holder.tv.text = response.text
+//            Log.i("lol", "onCreate: ________________${response.text}")
+//        }
 
 //        holder.tv.text = data[position].strMeal
 

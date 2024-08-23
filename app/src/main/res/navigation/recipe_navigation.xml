@@ -66,4 +66,14 @@
         android:name="com.example.recipeslayer.ui.recipe.fragments.IdeasFragment"
         android:label="fragment_ideas"
         tools:layout="@layout/fragment_ideas" />
+    <fragment
+        android:id="@+id/imageLabelingFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.ImageLabelingFragment"
+        android:label="fragment_image_labeling"
+        tools:layout="@layout/fragment_image_labeling" />
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.ImageFragment"
+        android:label="fragment_image"
+        tools:layout="@layout/fragment_image" />
 </navigation>

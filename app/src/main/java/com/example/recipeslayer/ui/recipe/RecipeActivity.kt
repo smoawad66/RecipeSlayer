@@ -66,6 +66,8 @@ class RecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
 
+
+
         profilePic = findViewById(R.id.profile_pic)
         profilePic.setOnClickListener {
 
@@ -154,7 +156,11 @@ class RecipeActivity : AppCompatActivity() {
                 }
 
             }
+
         }
+//        navController.navigate(R.id.imageLabelingFragment)
+//        navController.navigate(R.id.imageFragment)
+
 //        navController.addOnDestinationChangedListener { _, destination, _ ->
 //            bottomBar.setItemSelected(destination.id, true)
 //        }

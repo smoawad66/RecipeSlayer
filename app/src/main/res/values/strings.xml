@@ -43,4 +43,6 @@
     <string name="ideas_unleash_your_creativity">Ideas, Unleash your creativity!</string>
     <string name="generate">Generate</string>
     <string name="profile">Profile</string>
+    <string name="upload">Upload</string>
+    <string name="extract_ingredients">Extract Ingredients</string>
 </resources>

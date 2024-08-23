@@ -89,7 +89,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
 
-    implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+    implementation("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
 
     //ML Kit (for 'en' 'ar' translation)
     implementation ("com.google.mlkit:translate:17.0.3")
@@ -97,5 +97,9 @@ dependencies {
     //smart reply
     implementation ("com.google.mlkit:smart-reply:17.0.4")
 
-    implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
+    //gemini api
+    implementation ("com.google.ai.client.generativeai:generativeai:0.7.0")
+
+    //image labeling
+    implementation ("com.google.mlkit:image-labeling:17.0.9")
 }

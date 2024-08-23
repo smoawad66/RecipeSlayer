@@ -44,4 +44,6 @@
     <string name="ideas_unleash_your_creativity">!الأفكار، أطلق العنان لإبداعك</string>
     <string name="generate">إنشاء</string>
     <string name="profile">الملف التعريفي</string>
+    <string name="upload">تحميل</string>
+    <string name="extract_ingredients">إستخراج المكونات</string>
 </resources>

@@ -34,6 +34,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Locale
 import kotlin.reflect.full.memberProperties
 
 
@@ -147,56 +148,64 @@ class RecipeDetailFragment : Fragment() {
 
     private fun bindRecipeData(view: View) {
         binding.apply {
-            englishArabicTranslator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener {
-                    englishArabicTranslator.translate(recipe.strMeal)
-                        .addOnSuccessListener { translatedText ->
-                            title.text = translatedText
-                        }
-                        .addOnFailureListener { exception ->
-                            Log.i("lol", "onBindViewHolder: $exception.message")
-                        }
-                }
-                .addOnFailureListener { exception ->
-                    Log.i("lol", "onBindViewHolder: $exception.message")
-                }
+            if(Locale.getDefault().language == "ar") {
+                englishArabicTranslator.downloadModelIfNeeded(conditions)
+                    .addOnSuccessListener {
+                        englishArabicTranslator.translate(recipe.strMeal)
+                            .addOnSuccessListener { translatedText ->
+                                title.text = translatedText
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.i("lol", "onBindViewHolder: $exception.message")
+                            }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.i("lol", "onBindViewHolder: $exception.message")
+                    }
+            } else title.text = recipe.strMeal
             Glide.with(view)
                 .load(recipe.strMealThumb)
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.baseline_error_24)
                 .into(thumbnail)
 
-            englishArabicTranslator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener {
-                    recipeDetails?.strInstructions?.let { it1 ->
-                        englishArabicTranslator.translate(it1)
-                            .addOnSuccessListener { translatedText ->
-                                instructionsComplete.text = translatedText
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.i("lol", "onBindViewHolder: $exception.message")
-                            }
+            if(Locale.getDefault().language == "ar") {
+                englishArabicTranslator.downloadModelIfNeeded(conditions)
+                    .addOnSuccessListener {
+                        recipeDetails?.strInstructions?.let { it1 ->
+                            englishArabicTranslator.translate(it1)
+                                .addOnSuccessListener { translatedText ->
+                                    instructionsComplete.text = translatedText
+                                }
+                                .addOnFailureListener { exception ->
+                                    Log.i("lol", "onBindViewHolder: $exception.message")
+                                }
+                        }
                     }
-                }
-                .addOnFailureListener { exception ->
-                    Log.i("lol", "onBindViewHolder: $exception.message")
-                }
+                    .addOnFailureListener { exception ->
+                        Log.i("lol", "onBindViewHolder: $exception.message")
+                    }
 
-            englishArabicTranslator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener {
-                    recipeDetails?.strInstructions?.let { it1 ->
-                        englishArabicTranslator.translate(it1)
-                            .addOnSuccessListener { translatedText ->
-                                instructionsBreif.text = translatedText
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.i("lol", "onBindViewHolder: $exception.message")
-                            }
+                englishArabicTranslator.downloadModelIfNeeded(conditions)
+                    .addOnSuccessListener {
+                        recipeDetails?.strInstructions?.let { it1 ->
+                            englishArabicTranslator.translate(it1)
+                                .addOnSuccessListener { translatedText ->
+                                    instructionsBreif.text = translatedText
+                                }
+                                .addOnFailureListener { exception ->
+                                    Log.i("lol", "onBindViewHolder: $exception.message")
+                                }
+                        }
                     }
-                }
-                .addOnFailureListener { exception ->
-                    Log.i("lol", "onBindViewHolder: $exception.message")
-                }
+                    .addOnFailureListener { exception ->
+                        Log.i("lol", "onBindViewHolder: $exception.message")
+                    }
+            }
+            else {
+                instructionsComplete.text = recipeDetails?.strInstructions
+                instructionsBreif.text = recipeDetails?.strInstructions
+            }
 
 
 
