@@ -11,7 +11,7 @@ import com.example.recipeslayer.models.Recipe
 @Dao
 interface RecipeDao {
 
-    @Query("SELECT * FROM recipes WHERE idMeal =:recipeId")
+    @Query("SELECT * FROM recipes WHERE idMeal = :recipeId")
     suspend fun getRecipe(recipeId: Long): Recipe?
 
     @Query("SELECT r.* FROM recipes r JOIN favourites f ON r.idMeal = f.recipeId " +

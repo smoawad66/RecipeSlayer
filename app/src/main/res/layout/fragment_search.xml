@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.recipe.fragments.SearchFragment"
-    android:background="#2A1D1D">
+    android:background="@color/main_bg">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
@@ -34,7 +34,6 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:padding="16dp"
-        android:focusedByDefault="true"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

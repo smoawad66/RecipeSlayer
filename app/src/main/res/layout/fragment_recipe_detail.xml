@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="0dp"
-    android:background="#2A1D1D">
+    android:background="@color/main_bg">
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="#2A1D1D">
+        android:background="@color/main_bg">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:id="@+id/webview"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
-                android:background="#2A1D1D"
+                android:background="@color/main_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
                 android:layout_marginVertical="30dp"
                 android:layout_marginHorizontal="30dp"
                 android:text="Rigatoni"
-                android:textColor="#FEC0A0"
+                android:textColor="@color/details_text_color"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="25dp"
                 android:text="Category"
-                android:textColor="#FEC0A0"
+                android:textColor="@color/details_text_color"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/title"
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Show instructions"
-                    android:textColor="#FEC0A0"
+                    android:textColor="@color/details_text_color"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +116,7 @@
                 android:paddingHorizontal="30sp"
                 android:text="Lorem ipsum dolor sit amet"
                 android:textAlignment="viewStart"
-                android:textColor="#FEC0A0"
+                android:textColor="@color/details_text_color"
                 android:textSize="15sp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:text="Ingredients"
-                android:textColor="#FEC0A0"
+                android:textColor="@color/details_text_color"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -140,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
-                android:background="#201616"
+                android:background="@color/ingerdient_bg"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -151,7 +151,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:background="#2A1D1D"
+                android:background="@color/main_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rv_ingredients" />

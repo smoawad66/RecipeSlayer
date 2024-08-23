@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.core.net.ConnectivityManagerCompat
 import com.example.recipeslayer.local.RecipeRoomDatabase
 import com.example.recipeslayer.utils.Auth
-import com.example.recipeslayer.utils.Converters
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

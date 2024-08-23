@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2A1D1D"
+    android:background="@color/main_bg"
     tools:context=".ui.recipe.fragments.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="5dp"
                     android:text="Recommended Recipes"
-                    android:textColor="#fec0a0"
+                    android:textColor="@color/button_selected_text"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:visibility="gone"
@@ -37,7 +37,7 @@
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp"
                     android:paddingTop="16dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -49,8 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingTop="16dp"
+                    android:padding="16dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
