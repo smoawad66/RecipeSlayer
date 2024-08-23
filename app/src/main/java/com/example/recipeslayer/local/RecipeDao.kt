@@ -15,10 +15,10 @@ interface RecipeDao {
     suspend fun getRecipe(recipeId: Long): Recipe?
 
     @Query("SELECT r.* FROM recipes r JOIN favourites f ON r.idMeal = f.recipeId " +
-            "GROUP BY r.idMeal ORDER BY count(f.userId) DESC LIMIT 5")
+            "GROUP BY r.idMeal ORDER BY count(f.userId) DESC, r.idMeal ASC LIMIT 5")
     fun getRecommendedRecipes(): LiveData<List<Recipe>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertRecipe(recipe: Recipe)
 
     @Delete

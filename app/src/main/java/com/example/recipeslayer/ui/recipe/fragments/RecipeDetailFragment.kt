@@ -28,6 +28,7 @@ import com.example.recipeslayer.ui.recipe.FavouriteViewModel
 import com.example.recipeslayer.ui.recipe.adapters.IngredientAdapter
 import com.example.recipeslayer.ui.recipe.RecipeViewModel
 import com.example.recipeslayer.utils.Auth
+import com.example.recipeslayer.utils.Constants.BASE_INGREDIENT_URL
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.Dispatchers.IO
@@ -43,8 +44,6 @@ class RecipeDetailFragment : Fragment() {
     private val args: RecipeDetailFragmentArgs by navArgs()
     private var recipe: Recipe? = null
     private var ingredients: MutableList<Ingredient> = mutableListOf()
-    private val BASE_INGREDIENT_URL = "https://www.themealdb.com/images/ingredients"
-
     private var userId = -1L
     private var recipeId = -1L
     private var isFavourite = false
@@ -136,13 +135,13 @@ class RecipeDetailFragment : Fragment() {
     private fun loadVideo(youtubeLink: String?) {
         val webView = binding.webview
 
-//        webView.settings.mediaPlaybackRequiresUserGesture = false
+        webView.settings.mediaPlaybackRequiresUserGesture = false
         webView.webViewClient = WebViewClient()
         webView.settings.javaScriptEnabled = true
-//        webView.webChromeClient = WebChromeClient()
-//        webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-//        webView.settings.domStorageEnabled = true
-//        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null)
+        webView.webChromeClient = WebChromeClient()
+        webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+        webView.settings.domStorageEnabled = true
+        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null)
 
         val videoId = youtubeLink?.substringAfter("=")
         val htmlData = """

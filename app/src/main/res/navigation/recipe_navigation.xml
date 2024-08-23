@@ -15,13 +15,13 @@
             app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_homeFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            app:destination="@id/favouriteFragment" />
         <action
             android:id="@+id/action_homeFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/favoriteFragment"
+        android:id="@+id/favouriteFragment"
         android:name="com.example.recipeslayer.ui.recipe.fragments.FavouriteFragment"
         android:label="FavoriteFragment" >
         <action
@@ -43,7 +43,7 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_searchFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            app:destination="@id/favouriteFragment" />
         <action
             android:id="@+id/action_searchFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />

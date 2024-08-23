@@ -7,9 +7,11 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeslayer.R
@@ -17,6 +19,9 @@ import com.example.recipeslayer.databinding.FragmentSearchBinding
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.ui.recipe.RecipeViewModel
 import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
+import com.example.recipeslayer.utils.Constants.GEMINI_API_KEY
+import com.google.ai.client.generativeai.GenerativeModel
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -24,7 +29,11 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,7 +57,8 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
         adapter.setOnItemClickListener { position ->
             val recipe = adapter.getData()[position]
-            val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(recipe.idMeal)
+            val action =
+                SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(recipe.idMeal)
             findNavController().navigate(action)
         }
 

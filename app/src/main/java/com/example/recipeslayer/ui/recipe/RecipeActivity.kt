@@ -2,6 +2,7 @@ package com.example.recipeslayer.ui.recipe
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuInflater
 import android.view.View
 import android.widget.ImageView
@@ -9,39 +10,76 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import com.example.recipeslayer.R
 import com.example.recipeslayer.ui.auth.AuthActivity
+import com.example.recipeslayer.ui.recipe.fragments.AboutFragment
+import com.example.recipeslayer.ui.recipe.fragments.FavouriteFragment
+import com.example.recipeslayer.ui.recipe.fragments.HomeFragment
+import com.example.recipeslayer.ui.recipe.fragments.RecipeDetailFragment
+import com.example.recipeslayer.ui.recipe.fragments.SearchFragment
 import com.example.recipeslayer.utils.Auth
+import com.example.recipeslayer.utils.Constants.GEMINI_API_KEY
+import com.example.recipeslayer.utils.Converters
+import com.google.ai.client.generativeai.GenerativeModel
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class RecipeActivity : AppCompatActivity() {
-    lateinit var bottomBar : ChipNavigationBar
-    private var isMenuVisible = false
-
-
+    lateinit var bottomBar: ChipNavigationBar
+    private lateinit var fragmentTitle: TextView
     private lateinit var navController: NavController
-
     private val favouriteViewModel: FavouriteViewModel by viewModels()
-    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
-
-//    val navController = findNavController(R.id.nav_host_fragment)
-//    private var _binding: ActivityRecipyBinding? = null
-//    private val binding get() = _binding!!
-//
-//    private val sharedPreferences: SharedPreferences
-//        get() = getSharedPreferences("Flags", Context.MODE_PRIVATE)
-//
-//    lateinit var logout : TextView
-
-//    private lateinit var
+    private val recipeViewModel: RecipeViewModel by viewModels()
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_recipe)
+
+        fragmentTitle = findViewById(R.id.fragment_title)
+        bottomBar = findViewById(R.id.bottom_bar)
+        bottomBar.setItemSelected(R.id.home, true)
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        navController = findNavController(R.id.nav_host_fragment)
+
+        val toggleButton: ImageView = findViewById(R.id.option_menu)
+        toggleButton.setOnClickListener { showPopupMenu(toggleButton) }
+
+
+        // Listen for any fragment that is resumed
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object :
+            FragmentLifecycleCallbacks() {
+            override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
+                when (f) {
+                    is HomeFragment -> selectNavItem("Home")
+                    is SearchFragment -> selectNavItem("Search")
+                    is FavouriteFragment -> selectNavItem("Favourites")
+                    is RecipeDetailFragment -> selectNavItem("Details")
+                    is AboutFragment -> selectNavItem("About Us")
+                }
+            }
+        }, true)
+
+
+        favouriteViewModel.getFavouriteRecipes(Auth.id())
+        favouriteViewModel.recipes.observe(this) {
+            favouriteViewModel.apply {
+                if (it.size > preCount)
+                    bottomBar.showBadge(R.id.favourites, it.size)
+                preCount = it.size
+            }
+        }
 
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -52,101 +90,18 @@ class RecipeActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
-
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        val fragment_title: TextView = findViewById(R.id.fragment_title)
-        val toggleButton: ImageView = findViewById(R.id.option_menu)
-        toggleButton.setOnClickListener {
-            showPopupMenu(toggleButton)
-        }
-
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        bottomBar = findViewById(R.id.bottom_bar)
-        bottomBar.setItemSelected(R.id.home, true)
-
-
-        favouriteViewModel.getFavouriteRecipes(Auth.id())
-        favouriteViewModel.recipes.observe(this) {
-            if (it != null) {
-                bottomBar.showBadge(R.id.favorites, it.size)
-            }
-        }
-
-//        bottomBar.visibility = INVISIBLE
-//        bottomBar.visibility = VISIBLE
-
-        bottomBar.setOnItemSelectedListener { id ->
-            when (id) {
-                R.id.home -> {
-                    navController.navigate(R.id.homeFragment)
-                    fragment_title.text = "Home"
-                }
-                R.id.search -> {
-                    navController.navigate(R.id.searchFragment)
-                    fragment_title.text = "Search"
-                }
-                R.id.favorites -> {
-                    navController.navigate(R.id.favoriteFragment)
-                    fragment_title.text = "Favorites"
-                    bottomBar.dismissBadge(R.id.favorites)
-                }
-
-            }
-        }
-//        navController.addOnDestinationChangedListener { _, destination, _ ->
-//            bottomBar.setItemSelected(destination.id, true)
-//        }
-//
-////        bottomBar.showBadge(R.id.favorites, 7)
-//
-////        logout = findViewById(R.id.recipeFragment)
-////
-////        logout.setOnClickListener {
-////            val editor = sharedPreferences.edit()
-////            editor.putInt("isLoggedIn", 0)
-////            editor.putBoolean("fromRecipeActivity", true)
-////            }
+        translateAndStoreRecipes()
 
     }
 
+
     private fun showPopupMenu(view: ImageView) {
-//        val wrapper = ContextThemeWrapper(this, R.style.CustomPopupMenu)
-//        val popupMenu = PopupMenu(wrapper, view)
         val popupMenu = PopupMenu(this, view)
         val inflater: MenuInflater = popupMenu.menuInflater
         inflater.inflate(R.menu.options_menu, popupMenu.menu)
-//        try {
-//            val fields = popupMenu.javaClass.declaredFields
-//            for (field in fields) {
-//                if ("mPopup" == field.name) {
-//                    field.isAccessible = true
-//                    val menuPopupHelper = field.get(popupMenu)
-//                    val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
-//                    val setForceIcons = classPopupHelper.getMethod("setForceShowIcon", Boolean::class.java)
-//                    setForceIcons.invoke(menuPopupHelper, true)
-//                    break
-//                }
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.menu_logout -> {
-//                    // Handle logout
-//                    Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show()
-
-//                    // Add your logout logic here, e.g., clearing SharedPreferences
-//                    val editor = getSharedPreferences("Flags", Context.MODE_PRIVATE).edit()
-//                    editor.putInt("isLoggedIn", 0)
-//                    editor.putBoolean("fromRecipeActivity", true)
-//                    editor.apply()
-
-                    // Navigate to AuthActivity
                     Auth.logout()
                     val intent = Intent(this, AuthActivity::class.java)
                     intent.putExtra("splashTime", 0L)
@@ -154,20 +109,77 @@ class RecipeActivity : AppCompatActivity() {
                     finishAffinity()
                     true
                 }
+
                 R.id.menu_about -> {
-                    // Handle about
-//                    Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
-
                     navController.navigate(R.id.aboutFragment)
-
                     true
                 }
+
                 else -> false
             }
         }
         popupMenu.show()
     }
 
+
+    private fun selectNavItem(key: String) {
+        fragmentTitle.text = key
+        val items =
+            mapOf("Home" to R.id.home, "Search" to R.id.search, "Favourites" to R.id.favourites)
+        if (items[key] == null) {
+            items.forEach { bottomBar.setItemSelected(it.value, false) }
+            return
+        }
+
+        bottomBar.setOnItemSelectedListener {}
+        bottomBar.setItemSelected(items[key]!!, true)
+        listenToBottomBar()
+    }
+
+
+    private fun listenToBottomBar() {
+        bottomBar.setOnItemSelectedListener { id ->
+            when (id) {
+                R.id.home -> navController.navigate(R.id.homeFragment)
+                R.id.search -> navController.navigate(R.id.searchFragment)
+                R.id.favourites -> {
+                    navController.navigate(R.id.favouriteFragment)
+                    bottomBar.dismissBadge(R.id.favourites)
+                }
+            }
+        }
+    }
+
+
+    private fun translateAndStoreRecipes() {
+        lifecycleScope.launch(IO) {
+            recipeViewModel.getRecipes()
+            recipeViewModel.recipes.observe(this) { recipes ->
+
+                if (recipes.size == 284) {
+
+                }
+                val r = Converters.fromRecipeToString(recipes[0])
+                Log.i("gemini", "before: ________________${r}")
+                translate(r!!)
+            }
+        }
+    }
+}
+
+
+private fun translate(value: String) {
+    val generativeModel = GenerativeModel(
+        modelName = "gemini-1.5-flash",
+        apiKey = GEMINI_API_KEY
+    )
+    val translate =
+        "I will give you json object and I want you to translate only the values of it into Arabic and return me also a json object with the same keys but translated. If you find a value that is null, leave it null. Let us go: "
+    lifecycleScope.launch {
+        val response = generativeModel.generateContent(translate.plus(value))
+        Log.i("gemini", "after: ________________${response.text}")
+    }
+}
 }
 
 

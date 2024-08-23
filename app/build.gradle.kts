@@ -39,6 +39,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -82,11 +83,19 @@ dependencies {
     //Glide
     implementation("com.github.bumptech.glide:glide:4.15.0")
 
+    // Bcrypt for password encryption
     implementation("org.mindrot:jbcrypt:0.4")
 
+    // Lottie for splash
     implementation("com.airbnb.android:lottie:6.0.0")
 
+    // Reflection
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
 
+    // Bottom navigation
     implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+
+    // Gemini
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+
 }

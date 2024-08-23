@@ -9,10 +9,12 @@ import com.example.recipeslayer.repo.Repo
 
 class FavouriteViewModel : ViewModel() {
 
+    var preCount: Int = 0
     var recipes: LiveData<List<Recipe>> = MutableLiveData()
     private val repo = Repo()
 
     fun getFavouriteRecipes(userId: Long) {
+        preCount = recipes.value?.size ?: 0
         recipes = repo.getFavouriteRecipes(userId)
     }
 
@@ -27,13 +29,5 @@ class FavouriteViewModel : ViewModel() {
     suspend fun deleteFavourite(favourite: Favourite) {
         repo.deleteFavourite(favourite)
     }
-
-//    suspend fun getFavourite(userId: Long, recipe: Recipe): Favourite? {
-//        return repo.getFavourite(userId, recipe)
-//    }
-//
-//    suspend fun getFavouriteId(userId: Long, recipe: Recipe): Long? {
-//        return repo.getFavouriteId(userId, recipe)
-//    }
 
 }
