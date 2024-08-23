@@ -42,7 +42,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_recommend"
-                    tools:listitem="@layout/item_view_recipe" />
+                    tools:listitem="@layout/item_view_recommended" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_filter"

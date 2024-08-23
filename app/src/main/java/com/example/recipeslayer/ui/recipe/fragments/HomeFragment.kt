@@ -24,11 +24,7 @@ import com.example.recipeslayer.ui.recipe.RecommendViewModel
 import com.example.recipeslayer.ui.recipe.UserViewModel
 import com.example.recipeslayer.ui.recipe.adapters.FilterAdapter
 import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
-import com.example.recipeslayer.utils.Auth
-import com.example.recipeslayer.utils.Constants.CATEGORIES
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
 
 class HomeFragment : Fragment() {
 
@@ -85,13 +81,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun handleRecommendedRecipes() {
-
-        lifecycleScope.launch {
-            val user = withContext(IO) { userViewModel.getUser(5)}
-            Log.i("user", "$user")
-            return@launch
-        }
-
         val adapter = RecipeAdapter(emptyList())
         val rv = binding.rvRecommend
         rv.adapter = adapter
