@@ -19,6 +19,12 @@
         <action
             android:id="@+id/action_homeFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_ideasFragment"
+            app:destination="@id/ideasFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_imageLabelingFragment"
+            app:destination="@id/imageLabelingFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
@@ -62,4 +68,19 @@
         android:name="com.example.recipeslayer.ui.recipe.fragments.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/ideasFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.IdeasFragment"
+        android:label="fragment_ideas"
+        tools:layout="@layout/fragment_ideas" />
+    <fragment
+        android:id="@+id/imageLabelingFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.ImageLabelingFragment"
+        android:label="fragment_image_labeling"
+        tools:layout="@layout/fragment_image_labeling" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -98,4 +98,13 @@ dependencies {
     // Gemini
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 
+    //ML Kit (for 'en' 'ar' translation)
+    implementation ("com.google.mlkit:translate:17.0.3")
+
+    //smart reply
+    implementation ("com.google.mlkit:smart-reply:17.0.4")
+
+    //image labeling
+    implementation ("com.google.mlkit:image-labeling:17.0.9")
+
 }

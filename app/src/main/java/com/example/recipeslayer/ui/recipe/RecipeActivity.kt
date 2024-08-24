@@ -10,6 +10,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -23,11 +24,12 @@ import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.ui.recipe.fragments.AboutFragment
 import com.example.recipeslayer.ui.recipe.fragments.FavouriteFragment
 import com.example.recipeslayer.ui.recipe.fragments.HomeFragment
+import com.example.recipeslayer.ui.recipe.fragments.IdeasFragment
 import com.example.recipeslayer.ui.recipe.fragments.RecipeDetailFragment
 import com.example.recipeslayer.ui.recipe.fragments.SearchFragment
+import com.example.recipeslayer.ui.recipe.fragments.SettingsFragment
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.utils.Constants.GEMINI_API_KEY
-import com.example.recipeslayer.utils.Converters
 import com.google.ai.client.generativeai.GenerativeModel
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.Dispatchers.IO
@@ -38,7 +40,6 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var fragmentTitle: TextView
     private lateinit var navController: NavController
     private val favouriteViewModel: FavouriteViewModel by viewModels()
-    private val recipeViewModel: RecipeViewModel by viewModels()
     private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,11 +63,13 @@ class RecipeActivity : AppCompatActivity() {
             FragmentLifecycleCallbacks() {
             override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
                 when (f) {
-                    is HomeFragment -> selectNavItem("Home")
-                    is SearchFragment -> selectNavItem("Search")
-                    is FavouriteFragment -> selectNavItem("Favourites")
-                    is RecipeDetailFragment -> selectNavItem("Details")
-                    is AboutFragment -> selectNavItem("About Us")
+                    is HomeFragment -> selectNavItem(R.string.home)
+                    is SearchFragment -> selectNavItem(R.string.search)
+                    is FavouriteFragment -> selectNavItem(R.string.favorites)
+                    is RecipeDetailFragment -> selectNavItem(R.string.details)
+                    is AboutFragment -> selectNavItem(R.string.about_us)
+                    is SettingsFragment -> selectNavItem(R.string.settings)
+                    is IdeasFragment -> selectNavItem(R.string.ideas)
                 }
             }
         }, true)
@@ -90,10 +93,7 @@ class RecipeActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
 
-        translateAndStoreRecipes()
-
     }
-
 
     private fun showPopupMenu(view: ImageView) {
         val popupMenu = PopupMenu(this, view)
@@ -115,17 +115,18 @@ class RecipeActivity : AppCompatActivity() {
                     true
                 }
 
-                else -> false
+                else -> {
+                    navController.navigate(R.id.settingsFragment)
+                    true
+                }
             }
         }
         popupMenu.show()
     }
 
-
-    private fun selectNavItem(key: String) {
-        fragmentTitle.text = key
-        val items =
-            mapOf("Home" to R.id.home, "Search" to R.id.search, "Favourites" to R.id.favourites)
+    private fun selectNavItem(key: Int) {
+        fragmentTitle.text = getString(key)
+        val items = mapOf(R.string.home to R.id.home, R.string.search to R.id.search, R.string.favorites to R.id.favourites)
         if (items[key] == null) {
             items.forEach { bottomBar.setItemSelected(it.value, false) }
             return
@@ -135,7 +136,6 @@ class RecipeActivity : AppCompatActivity() {
         bottomBar.setItemSelected(items[key]!!, true)
         listenToBottomBar()
     }
-
 
     private fun listenToBottomBar() {
         bottomBar.setOnItemSelectedListener { id ->
@@ -149,39 +149,4 @@ class RecipeActivity : AppCompatActivity() {
             }
         }
     }
-
-
-    private fun translateAndStoreRecipes() {
-        lifecycleScope.launch(IO) {
-            recipeViewModel.getRecipes()
-            recipeViewModel.recipes.observe(this) { recipes ->
-
-                if (recipes.size == 284) {
-
-                }
-                val r = Converters.fromRecipeToString(recipes[0])
-                Log.i("gemini", "before: ________________${r}")
-                translate(r!!)
-            }
-        }
-    }
 }
-
-
-private fun translate(value: String) {
-    val generativeModel = GenerativeModel(
-        modelName = "gemini-1.5-flash",
-        apiKey = GEMINI_API_KEY
-    )
-    val translate =
-        "I will give you json object and I want you to translate only the values of it into Arabic and return me also a json object with the same keys but translated. If you find a value that is null, leave it null. Let us go: "
-    lifecycleScope.launch {
-        val response = generativeModel.generateContent(translate.plus(value))
-        Log.i("gemini", "after: ________________${response.text}")
-    }
-}
-}
-
-
-
-

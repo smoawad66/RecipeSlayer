@@ -44,9 +44,9 @@
         <View
             android:layout_width="0dp"
             android:layout_height="2dp"
-            app:layout_constraintStart_toStartOf="@+id/whoarewe"
-            app:layout_constraintEnd_toEndOf="@+id/whoarewe"
-            app:layout_constraintTop_toBottomOf="@+id/whoarewe"
+            app:layout_constraintStart_toStartOf="@id/whoarewe"
+            app:layout_constraintEnd_toEndOf="@id/whoarewe"
+            app:layout_constraintTop_toBottomOf="@id/whoarewe"
             android:background="#D36A63"
             />
 

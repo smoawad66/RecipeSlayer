@@ -57,8 +57,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
         adapter.setOnItemClickListener { position ->
             val recipe = adapter.getData()[position]
-            val action =
-                SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(recipe.idMeal)
+            val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(recipe.idMeal)
             findNavController().navigate(action)
         }
 

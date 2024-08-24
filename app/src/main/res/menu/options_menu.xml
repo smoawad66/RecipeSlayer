@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_settings"
+        android:title="@string/settings" />
+    <item
         android:id="@+id/menu_about"
-        android:title="About Us"
-        android:icon="@drawable/about"
-        />
+        android:title="@string/about_us" />
     <item
         android:id="@+id/menu_logout"
-        android:title="Logout"
-        android:icon="@drawable/logout"
-        />
+        android:title="@string/logout" />
+
 </menu>

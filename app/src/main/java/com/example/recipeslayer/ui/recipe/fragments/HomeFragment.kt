@@ -1,7 +1,6 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.example.recipeslayer.R
 import com.example.recipeslayer.databinding.FragmentHomeBinding
 import com.example.recipeslayer.ui.recipe.RecipeViewModel
 import com.example.recipeslayer.ui.recipe.RecommendViewModel
@@ -69,6 +69,11 @@ class HomeFragment : Fragment() {
         }
 
 
+        binding.btnIdea.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToIdeasFragment()
+            findNavController().navigate(action)
+        }
+
         recommendRecipes()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { requireActivity().moveTaskToBack(true) }
@@ -80,7 +85,7 @@ class HomeFragment : Fragment() {
         rv.adapter = adapter
         recommendViewModel.recommendRecipes()
         recommendViewModel.recipes.observe(viewLifecycleOwner){
-            adapter.setData(it)
+            adapter.setData(it.shuffled())
             rv.adapter = adapter
             if (it.isNotEmpty()) {
                 binding.tvRecommend.visibility = VISIBLE

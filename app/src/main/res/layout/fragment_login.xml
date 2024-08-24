@@ -126,7 +126,7 @@
             android:id="@+id/createNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="4dp"
+            android:paddingHorizontal="4dp"
             android:text="@string/create_now"
             android:textColor="@color/auth_text_color"
             android:textStyle="bold" />

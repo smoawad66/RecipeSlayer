@@ -42,7 +42,24 @@ class RecipeAdapter(private var data: List<Recipe>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.tv.text = data[position].strMeal
+
+//        if (Locale.getDefault().language == "ar") {
+//            val generativeModel = GenerativeModel(
+//                modelName = "gemini-1.5-flash",
+//                apiKey = "AIzaSyBJDwCxczi8DQa6LY5ig0SZNOO-dUIyoYM"
+//            )
+//
+//            val prompt = "Translate ${data[position].strMeal} into arabic, answer with the word only."
+//            MainScope().launch {
+//                val response = generativeModel.generateContent(prompt)
+//                holder.tv.text = response.text
+//                Log.i("lol", "onCreate: ________________${response.text}")
+//            }
+//
+//        } else {
+            holder.tv.text = data[position].strMeal
+//        }
+
         Glide.with(holder.itemView)
             .load(data[position].strMealThumb)
             .error(R.drawable.baseline_error_24)
