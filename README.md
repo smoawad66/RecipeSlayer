@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/983f362e-2cf4-4e6c-abe1-8346b7e0349b" width="300px" height="300px" alt="Group 47"/>
+</p>
+
 <h1>Recipe Slayer</h1>
 <p>This is a recipes Android app built using Kotlin with data retrieved from <a href="https://www.themealdb.com/api.php">TheMealDB</a> API using Retrofit.</p>
 
