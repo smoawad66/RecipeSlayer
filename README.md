@@ -1,8 +1,7 @@
 # Recipe Slayer
 This is a recipes Android app built using Kotlin with data retrieved from [TheMealDB](https://www.themealdb.com/api.php) API using Retforit.
 <br><br>
-![Screenshot_20240824_113852 1 (1)](https://github.com/user-attachments/assets/946b2bc6-377c-4fbd-ba33-b88eaeed485c)
-
+![Group 47](https://github.com/user-attachments/assets/78d41049-014e-4491-8900-ba388ece313f)
 
 
 ## Features
