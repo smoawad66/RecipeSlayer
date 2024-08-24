@@ -4,7 +4,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/983f362e-2cf4-4e6c-abe1-8346b7e0349b" width="300px" height="300px" alt="Group 47"/>
 </p>
-<p>This is a recipes Android app built using Kotlin with data retrieved from <a href="https://www.themealdb.com/api.php">TheMealDB</a> API using Retrofit.</p>
+<p>This is a recipes Android app built using Kotlin with data retrieved from <a href="https://www.themealdb.com/api.php">TheMealDB</a> API using Retrofit. The app provides users with an extensive collection of recipes from various cuisines around the world. With an intuitive and user-friendly interface, users can easily explore different categories, search for specific recipes, and even save their favourite ones for quick access.</p>
 
 <br><br>
 
