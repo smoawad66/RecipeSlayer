@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -75,6 +76,10 @@ class HomeFragment : Fragment() {
         }
 
         recommendRecipes()
+
+        binding.btnImageLabeling.setOnClickListener {
+            Toast.makeText(requireActivity(), "This feature is coming soon!!", Toast.LENGTH_SHORT).show()
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { requireActivity().moveTaskToBack(true) }
     }

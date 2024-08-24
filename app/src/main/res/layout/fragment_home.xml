@@ -52,23 +52,21 @@
             android:gravity="center"
             android:text="@string/recommended_recipes"
             android:textColor="@color/button_selected_text"
-            android:textSize="21sp"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/rv_filter"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_recommend"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
             android:paddingTop="16dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_recommend"
             tools:listitem="@layout/item_view_recipe" />
 
