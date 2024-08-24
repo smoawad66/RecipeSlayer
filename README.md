@@ -3,8 +3,8 @@
 
 <br><br>
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/78d41049-014e-4491-8900-ba388ece313f" alt="Group 47" />
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/78d41049-014e-4491-8900-ba388ece313f" alt="Group 47"/>
   <img src="https://github.com/user-attachments/assets/c8a0f0fd-5e37-4eee-8b01-cfd944d5948b" alt="Screenshot_20240824_124055 1"/>
 </p>
 
