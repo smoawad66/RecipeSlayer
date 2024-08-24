@@ -24,7 +24,7 @@ This is a recipes Android app built using Kotlin with data retrieved from [TheMe
    ```
      git clone https://github.com/smoawad66/RecipeSlayer.git
    ```
-2. In Android Studio go to com/example/recipeslayer/utils/Constants.kt and put your GEMINI_API_KEY.
+2. In Android Studio go to com/example/recipeslayer/utils/Constants.kt and put your [GEMINI_API_KEY](https://aistudio.google.com/app/apikey).
 3. Sync the dependencies in your gradle.
 4. Run the application.
 5. The application should work correctly.
