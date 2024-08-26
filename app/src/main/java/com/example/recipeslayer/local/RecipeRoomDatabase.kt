@@ -1,15 +1,23 @@
 package com.example.recipeslayer.local
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.models.User
+import java.util.concurrent.Executors
 
-@Database(entities = [User::class, Favourite::class, Recipe::class], version = 1, exportSchema = false)
+@Database(
+    entities = [User::class, Favourite::class, Recipe::class],
+    version = 1,
+    exportSchema = false
+
+)
 abstract class RecipeRoomDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
     abstract fun getFavouriteDao(): FavouriteDao
@@ -26,7 +34,12 @@ abstract class RecipeRoomDatabase : RoomDatabase() {
                         context.applicationContext,
                         RecipeRoomDatabase::class.java,
                         "recipes_db"
-                    ).build()
+                    )
+                        .addCallback(RecipeDatabaseCallback(context))
+                        .setQueryCallback({ sqlQuery, bindArgs ->
+                            Log.d("ROOM", "SQL Query: $sqlQuery SQL Args: $bindArgs")
+                        }, Executors.newSingleThreadExecutor())
+                        .build()
                 }
             }
         }

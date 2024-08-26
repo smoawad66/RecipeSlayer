@@ -51,6 +51,7 @@
     <string name="title">الاسم</string>
     <string name="category">القسم</string>
     <string name="ingredient">المكون</string>
+    <string name="no_recommendation_yet">لا يوجد وصفات مفترحة</string>
 
     <string name="regional">اللغة</string>
     <string name="english">English</string>
@@ -58,7 +59,9 @@
     <string name="light_mode">فاتح</string>
     <string name="theme">النمط</string>
     <string name="dark_mode">غامق</string>
-    <string name="recipe_slayer_version_1_0">مطرشم الوصفات . نسخة 1.0</string>
+    <string name="recipe_slayer_version_1_07">مطرشم الوصفات . الاصدار 1.07</string>
     <string name="settings">الإعدادات</string>
+    <string name="area">المنطقة</string>
+
 
 </resources>

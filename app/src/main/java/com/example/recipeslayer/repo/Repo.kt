@@ -20,16 +20,27 @@ class Repo(
     override suspend fun insertUser(user: User) = localSource.insertUser(user)
 
 
-    override suspend fun getRecipeOffline(recipeId: Long) = localSource.getRecipe(recipeId)
+    override suspend fun getRecipeAr(recipeId: Long) = localSource.getRecipeAr(recipeId)
     override suspend fun insertRecipe(recipe: Recipe) = localSource.insertRecipe(recipe)
     override suspend fun deleteRecipe(recipe: Recipe) = localSource.deleteRecipe(recipe)
-    override fun getRecommendedRecipes() = localSource.getRecommendedRecipes()
 
+    // AR
+    override suspend fun getRecipesAr(category: String) = localSource.getRecipesAr(category)
+
+
+    override fun getRecommendedRecipes() = localSource.getRecommendedRecipes()
+    override suspend fun searchRecipesAr(query: String) = localSource.searchByName(query)
 
     override fun getFavouriteRecipes(userId: Long) = localSource.getFavouriteRecipes(userId)
-    override suspend fun insertFavourite(favourite: Favourite) = localSource.insertFavourite(favourite)
-    override suspend fun deleteFavourite(favourite: Favourite) = localSource.deleteFavourite(favourite)
-    override suspend fun isFavourite(userId: Long, recipeId: Long) = localSource.isFavourite(userId, recipeId)
+
+    override suspend fun insertFavourite(favourite: Favourite) =
+        localSource.insertFavourite(favourite)
+
+    override suspend fun deleteFavourite(favourite: Favourite) =
+        localSource.deleteFavourite(favourite)
+
+    override suspend fun isFavourite(userId: Long, recipeId: Long) =
+        localSource.isFavourite(userId, recipeId)
 
 
     // Remote data source (API calls using Retrofit)

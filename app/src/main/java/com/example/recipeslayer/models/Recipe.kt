@@ -7,7 +7,7 @@ import java.io.Serializable
 @Entity(tableName = "recipes")
 data class Recipe(
     @PrimaryKey
-    val idMeal: Long,
+    var idMeal: Long,
     val strMeal: String,
     val strCategory: String?,
     val strArea: String?,

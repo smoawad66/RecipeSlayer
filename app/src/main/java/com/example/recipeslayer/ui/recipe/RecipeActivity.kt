@@ -2,7 +2,6 @@ package com.example.recipeslayer.ui.recipe
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuInflater
 import android.view.View
 import android.widget.ImageView
@@ -10,15 +9,12 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.example.recipeslayer.R
 import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.ui.recipe.fragments.AboutFragment
@@ -28,12 +24,9 @@ import com.example.recipeslayer.ui.recipe.fragments.IdeasFragment
 import com.example.recipeslayer.ui.recipe.fragments.RecipeDetailFragment
 import com.example.recipeslayer.ui.recipe.fragments.SearchFragment
 import com.example.recipeslayer.ui.recipe.fragments.SettingsFragment
+import com.example.recipeslayer.ui.recipe.viewModels.FavouriteViewModel
 import com.example.recipeslayer.utils.Auth
-import com.example.recipeslayer.utils.Constants.GEMINI_API_KEY
-import com.google.ai.client.generativeai.GenerativeModel
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 
 class RecipeActivity : AppCompatActivity() {
     lateinit var bottomBar: ChipNavigationBar

@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.recipeslayer.local.RecipeRoomDatabase
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.repo.Repo
@@ -31,6 +32,7 @@ class App : Application() {
         super.onCreate()
 
         loadSavedLanguage()
+
     }
 
 

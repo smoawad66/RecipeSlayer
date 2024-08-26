@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.models.User
+import com.example.recipeslayer.utils.Config.isArabic
 
-class LocalSource private constructor(): ILocalSource {
+class LocalSource private constructor() : ILocalSource {
 
     private val userDao = RecipeRoomDatabase.getInstance().getUserDao()
     private val favouriteDao = RecipeRoomDatabase.getInstance().getFavouriteDao()
     private val recipeDao = RecipeRoomDatabase.getInstance().getRecipeDao()
-
 
 
     companion object {
@@ -31,16 +31,34 @@ class LocalSource private constructor(): ILocalSource {
     override suspend fun insertUser(user: User) = userDao.insertUser(user)
 
     // Recipe
-    override suspend fun getRecipe(recipeId: Long) = recipeDao.getRecipe(recipeId)
+    override suspend fun getRecipeAr(recipeId: Long) = recipeDao.getRecipe(recipeId)
     override suspend fun insertRecipe(recipe: Recipe) = recipeDao.insertRecipe(recipe)
     override suspend fun deleteRecipe(recipe: Recipe) = recipeDao.deleteRecipe(recipe)
-    override fun getRecommendedRecipes() = recipeDao.getRecommendedRecipes()
+
+    // AR
+    override suspend fun getRecipesAr(category: String): List<Recipe> {
+        val data = recipeDao.getRecipesAr()
+        return if (category == "الكل") data else data.filter { it.strCategory == category }
+    }
+
+    override suspend fun searchByName(query: String) = recipeDao.searchByName("%$query%")
+
+    override fun getRecommendedRecipes() =
+        if (isArabic()) recipeDao.getRecommendedRecipesAr()
+        else recipeDao.getRecommendedRecipes()
 
     // Favourite
-    override fun getFavouriteRecipes(userId: Long) = favouriteDao.getFavouriteRecipes(userId)
-    override suspend fun insertFavourite(favourite: Favourite) = favouriteDao.insertFavourite(favourite)
-    override suspend fun deleteFavourite(favourite: Favourite) = favouriteDao.deleteFavourite(favourite)
-    override suspend fun isFavourite(userId: Long, recipeId: Long) = favouriteDao.isFavourite(userId, recipeId)
-//    override suspend fun getFavourite(userId: Long, recipe: Recipe) = favouriteDao.getFavourite(userId, recipe)
-//    override suspend fun getFavouriteId(userId: Long, recipe: Recipe) = favouriteDao.getFavouriteId(userId, recipe)
+    override fun getFavouriteRecipes(userId: Long) =
+        if (isArabic()) favouriteDao.getFavouriteRecipesAr(userId)
+        else favouriteDao.getFavouriteRecipes(userId)
+
+
+    override suspend fun insertFavourite(favourite: Favourite) =
+        favouriteDao.insertFavourite(favourite)
+
+    override suspend fun deleteFavourite(favourite: Favourite) =
+        favouriteDao.deleteFavourite(favourite)
+
+    override suspend fun isFavourite(userId: Long, recipeId: Long) =
+        favouriteDao.isFavourite(userId, recipeId)
 }

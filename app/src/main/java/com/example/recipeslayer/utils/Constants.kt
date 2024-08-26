@@ -19,19 +19,19 @@ object Constants {
     )
 
     val CATEGORIES_AR = listOf(
-        "مكرونة",
+        "معكرونة",
         "دجاج",
-        "لحوم",
+        "لحم بقري",
         "نباتي",
         "حلويات",
-        "سمك",
+        "أسماك",
         "إفطار",
-        "حمل",
+        "لحم ضاني",
         "متنوع",
         "جانبي",
         "مقبلات",
-        "نباتي جدا",
-        "معيز"
+        "نباتي 2",
+        "لحم ماعز"
     )
 
     const val arabicPrompt = " أنا أستخدمك لتطبيق الأندرويد الخاص بي. أنا أستخدمك للإجابة على الأسئلة في سياق الطبخ. سيعطيك المستخدم موجهًا. إذا كان خارج سياق الطبخ، فقط أجب بأنك تعرف فقط عن الطبخ. ها هو الموجه: "
@@ -40,6 +40,4 @@ object Constants {
 
     const val BASE_INGREDIENT_URL = "https://www.themealdb.com/images/ingredients"
     const val GEMINI_API_KEY = "AIzaSyBJDwCxczi8DQa6LY5ig0SZNOO-dUIyoYM"
-
-
 }

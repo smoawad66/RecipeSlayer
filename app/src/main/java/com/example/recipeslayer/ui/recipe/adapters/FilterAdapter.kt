@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeslayer.R
-import com.example.recipeslayer.ui.recipe.OnItemClickListener
 import com.example.recipeslayer.utils.Constants.CATEGORIES
 import com.example.recipeslayer.utils.Constants.CATEGORIES_AR
 import com.example.recipeslayer.utils.Config
@@ -18,6 +17,11 @@ class FilterAdapter(private var data: List<String> = listOf("All").plus(CATEGORI
     var previousPosition = 0
 
 
+    init {
+        if (Config.isArabic()) {
+            data = listOf("الكل").plus(CATEGORIES_AR)
+        }
+    }
     fun setData(data: List<String>) {
         this.data = data
     }
@@ -42,19 +46,13 @@ class FilterAdapter(private var data: List<String> = listOf("All").plus(CATEGORI
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layout =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_view_filter, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_view_filter, parent, false)
         return ViewHolder(layout)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        var categories = data
-        if (Config.isArabic()) {
-            categories = listOf("الكل").plus(CATEGORIES_AR)
-        }
-
-        holder.tv.text = categories[position]
+        holder.tv.text = data[position]
 
         if (position == currentPosition) {
             holder.tv.setBackgroundResource(R.color.button_selected_background)

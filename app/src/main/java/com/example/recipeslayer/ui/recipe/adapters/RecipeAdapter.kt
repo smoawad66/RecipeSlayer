@@ -9,7 +9,6 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.recipeslayer.R
 import com.example.recipeslayer.models.Recipe
-import com.example.recipeslayer.ui.recipe.OnItemClickListener
 
 class RecipeAdapter(private var data: List<Recipe>) :
     RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
@@ -53,11 +52,11 @@ class RecipeAdapter(private var data: List<Recipe>) :
 //            MainScope().launch {
 //                val response = generativeModel.generateContent(prompt)
 //                holder.tv.text = response.text
-//                Log.i("lol", "onCreate: ________________${response.text}")
+//                Log.i("lol", "onCreate: ______${response.text}")
 //            }
 //
 //        } else {
-            holder.tv.text = data[position].strMeal
+        holder.tv.text = data[position].strMeal
 //        }
 
         Glide.with(holder.itemView)

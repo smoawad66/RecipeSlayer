@@ -1,5 +1,8 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
+import android.annotation.SuppressLint
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,6 +18,7 @@ import com.example.recipeslayer.databinding.FragmentSettingsBinding
 import com.example.recipeslayer.ui.recipe.RecipeActivity
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.utils.Config
+import com.example.recipeslayer.utils.Config.isArabic
 
 class SettingsFragment : Fragment() {
 
@@ -52,17 +56,12 @@ class SettingsFragment : Fragment() {
                 }
             }
 
-            languageRadioGroup.check(if (Config.isArabic()) R.id.arabic else R.id.english)
+            languageRadioGroup.check(if (isArabic()) R.id.arabic else R.id.english)
 
             languageRadioGroup.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
-                    R.id.english -> {
-                        setLocale("en")
-                    }
-
-                    R.id.arabic -> {
-                        setLocale("ar")
-                    }
+                    R.id.english -> setLocale("en")
+                    R.id.arabic -> setLocale("ar")
                 }
             }
         }

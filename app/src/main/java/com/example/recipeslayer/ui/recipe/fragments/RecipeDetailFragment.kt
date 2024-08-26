@@ -24,13 +24,14 @@ import com.example.recipeslayer.databinding.FragmentRecipeDetailBinding
 import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Ingredient
 import com.example.recipeslayer.models.Recipe
-import com.example.recipeslayer.ui.recipe.FavouriteViewModel
+import com.example.recipeslayer.ui.recipe.viewModels.FavouriteViewModel
 import com.example.recipeslayer.ui.recipe.adapters.IngredientAdapter
-import com.example.recipeslayer.ui.recipe.RecipeViewModel
+import com.example.recipeslayer.ui.recipe.viewModels.RecipeViewModel
 import com.example.recipeslayer.utils.Auth
+import com.example.recipeslayer.utils.Config
+import com.example.recipeslayer.utils.Config.isArabic
 import com.example.recipeslayer.utils.Constants.BASE_INGREDIENT_URL
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
-import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -43,6 +44,7 @@ class RecipeDetailFragment : Fragment() {
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val args: RecipeDetailFragmentArgs by navArgs()
     private var recipe: Recipe? = null
+    private var recipeEn: Recipe? = null
     private var ingredients: MutableList<Ingredient> = mutableListOf()
     private var userId = -1L
     private var recipeId = -1L
@@ -68,12 +70,15 @@ class RecipeDetailFragment : Fragment() {
 
             isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
 
-            if (isInternetAvailable(requireContext())) {
-                recipe = recipeViewModel.getRecipeOnline(recipeId)
-                recipeViewModel.insertRecipe(recipe!!)
-            } else {
+            val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
+            recipeEn = recipeViewModel.getRecipeOnline(recipeEnId)
+            recipeViewModel.insertRecipe(recipeEn!!)
+            recipe = recipeEn
+
+            if (isArabic()) {
                 recipe = recipeViewModel.getRecipeOffline(recipeId)
             }
+
             if (recipe == null) {
                 Log.i("internet", "Check your internet connection and try again.")
                 return@launch
@@ -104,6 +109,7 @@ class RecipeDetailFragment : Fragment() {
         loadVideo(recipe?.strYoutube)
         title.text = recipe?.strMeal
         tvCategory.text = recipe?.strCategory
+        tvArea.text = recipe?.strArea
 
         if (isFavourite)
             binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
@@ -119,11 +125,11 @@ class RecipeDetailFragment : Fragment() {
         moreDetails.setOnClickListener {
             if (instructionsComplete.visibility == VISIBLE) {
                 instructionsComplete.visibility = GONE
-                moreDetailsBtn.text = "Show instructions"
+                moreDetailsBtn.text = getString(R.string.more_details)
                 moreDetailsIconBtn.setImageResource(R.drawable.more_btn_icon)
             } else {
                 instructionsComplete.visibility = VISIBLE
-                moreDetailsBtn.text = "Hide instructions"
+                moreDetailsBtn.text = getString(R.string.less_details)
                 moreDetailsIconBtn.setImageResource(R.drawable.less_btn_icon)
             }
         }
@@ -160,18 +166,19 @@ class RecipeDetailFragment : Fragment() {
 
     private fun getIngredients() {
         for (i in 1..20) {
-            val name = getMember("strIngredient$i")
-            val measure = getMember("strMeasure$i")
-            val image = "$BASE_INGREDIENT_URL/$name.png"
+            val name = getMember("strIngredient$i", recipe!!)
+            val measure = getMember("strMeasure$i", recipe!!)
+            val image = "$BASE_INGREDIENT_URL/${getMember("strIngredient$i", recipeEn!!)}.png"
+
             if (!name.isNullOrBlank()) {
                 ingredients.add(Ingredient(name, measure!!, image))
             }
         }
     }
 
-    private fun getMember(memberName: String): String? {
+    private fun getMember(memberName: String, recipe: Recipe): String? {
         return Recipe::class.memberProperties
             .firstOrNull { it.name == memberName }
-            ?.get(recipe!!) as? String
+            ?.get(recipe) as? String
     }
 }

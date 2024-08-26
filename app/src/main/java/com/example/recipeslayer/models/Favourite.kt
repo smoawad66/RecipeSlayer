@@ -27,6 +27,6 @@ import java.util.Date
 )
 data class Favourite(
     val userId: Long,
-    val recipeId: Long,
+    var recipeId: Long,
     val createdAt: Long = System.currentTimeMillis()
 ) : Serializable
