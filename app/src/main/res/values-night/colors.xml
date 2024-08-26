@@ -6,7 +6,7 @@
     <color name="button_unselected_text">#797979</color> <!-- Unselected text color -->
     <color name="main_bg">#2A1D1D</color>
     <color name="bg_2">#1F1515</color>
-    <color name="ingerdient_bg">#201616</color>
+    <color name="ingredient_bg">#201616</color>
     <color name="details_text_color">#FEC0A0</color>
     <color name="ingredient_name_text_color">#D6D6D6</color>
     <color name="ingredient_measure_text_color">#AAAAAA</color>

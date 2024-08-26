@@ -8,7 +8,7 @@
     <color name="button_unselected_text">#797979</color> <!-- Unselected text color -->
     <color name="main_bg">#E0D3D3</color>
     <color name="bg_2">#EFE3E3</color>
-    <color name="ingerdient_bg">#D1C6C6</color>
+    <color name="ingredient_bg">#D1C6C6</color>
     <color name="details_text_color">#291E19</color>
     <color name="ingredient_name_text_color">#1B1B1B</color>
     <color name="ingredient_measure_text_color">#424242</color>

@@ -11,7 +11,7 @@
         android:id="@+id/card_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/ingerdient_bg"
+        app:cardBackgroundColor="@color/ingredient_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
