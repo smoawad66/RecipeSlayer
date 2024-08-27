@@ -1,6 +1,5 @@
 package com.example.recipeslayer.repo
 
-import androidx.lifecycle.LiveData
 import com.example.recipeslayer.local.ILocalSource
 import com.example.recipeslayer.local.LocalSource
 import com.example.recipeslayer.models.Favourite
@@ -25,13 +24,13 @@ class Repo(
     override suspend fun deleteRecipe(recipe: Recipe) = localSource.deleteRecipe(recipe)
 
     // AR
-    override suspend fun getRecipesAr(category: String) = localSource.getRecipesAr(category)
+    override suspend fun getRecipesAr() = localSource.getRecipesAr()
 
-
-    override fun getRecommendedRecipes() = localSource.getRecommendedRecipes()
-    override suspend fun searchRecipesAr(query: String) = localSource.searchByName(query)
 
     override fun getFavouriteRecipes(userId: Long) = localSource.getFavouriteRecipes(userId)
+    override fun getRecommendedRecipes() = localSource.getRecommendedRecipes()
+
+    override suspend fun searchRecipesAr(query: String) = localSource.searchRecipesAr(query)
 
     override suspend fun insertFavourite(favourite: Favourite) =
         localSource.insertFavourite(favourite)

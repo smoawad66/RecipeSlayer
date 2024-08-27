@@ -36,9 +36,6 @@ abstract class RecipeRoomDatabase : RoomDatabase() {
                         "recipes_db"
                     )
                         .addCallback(RecipeDatabaseCallback(context))
-                        .setQueryCallback({ sqlQuery, bindArgs ->
-                            Log.d("ROOM", "SQL Query: $sqlQuery SQL Args: $bindArgs")
-                        }, Executors.newSingleThreadExecutor())
                         .build()
                 }
             }

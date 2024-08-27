@@ -120,7 +120,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="60dp"
-        android:text="@string/recipe_slayer_version_1_07"
+        android:text="@string/recipe_slayer_version"
         android:textColor="@color/button_unselected_text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

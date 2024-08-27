@@ -1,5 +1,6 @@
 package com.example.recipeslayer.ui.recipe.viewModels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,11 +9,9 @@ import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.repo.Repo
 import com.example.recipeslayer.utils.Cache.RECIPES_CACHE
 import com.example.recipeslayer.utils.Cache.RECIPES_CACHE_AR
-import com.example.recipeslayer.utils.Config
 import com.example.recipeslayer.utils.Config.isArabic
 import com.example.recipeslayer.utils.Constants.CATEGORIES
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -23,55 +22,69 @@ class RecipeViewModel : ViewModel() {
 
     private val repo = Repo()
 
-
     // AR
-    private fun getRecipesAr(category: String) {
-
-        if (!RECIPES_CACHE_AR[category].isNullOrEmpty()) {
-            _recipes.postValue(RECIPES_CACHE_AR[category])
-            return
+    private suspend fun getAllRecipesAr() {
+        if (!RECIPES_CACHE["الكل"].isNullOrEmpty()) {
+            return _recipes.postValue(RECIPES_CACHE["الكل"])
         }
 
-        viewModelScope.launch(IO) {
-            _recipes.postValue(repo.getRecipesAr(category).shuffled())
-            withContext(Main) {
-                RECIPES_CACHE_AR[category] = _recipes.value ?: listOf()
-            }
-        }
+        val allRecipes = repo.getRecipesAr().shuffled()
+        _recipes.postValue(allRecipes)
+
+        RECIPES_CACHE_AR["الكل"] = allRecipes
     }
 
+    private fun filterRecipesAr(category: String) {
+
+        if (!RECIPES_CACHE_AR[category].isNullOrEmpty())
+            return _recipes.postValue(RECIPES_CACHE_AR[category])
+
+        val filteredRecipes = RECIPES_CACHE_AR["الكل"]?.filter { it.strCategory == category } ?: listOf()
+
+        _recipes.value = filteredRecipes
+
+        RECIPES_CACHE_AR[category] = filteredRecipes
+    }
 
     // EN
-    fun getRecipes(category: String) {
+    suspend fun getAllRecipes() {
+        if (isArabic())
+            return getAllRecipesAr()
 
-        if (isArabic()) {
-            getRecipesAr(category)
-            return
+        if (!RECIPES_CACHE["All"].isNullOrEmpty()) {
+            return _recipes.postValue(RECIPES_CACHE["All"])
         }
+
+        val categories = CATEGORIES.shuffled()
+        for (cat in categories) {
+            val fetched = repo.getRecipesOnline(cat) ?: continue
+            val current = _recipes.value ?: listOf()
+            _recipes.postValue(current.plus(fetched))
+        }
+
+        RECIPES_CACHE["All"] = _recipes.value ?: listOf()
+    }
+
+    fun filterRecipes(category: String) {
+
+        if (isArabic())
+            return filterRecipesAr(category)
 
         if (!RECIPES_CACHE[category].isNullOrEmpty()) {
             _recipes.postValue(RECIPES_CACHE[category])
             return
         }
 
-        viewModelScope.launch(IO) {
-            val categories = when (category) {
-                "All" -> CATEGORIES
-                else -> listOf(category)
-            }
-            _recipes.postValue(listOf())
-            val all = mutableListOf<Recipe>()
-            for (cat in categories) {
-                val fetched = repo.getRecipesOnline(cat) ?: listOf()
-                all.addAll(fetched)
-            }
-            _recipes.postValue(all.shuffled())
-
-            withContext(Main) {
-                RECIPES_CACHE[category] = _recipes.value ?: listOf()
-            }
+        viewModelScope.launch {
+            val filteredRecipes = withContext(IO) { repo.getRecipesOnline(category) ?: listOf() }
+            _recipes.postValue(filteredRecipes)
+            RECIPES_CACHE[category] = filteredRecipes
         }
+
+//        Log.i("ts", "${filteredRecipes.size}")
     }
+
+
 
     suspend fun insertRecipe(recipe: Recipe) {
         repo.insertRecipe(recipe)

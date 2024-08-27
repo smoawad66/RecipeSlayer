@@ -14,7 +14,9 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -34,11 +36,11 @@ import com.example.recipeslayer.utils.Constants.BASE_INGREDIENT_URL
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RecipeDetailFragment : Fragment() {
-
     private lateinit var binding: FragmentRecipeDetailBinding
     private val favouriteViewModel: FavouriteViewModel by viewModels()
     private val recipeViewModel: RecipeViewModel by viewModels()
@@ -66,26 +68,40 @@ class RecipeDetailFragment : Fragment() {
         userId = Auth.id()
         recipeId = args.recipeId
 
-        lifecycleScope.launch(IO) {
+        loadingOverlay(VISIBLE)
 
-            isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
+        lifecycleScope.launch {
+            withContext(IO) {
+                isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
 
-            val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
-            recipeEn = recipeViewModel.getRecipeOnline(recipeEnId)
-            recipeViewModel.insertRecipe(recipeEn!!)
-            recipe = recipeEn
+                if (isFavourite) {
+                    recipe = recipeViewModel.getRecipeOffline(recipeId)
+                    val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
+                    recipeEn = recipeViewModel.getRecipeOffline(recipeEnId)
+                    withContext(Main) { bindRecipeData(view); loadingOverlay(GONE) }
+                    return@withContext
+                }
 
-            if (isArabic()) {
-                recipe = recipeViewModel.getRecipeOffline(recipeId)
+                if (!isInternetAvailable()) {
+                    withContext(Main) { noInternetOverlay(VISIBLE) }
+                    return@withContext
+                }
+
+                val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
+                recipeEn = recipeViewModel.getRecipeOnline(recipeEnId)
+                recipeViewModel.insertRecipe(recipeEn!!)
+                recipe = recipeEn
+
+                if (isArabic()) {
+                    recipe = recipeViewModel.getRecipeOffline(recipeId)
+                }
+
             }
 
-            if (recipe == null) {
-                Log.i("internet", "Check your internet connection and try again.")
-                return@launch
+            if (isInternetAvailable()) {
+                bindRecipeData(view)
+                loadingOverlay(GONE)
             }
-
-            getIngredients()
-            withContext(Main) { bindRecipeData(view) }
         }
 
     }
@@ -111,8 +127,7 @@ class RecipeDetailFragment : Fragment() {
         tvCategory.text = recipe?.strCategory
         tvArea.text = recipe?.strArea
 
-        if (isFavourite)
-            binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
+        if (isFavourite) binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
         binding.favBtn.setOnClickListener { handleFavouriteButton() }
 
         Glide.with(view)
@@ -133,7 +148,7 @@ class RecipeDetailFragment : Fragment() {
                 moreDetailsIconBtn.setImageResource(R.drawable.less_btn_icon)
             }
         }
-
+        getIngredients()
         rvIngredients.adapter = IngredientAdapter(ingredients)
     }
 
@@ -166,8 +181,8 @@ class RecipeDetailFragment : Fragment() {
 
     private fun getIngredients() {
         for (i in 1..20) {
-            val name = getMember("strIngredient$i", recipe!!)
-            val measure = getMember("strMeasure$i", recipe!!)
+            val name = getMember("strIngredient$i")
+            val measure = getMember("strMeasure$i")
             val image = "$BASE_INGREDIENT_URL/${getMember("strIngredient$i", recipeEn!!)}.png"
 
             if (!name.isNullOrBlank()) {
@@ -176,9 +191,24 @@ class RecipeDetailFragment : Fragment() {
         }
     }
 
-    private fun getMember(memberName: String, recipe: Recipe): String? {
+    private fun getMember(memberName: String, recipe: Recipe = this.recipe!!): String? {
         return Recipe::class.memberProperties
             .firstOrNull { it.name == memberName }
             ?.get(recipe) as? String
+    }
+
+
+    private fun loadingOverlay(flag: Int) {
+        binding.overlay.apply {
+            loadingView.visibility = flag
+            progressBar.visibility = flag
+        }
+    }
+
+    private fun noInternetOverlay(flag: Int) {
+        binding.overlay.apply {
+            noInternet.visibility = flag
+            progressBar.visibility = GONE
+        }
     }
 }

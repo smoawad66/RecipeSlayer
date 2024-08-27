@@ -1,13 +1,16 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,8 +22,14 @@ import com.example.recipeslayer.ui.recipe.viewModels.RecipeViewModel
 import com.example.recipeslayer.ui.recipe.viewModels.RecommendViewModel
 import com.example.recipeslayer.ui.recipe.adapters.FilterAdapter
 import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
+import com.example.recipeslayer.utils.Cache.RECIPES_CACHE
+import com.example.recipeslayer.utils.Internet
+import com.example.recipeslayer.utils.Internet.isInternetAvailable
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.SocketTimeoutException
 
 
 class HomeFragment : Fragment() {
@@ -50,42 +59,66 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recommendRecipes()
         val filterAdapter = FilterAdapter()
         binding.rvFilter.adapter = filterAdapter
+        val recipeAdapter = RecipeAdapter(emptyList())
+        binding.rvRecipes.adapter = recipeAdapter
+
         filterAdapter.setSelectedPosition(currentPosition)
 
         filterAdapter.setOnItemClickListener { position ->
             val category = filterAdapter.getData()[position]
-
-            recipeViewModel.getRecipes(category)
             currentPosition = position
+
+            lifecycleScope.launch {
+                if (!isInternetAvailable()) {
+                    recipeAdapter.setData(listOf())
+                    binding.rvRecipes.adapter = recipeAdapter
+                    noInternetOverlay(VISIBLE)
+                    return@launch
+                }
+                noInternetOverlay(GONE)
+                recipeViewModel.filterRecipes(category)
+            }
         }
 
-        val recipeAdapter = RecipeAdapter(emptyList())
-        binding.rvRecipes.adapter = recipeAdapter
-        recipeAdapter.setOnItemClickListener {
-            val recipe = recipeAdapter.getData()[it]
-            navigateToDetails(recipe.idMeal)
+        loadingOverlay(VISIBLE)
+        lifecycleScope.launch {
+
+            if (!isInternetAvailable()) {
+                recipeAdapter.setData(listOf())
+                binding.rvRecipes.adapter = recipeAdapter
+                noInternetOverlay(VISIBLE)
+
+                binding.overlay.noInternet.setOnClickListener {
+                    activity?.recreate()
+                }
+                return@launch
+            }
+
+
+            withContext(IO) { recipeViewModel.getAllRecipes() }
+            recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
+                recipeAdapter.setData(recipes)
+                binding.rvRecipes.adapter = recipeAdapter
+            }
+
+            recipeAdapter.setOnItemClickListener {
+                val recipe = recipeAdapter.getData()[it]
+                navigateToDetails(recipe.idMeal)
+            }
+
+            loadingOverlay(GONE)
         }
-
-        recipeViewModel.getRecipes(getString(R.string.all))
-        recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
-            recipeAdapter.setData(recipes)
-            binding.rvRecipes.adapter = recipeAdapter
-        }
-
-
 
         binding.btnIdea.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToIdeasFragment()
             findNavController().navigate(action)
         }
 
-        recommendRecipes()
+        binding.btnImageLabeling.setOnClickListener { toast("This feature is coming soon!!") }
 
-        binding.btnImageLabeling.setOnClickListener {
-            toast("This feature is coming soon!!")
-        }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().moveTaskToBack(
@@ -98,7 +131,9 @@ class HomeFragment : Fragment() {
         val adapter = RecipeAdapter(emptyList())
         val rv = binding.rvRecommend
         rv.adapter = adapter
+
         recommendViewModel.recommendRecipes()
+
         recommendViewModel.recipes.observe(viewLifecycleOwner) {
             adapter.setData(it.shuffled())
             rv.adapter = adapter
@@ -131,15 +166,26 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun navigateToDetails(recipeId: Long) {
         val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(recipeId)
         findNavController().navigate(action)
     }
 
-
-    fun toast(message: String) {
+    private fun toast(message: String) {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
+    private fun loadingOverlay(flag: Int) {
+        binding.overlay.apply {
+            loadingView.visibility = flag
+            progressBar.visibility = flag
+        }
+    }
+
+    private fun noInternetOverlay(flag: Int) {
+        binding.overlay.apply {
+            noInternet.visibility = flag
+            progressBar.visibility = GONE
+        }
+    }
 }

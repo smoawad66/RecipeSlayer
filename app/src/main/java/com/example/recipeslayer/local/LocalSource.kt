@@ -1,6 +1,5 @@
 package com.example.recipeslayer.local
 
-import androidx.lifecycle.LiveData
 import com.example.recipeslayer.models.Favourite
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.models.User
@@ -36,12 +35,9 @@ class LocalSource private constructor() : ILocalSource {
     override suspend fun deleteRecipe(recipe: Recipe) = recipeDao.deleteRecipe(recipe)
 
     // AR
-    override suspend fun getRecipesAr(category: String): List<Recipe> {
-        val data = recipeDao.getRecipesAr()
-        return if (category == "الكل") data else data.filter { it.strCategory == category }
-    }
+    override suspend fun getRecipesAr() = recipeDao.getRecipesAr()
 
-    override suspend fun searchByName(query: String) = recipeDao.searchByName("%$query%")
+    override suspend fun searchRecipesAr(query: String) = recipeDao.searchRecipesAr("%$query%")
 
     override fun getRecommendedRecipes() =
         if (isArabic()) recipeDao.getRecommendedRecipesAr()

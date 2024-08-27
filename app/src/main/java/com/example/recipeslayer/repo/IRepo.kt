@@ -16,7 +16,7 @@ interface IRepo {
     suspend fun deleteRecipe(recipe: Recipe)
 
 
-    suspend fun getRecipesAr(category: String): List<Recipe>
+    suspend fun getRecipesAr(): List<Recipe>
 
     fun getRecommendedRecipes(): LiveData<List<Recipe>>
 

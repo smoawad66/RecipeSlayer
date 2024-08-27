@@ -1,15 +1,11 @@
 package com.example.recipeslayer.local
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.RawQuery
-import androidx.room.Relation
-import androidx.sqlite.db.SupportSQLiteQuery
 import com.example.recipeslayer.models.Recipe
 
 @Dao
@@ -37,7 +33,7 @@ interface RecipeDao {
 
 
     @Query("SELECT * FROM recipes WHERE idMeal > 99999 AND strMeal LIKE :query")
-    suspend fun searchByName(query: String): List<Recipe>
+    suspend fun searchRecipesAr(query: String): List<Recipe>
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

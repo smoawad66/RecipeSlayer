@@ -13,6 +13,7 @@ import com.example.recipeslayer.R
 import com.example.recipeslayer.utils.Config
 import com.example.recipeslayer.utils.Constants
 import com.example.recipeslayer.utils.Constants.GEMINI_API_KEY
+import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.GenerateContentResponse
 import com.google.android.material.textfield.TextInputEditText
@@ -52,9 +53,14 @@ class IdeasFragment : Fragment() {
                 prompt = Constants.arabicPrompt
             }
             lifecycleScope.launch(IO) {
+                if (!isInternetAvailable()) {
+                    withContext(Main){
+                        responseTv.text = "Check your internet connection and try again!"
+                    }
+                    return@launch
+                }
                 response = generativeModel.generateContent(prompt + promptEt.text.toString())
                 withContext(Main){ responseTv.text = response.text }
-                Log.i("lol", "onCreate: ________________${response.text}")
             }
         }
     }

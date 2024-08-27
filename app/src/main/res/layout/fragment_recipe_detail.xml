@@ -8,7 +8,6 @@
     android:layout_marginBottom="0dp"
     android:background="@color/main_bg">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,14 +31,14 @@
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="30dp"
                 android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="30dp"
                 android:text="@string/title"
                 android:textColor="@color/details_text_color"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/fav_btn"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/webview" />
 
             <TextView
@@ -72,9 +71,9 @@
                 android:layout_height="350dp"
                 android:layout_margin="30dp"
                 android:src="@drawable/loading"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_category"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_category" />
 
             <ImageView
                 android:id="@+id/fav_btn"
@@ -171,4 +170,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+
+    <include
+        android:id="@+id/overlay"
+        layout="@layout/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

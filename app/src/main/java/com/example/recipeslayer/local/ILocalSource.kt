@@ -17,9 +17,9 @@ interface ILocalSource {
 
 
     // AR
-    suspend fun getRecipesAr(category: String): List<Recipe>
+    suspend fun getRecipesAr(): List<Recipe>
 
-    suspend fun searchByName(query: String): List<Recipe>
+    suspend fun searchRecipesAr(query: String): List<Recipe>
 
     // Recommended
     fun getRecommendedRecipes(): LiveData<List<Recipe>>
