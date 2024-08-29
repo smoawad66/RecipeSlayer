@@ -20,4 +20,5 @@
     <color name="auth_et_text_color_hint">#B89494</color>
     <color name="auth_et_main_color">#B89494</color>
     <color name="auth_et_text_color">#EBD7D7</color>
+    <color name="status_bar_color">#2A1D1D</color>
 </resources>

@@ -1,133 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bg"
-    tools:context=".ui.recipe.fragments.SettingsFragment">
+    android:background="@color/main_bg">
 
-    <TextView
-        android:id="@+id/theme"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="60dp"
-        android:text="@string/theme"
-        android:textColor="#D36A63"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/main_bg"
+        tools:context=".ui.recipe.fragments.SettingsFragment">
 
-    <ImageView
-        android:id="@+id/light_dark_image"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="60dp"
-        android:src="@drawable/dark_mode"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/theme" />
-
-    <TextView
-        android:id="@+id/light_dark_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:text="@string/dark_mode"
-        android:textColor="@color/details_text_color"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/light_dark_image"
-        app:layout_constraintStart_toEndOf="@+id/light_dark_image"
-        app:layout_constraintTop_toTopOf="@+id/light_dark_image" />
-
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/light_dark_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="30dp"
-        app:thumbTint="@color/button_selected_text"
-        app:layout_constraintBottom_toBottomOf="@+id/light_dark_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/light_dark_image" />
-
-    <View
-        android:id="@+id/view0"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/button_selected_text"
-        app:layout_constraintTop_toBottomOf="@id/light_dark_switch" />
-
-    <TextView
-        android:id="@+id/regional"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="60dp"
-        android:text="@string/regional"
-        android:textColor="@color/button_selected_text"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view0" />
-
-    <RadioGroup
-        android:id="@+id/language_radio_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:checkedButton="@+id/english"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regional">
-
-        <RadioButton
-            android:id="@+id/english"
+        <TextView
+            android:id="@+id/theme"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="10dp"
-            android:text="@string/english"
-            android:textColor="@color/details_text_color" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="60dp"
+            android:text="@string/general"
+            android:textColor="#D36A63"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/arabic"
+        <ImageView
+            android:id="@+id/light_dark_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="60dp"
+            android:src="@drawable/dark_mode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/theme" />
+
+        <TextView
+            android:id="@+id/light_dark_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="@string/dark_mode"
+            android:textColor="@color/details_text_color"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/light_dark_image"
+            app:layout_constraintStart_toEndOf="@+id/light_dark_image"
+            app:layout_constraintTop_toTopOf="@+id/light_dark_image" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/light_dark_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/light_dark_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/light_dark_image"
+            app:thumbTint="@color/button_selected_text" />
+
+        <ImageView
+            android:id="@+id/iv_screen"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="60dp"
+            android:src="@drawable/full_screen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/light_dark_image" />
+
+        <TextView
+            android:id="@+id/tv_fullScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="@string/full_screen"
+            android:textColor="@color/details_text_color"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_screen"
+            app:layout_constraintStart_toEndOf="@+id/iv_screen"
+            app:layout_constraintTop_toTopOf="@+id/iv_screen" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/fullscreen_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_screen"
+            app:thumbTint="@color/button_selected_text" />
+
+        <View
+            android:id="@+id/view0"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="10dp"
-            android:text="@string/arabic"
-            android:textColor="@color/details_text_color" />
-    </RadioGroup>
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/button_selected_text"
+            app:layout_constraintTop_toBottomOf="@id/fullscreen_switch" />
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/button_selected_text"
-        app:layout_constraintTop_toBottomOf="@id/language_radio_group" />
+        <TextView
+            android:id="@+id/regional"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="60dp"
+            android:text="@string/regional"
+            android:textColor="@color/button_selected_text"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view0" />
 
+        <RadioGroup
+            android:id="@+id/language_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:checkedButton="@+id/english"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regional">
 
-    <TextView
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="60dp"
-        android:text="@string/recipe_slayer_version"
-        android:textColor="@color/button_unselected_text"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view1" />
+            <RadioButton
+                android:id="@+id/english"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="10dp"
+                android:paddingHorizontal="10dp"
+                android:text="@string/english"
+                android:textColor="@color/details_text_color" />
 
+            <RadioButton
+                android:id="@+id/arabic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:text="@string/arabic"
+                android:textColor="@color/details_text_color" />
+        </RadioGroup>
 
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/button_selected_text"
+            app:layout_constraintTop_toBottomOf="@id/language_radio_group" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="7dp"
+            android:paddingBottom="60dp"
+            android:text="@string/recipe_slayer_version"
+            android:textAlignment="center"
+            android:textColor="@color/button_unselected_text"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
@@ -38,6 +39,9 @@ class RecipeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
+
 
         fragmentTitle = findViewById(R.id.fragment_title)
         bottomBar = findViewById(R.id.bottom_bar)
@@ -77,14 +81,15 @@ class RecipeActivity : AppCompatActivity() {
             }
         }
 
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-
+        if (Auth.sharedPreferences.getBoolean("fullScreen", false)) {
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
 
     }
 
@@ -119,7 +124,11 @@ class RecipeActivity : AppCompatActivity() {
 
     private fun selectNavItem(key: Int) {
         fragmentTitle.text = getString(key)
-        val items = mapOf(R.string.home to R.id.home, R.string.search to R.id.search, R.string.favorites to R.id.favourites)
+        val items = mapOf(
+            R.string.home to R.id.home,
+            R.string.search to R.id.search,
+            R.string.favorites to R.id.favourites
+        )
         if (items[key] == null) {
             items.forEach { bottomBar.setItemSelected(it.value, false) }
             return

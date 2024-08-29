@@ -63,4 +63,6 @@
     <string name="try_again"><u>try again</u></string>
     <string name="network_error">Network Error</string>
     <string name="check_your_internet_connection">Check your internet connection and try again!</string>
+    <string name="full_screen">Full Screen</string>
+    <string name="general">General</string>
 </resources>

@@ -23,7 +23,7 @@ import com.example.recipeslayer.utils.Config.isArabic
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
-
+    private var isFullscreen = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +37,20 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        isFullscreen = Auth.sharedPreferences.getBoolean("fullScreen", false)
+
         binding.apply {
 
-            if (Auth.sharedPreferences.getString("theme", "dark") == "dark") {
+            if (Auth.sharedPreferences.getString("theme", "dark") == "dark")
                 lightDarkSwitch.toggle()
+
+            if (isFullscreen)
+                fullscreenSwitch.toggle()
+
+            fullscreenSwitch.setOnClickListener {
+                isFullscreen = !isFullscreen
+                Auth.sharedPreferences.edit().putBoolean("fullScreen", isFullscreen).apply()
+                restart()
             }
 
             lightDarkSwitch.setOnClickListener {
@@ -49,6 +59,7 @@ class SettingsFragment : Fragment() {
                         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
                         Auth.sharedPreferences.edit().putString("theme", "dark").apply()
                     }
+
                     else -> {
                         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
                         Auth.sharedPreferences.edit().putString("theme", "light").apply()
@@ -71,11 +82,7 @@ class SettingsFragment : Fragment() {
     private fun setLocale(languageCode: String) {
         val localeList = LocaleListCompat.forLanguageTags(languageCode)
         AppCompatDelegate.setApplicationLocales(localeList)
-        val sharedPref = Auth.sharedPreferences
-        with(sharedPref.edit()) {
-            putString("selected_language", languageCode)
-            apply()
-        }
+        Auth.sharedPreferences.edit().putString("selected_language", languageCode).apply()
         restart()
     }
 

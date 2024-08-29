@@ -65,7 +65,8 @@
     <string name="try_again"><u>حاول مجددًا</u></string>
     <string name="network_error">خطأ في الاتصال</string>
     <string name="check_your_internet_connection">تحقق من اتصالك بالإنترنت ثم حاول مرة أخري!</string>
-
+    <string name="full_screen">شاشة كاملة</string>
+    <string name="general">عام</string>
 
 
 </resources>
