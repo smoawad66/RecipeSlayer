@@ -1,6 +1,7 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.GenerateContentResponse
 import com.google.android.material.textfield.TextInputEditText
+import io.noties.markwon.Markwon
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -28,14 +30,20 @@ class IdeasFragment : Fragment() {
     private lateinit var response: GenerateContentResponse
     private lateinit var responseTv: TextView
     private lateinit var generateBtn: AppCompatButton
+    private lateinit var markwon: Markwon
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_ideas, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        markwon = Markwon.create(requireContext())
 
         promptEt = view.findViewById(R.id.edt_prompt)
         responseTv = view.findViewById(R.id.prompt_result)
@@ -48,19 +56,18 @@ class IdeasFragment : Fragment() {
                 modelName = "gemini-1.5-flash",
                 apiKey = GEMINI_API_KEY
             )
-            var prompt = Constants.englishPrompt
-            if(Config.isArabic()) {
-                prompt = Constants.arabicPrompt
-            }
+            val prompt = if (Config.isArabic()) Constants.arabicPrompt else Constants.englishPrompt
             lifecycleScope.launch(IO) {
                 if (!isInternetAvailable()) {
-                    withContext(Main){
-                        responseTv.text = "Check your internet connection and try again!"
+                    withContext(Main) {
+                        responseTv.text = getString(R.string.check_your_internet_connection)
                     }
                     return@launch
                 }
                 response = generativeModel.generateContent(prompt + promptEt.text.toString())
-                withContext(Main){ responseTv.text = response.text }
+                withContext(Main) {
+                    markwon.setMarkdown(responseTv, response.text ?: "")
+                }
             }
         }
     }

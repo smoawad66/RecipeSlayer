@@ -8,10 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipeslayer.models.Recipe
 import com.example.recipeslayer.repo.Repo
 import com.example.recipeslayer.utils.Cache.RECIPES_CACHE
-import com.example.recipeslayer.utils.Cache.RECIPES_CACHE_AR
+import com.example.recipeslayer.utils.Cache.isFound
 import com.example.recipeslayer.utils.Config.isArabic
 import com.example.recipeslayer.utils.Constants.CATEGORIES
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -24,26 +25,35 @@ class RecipeViewModel : ViewModel() {
 
     // AR
     private suspend fun getAllRecipesAr() {
-        if (!RECIPES_CACHE["الكل"].isNullOrEmpty()) {
+        if (isFound("الكل")) {
             return _recipes.postValue(RECIPES_CACHE["الكل"])
         }
 
         val allRecipes = repo.getRecipesAr().shuffled()
         _recipes.postValue(allRecipes)
 
-        RECIPES_CACHE_AR["الكل"] = allRecipes
+        RECIPES_CACHE["الكل"] = allRecipes
     }
 
     private fun filterRecipesAr(category: String) {
 
-        if (!RECIPES_CACHE_AR[category].isNullOrEmpty())
-            return _recipes.postValue(RECIPES_CACHE_AR[category])
+        if (isFound(category))
+            return _recipes.postValue(RECIPES_CACHE[category])
 
-        val filteredRecipes = RECIPES_CACHE_AR["الكل"]?.filter { it.strCategory == category } ?: listOf()
 
-        _recipes.value = filteredRecipes
+        viewModelScope.launch(IO) {
+            if (!isFound("الكل"))
+                getAllRecipesAr()
+            if (category == "الكل")
+                return@launch _recipes.postValue(RECIPES_CACHE["الكل"])
 
-        RECIPES_CACHE_AR[category] = filteredRecipes
+            val filteredRecipes = RECIPES_CACHE["الكل"]?.filter { it.strCategory == category } ?: listOf()
+
+            withContext(Main) {
+                _recipes.value = filteredRecipes
+                RECIPES_CACHE[category] = filteredRecipes
+            }
+        }
     }
 
     // EN
@@ -70,20 +80,24 @@ class RecipeViewModel : ViewModel() {
         if (isArabic())
             return filterRecipesAr(category)
 
-        if (!RECIPES_CACHE[category].isNullOrEmpty()) {
+        if (isFound(category)) {
             _recipes.postValue(RECIPES_CACHE[category])
             return
         }
 
-        viewModelScope.launch {
-            val filteredRecipes = withContext(IO) { repo.getRecipesOnline(category) ?: listOf() }
-            _recipes.postValue(filteredRecipes)
-            RECIPES_CACHE[category] = filteredRecipes
+        viewModelScope.launch(IO) {
+            if (category == "All")
+                return@launch getAllRecipes()
+
+            val filteredRecipes = repo.getRecipesOnline(category) ?: listOf()
+
+            withContext(Main) {
+                _recipes.postValue(filteredRecipes)
+                RECIPES_CACHE[category] = filteredRecipes
+            }
         }
 
-//        Log.i("ts", "${filteredRecipes.size}")
     }
-
 
 
     suspend fun insertRecipe(recipe: Recipe) {

@@ -97,7 +97,8 @@ dependencies {
     // Gemini
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 
-    //smart reply
-    implementation ("com.google.mlkit:smart-reply:17.0.4")
+
+    // Markdown
+    implementation("io.noties.markwon:core:4.6.2")
 
 }

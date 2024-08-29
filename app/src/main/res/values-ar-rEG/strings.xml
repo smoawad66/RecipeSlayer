@@ -59,9 +59,13 @@
     <string name="light_mode">فاتح</string>
     <string name="theme">النمط</string>
     <string name="dark_mode">غامق</string>
-    <string name="recipe_slayer_version">مطرشم الوصفات . الاصدار 1.1</string>
+    <string name="recipe_slayer_version">مطرشم الوصفات . الاصدار 1.12</string>
     <string name="settings">الإعدادات</string>
     <string name="area">المنطقة</string>
+    <string name="try_again"><u>حاول مجددًا</u></string>
+    <string name="network_error">خطأ في الاتصال</string>
+    <string name="check_your_internet_connection">تحقق من اتصالك بالإنترنت ثم حاول مرة أخري!</string>
+
 
 
 </resources>

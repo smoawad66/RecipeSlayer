@@ -31,11 +31,12 @@ class FavouriteFragment : Fragment() {
         val adapter = RecipeAdapter(emptyList())
         binding.rvFavourite.adapter = adapter
 
+        loading(VISIBLE)
         favouriteViewModel.getFavouriteRecipes(Auth.id())
         favouriteViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             adapter.setData(recipes ?: listOf())
             binding.rvFavourite.adapter = adapter
-
+            loading(GONE)
             binding.favFill.visibility = if (recipes.isEmpty()) VISIBLE else GONE
         }
 
@@ -46,5 +47,7 @@ class FavouriteFragment : Fragment() {
         }
     }
 
-
+    private fun loading(flag: Int) {
+        binding.loadingOverlay.all.visibility = flag
+    }
 }

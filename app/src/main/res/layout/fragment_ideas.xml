@@ -13,7 +13,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    tools:ignore="ScrollViewSize">
 
 
                         <TextView
@@ -83,6 +84,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             android:textSize="15sp"
+                            android:paddingBottom="40dp"
                             android:textColor="@color/details_text_color"
                             android:text="@string/generating_a_response_for_your_prompt"
                             android:justificationMode="inter_word"

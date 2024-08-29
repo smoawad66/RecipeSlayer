@@ -17,6 +17,7 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginTop
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -65,11 +66,13 @@ class RecipeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.internetErrorOverlay.tryAgain.setOnClickListener { activity?.recreate() }
+
         userId = Auth.id()
         recipeId = args.recipeId
 
-        loadingOverlay(VISIBLE)
-
+        loading(VISIBLE)
+        internetError(GONE)
         lifecycleScope.launch {
             withContext(IO) {
                 isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
@@ -78,12 +81,14 @@ class RecipeDetailFragment : Fragment() {
                     recipe = recipeViewModel.getRecipeOffline(recipeId)
                     val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
                     recipeEn = recipeViewModel.getRecipeOffline(recipeEnId)
-                    withContext(Main) { bindRecipeData(view); loadingOverlay(GONE) }
+                    withContext(Main) { bindRecipeData(view); loading(GONE) }
                     return@withContext
                 }
 
                 if (!isInternetAvailable()) {
-                    withContext(Main) { noInternetOverlay(VISIBLE) }
+                    withContext(Main) {
+                        internetError(VISIBLE)
+                    }
                     return@withContext
                 }
 
@@ -96,11 +101,8 @@ class RecipeDetailFragment : Fragment() {
                     recipe = recipeViewModel.getRecipeOffline(recipeId)
                 }
 
-            }
-
-            if (isInternetAvailable()) {
-                bindRecipeData(view)
-                loadingOverlay(GONE)
+                if (isInternetAvailable())
+                    withContext(Main) { bindRecipeData(view); loading(GONE) }
             }
         }
 
@@ -119,7 +121,6 @@ class RecipeDetailFragment : Fragment() {
         isFavourite = !isFavourite
     }
 
-    @SuppressLint("SetTextI18n")
     private fun bindRecipeData(view: View) = binding.apply {
 
         loadVideo(recipe?.strYoutube)
@@ -197,18 +198,11 @@ class RecipeDetailFragment : Fragment() {
             ?.get(recipe) as? String
     }
 
-
-    private fun loadingOverlay(flag: Int) {
-        binding.overlay.apply {
-            loadingView.visibility = flag
-            progressBar.visibility = flag
-        }
+    private fun loading(flag: Int) {
+        binding.loadingOverlay.all.visibility = flag
     }
 
-    private fun noInternetOverlay(flag: Int) {
-        binding.overlay.apply {
-            noInternet.visibility = flag
-            progressBar.visibility = GONE
-        }
+    private fun internetError(flag: Int) {
+        binding.internetErrorOverlay.all.visibility = flag
     }
 }

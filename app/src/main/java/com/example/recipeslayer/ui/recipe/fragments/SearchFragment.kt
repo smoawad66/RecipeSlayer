@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val recipeViewModel: RecipeViewModel by viewModels()
+    private lateinit var recipeAdapter: RecipeAdapter
     private lateinit var binding: FragmentSearchBinding
     private lateinit var recyclerView: RecyclerView
 
@@ -35,70 +36,62 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = binding.searchRv
 
+        internetError(GONE)
+        loading(GONE)
+
+        binding.internetErrorOverlay.tryAgain.setOnClickListener {
+            val query = binding.searchView.query.toString()
+            onQueryTextSubmit(query)
+        }
+
+        recyclerView = binding.rvSearch
         binding.searchView.setOnQueryTextListener(this)
-
-        val adapter = RecipeAdapter(emptyList())
-        recyclerView.adapter = adapter
+        recipeAdapter = RecipeAdapter(emptyList())
+        recyclerView.adapter = recipeAdapter
 
         recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
-            adapter.setData(recipes.filter { it.strCategory != "Pork" })
-            recyclerView.adapter = adapter
-
+            recipeAdapter.setData(recipes.filter { it.strCategory != "Pork" })
+            recyclerView.adapter = recipeAdapter
             binding.searchFill.visibility = if (recipes.isEmpty()) VISIBLE else GONE
         }
 
 
-        adapter.setOnItemClickListener { position ->
-            val recipe = adapter.getData()[position]
+        recipeAdapter.setOnItemClickListener { position ->
+            val recipe = recipeAdapter.getData()[position]
             val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(recipe.idMeal)
             findNavController().navigate(action)
         }
 
     }
 
-    override fun onQueryTextSubmit(query: String): Boolean {
-
-        lifecycleScope.launch {
-            if (!isInternetAvailable()){
-                noInternetOverlay(VISIBLE)
-                return@launch
-            }
-            noInternetOverlay(GONE)
-            loadingOverlay(VISIBLE)
-            recipeViewModel.searchByName(query)
-            loadingOverlay(GONE)
-        }
-        return true
-    }
-
     override fun onQueryTextChange(newText: String): Boolean {
+        internetError(GONE)
+        loading(VISIBLE)
         lifecycleScope.launch {
-            if (!isInternetAvailable()){
-                noInternetOverlay(VISIBLE)
+            if (!isInternetAvailable()) {
+                recipeAdapter.setData(listOf())
+                binding.rvSearch.adapter = recipeAdapter
+                internetError(VISIBLE)
+                loading(GONE)
                 return@launch
             }
-            noInternetOverlay(GONE)
-            loadingOverlay(VISIBLE)
             recipeViewModel.searchByName(newText)
-            loadingOverlay(GONE)
+            loading(GONE)
         }
         return true
     }
 
-    private fun loadingOverlay(flag: Int) {
-        binding.overlay.apply {
-            loadingView.visibility = flag
-            progressBar.visibility = flag
-        }
+    override fun onQueryTextSubmit(query: String) = onQueryTextChange(query)
+
+    private fun loading(flag: Int) {
+        binding.searchFill.visibility = GONE
+        binding.loadingOverlay.all.visibility = flag
     }
 
-    private fun noInternetOverlay(flag: Int) {
-        binding.overlay.apply {
-            noInternet.visibility = flag
-            progressBar.visibility = GONE
-        }
+    private fun internetError(flag: Int) {
         binding.searchFill.visibility = GONE
+        binding.internetErrorOverlay.all.visibility = flag
     }
+
 }

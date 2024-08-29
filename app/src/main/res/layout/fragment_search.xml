@@ -11,7 +11,7 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="30dp"
         android:queryHint="Search recipes..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/search_view" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_rv"
+        android:id="@+id/rv_search"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -43,8 +43,16 @@
         tools:listitem="@layout/item_view_recipe" />
 
     <include
-        android:id="@+id/overlay"
-        layout="@layout/overlay"
+        android:id="@+id/loading_overlay"
+        layout="@layout/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view" />
+
+    <include
+        android:id="@+id/internet_error_overlay"
+        layout="@layout/internet_error_overlay"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

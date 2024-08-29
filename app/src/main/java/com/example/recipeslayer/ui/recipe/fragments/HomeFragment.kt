@@ -1,7 +1,6 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,21 +20,20 @@ import com.example.recipeslayer.ui.recipe.viewModels.RecipeViewModel
 import com.example.recipeslayer.ui.recipe.viewModels.RecommendViewModel
 import com.example.recipeslayer.ui.recipe.adapters.FilterAdapter
 import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
-import com.example.recipeslayer.utils.Cache.RECIPES_CACHE
-import com.example.recipeslayer.utils.Internet
+import com.example.recipeslayer.utils.Cache
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.net.SocketTimeoutException
-
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val recommendViewModel: RecommendViewModel by viewModels()
+    private lateinit var filterAdapter: FilterAdapter
+    private lateinit var recipeAdapter: RecipeAdapter
     private var currentPosition = 0
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -44,11 +41,7 @@ class HomeFragment : Fragment() {
         outState.putInt("POSITION", currentPosition)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (savedInstanceState != null) {
             currentPosition = savedInstanceState.getInt("POSITION", 0)
         }
@@ -60,70 +53,79 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recommendRecipes()
-        val filterAdapter = FilterAdapter()
+        binding.internetErrorOverlay.tryAgain.setOnClickListener { filterRecipes(currentPosition) }
+
+        filterAdapter = FilterAdapter()
         binding.rvFilter.adapter = filterAdapter
-        val recipeAdapter = RecipeAdapter(emptyList())
-        binding.rvRecipes.adapter = recipeAdapter
-
         filterAdapter.setSelectedPosition(currentPosition)
+        filterAdapter.setOnItemClickListener { filterRecipes(it) }
 
-        filterAdapter.setOnItemClickListener { position ->
-            val category = filterAdapter.getData()[position]
-            currentPosition = position
-
-            lifecycleScope.launch {
-                if (!isInternetAvailable()) {
-                    recipeAdapter.setData(listOf())
-                    binding.rvRecipes.adapter = recipeAdapter
-                    noInternetOverlay(VISIBLE)
-                    return@launch
-                }
-                noInternetOverlay(GONE)
-                recipeViewModel.filterRecipes(category)
-            }
+        recipeAdapter = RecipeAdapter()
+        binding.rvRecipes.adapter = recipeAdapter
+        recipeAdapter.setOnItemClickListener {
+            val recipe = recipeAdapter.getData()[it]
+            navigateToDetails(recipe.idMeal)
         }
 
-        loadingOverlay(VISIBLE)
-        lifecycleScope.launch {
 
-            if (!isInternetAvailable()) {
+        loading(VISIBLE)
+        internetError(GONE)
+        lifecycleScope.launch {
+            if (!isInternetAvailable() && !Cache.isFound(getString(R.string.all))) {
                 recipeAdapter.setData(listOf())
                 binding.rvRecipes.adapter = recipeAdapter
-                noInternetOverlay(VISIBLE)
-
-                binding.overlay.noInternet.setOnClickListener {
-                    activity?.recreate()
-                }
+                internetError(VISIBLE)
+                loading(GONE)
                 return@launch
             }
-
-
             withContext(IO) { recipeViewModel.getAllRecipes() }
-            recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
-                recipeAdapter.setData(recipes)
-                binding.rvRecipes.adapter = recipeAdapter
-            }
 
-            recipeAdapter.setOnItemClickListener {
-                val recipe = recipeAdapter.getData()[it]
-                navigateToDetails(recipe.idMeal)
-            }
-
-            loadingOverlay(GONE)
+            loading(GONE)
         }
+
+        recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
+            recipeAdapter.setData(recipes)
+            binding.rvRecipes.adapter = recipeAdapter
+        }
+
 
         binding.btnIdea.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToIdeasFragment()
             findNavController().navigate(action)
         }
 
-        binding.btnImageLabeling.setOnClickListener { toast("This feature is coming soon!!") }
-
+        binding.btnImageLabeling.setOnClickListener {
+            Toast.makeText(
+                requireActivity(),
+                "This feature is coming soon!!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().moveTaskToBack(
                 true
             )
+        }
+    }
+
+
+    private fun filterRecipes(position: Int) {
+        val category = filterAdapter.getData()[position]
+
+        currentPosition = position
+        recipeAdapter.setData(listOf())
+        binding.rvRecipes.adapter = recipeAdapter
+
+        loading(VISIBLE)
+        internetError(GONE)
+        lifecycleScope.launch {
+            if (!isInternetAvailable() && !Cache.isFound(category)) {
+                internetError(VISIBLE)
+                return@launch
+            }
+            loading(GONE)
+            recipeViewModel.filterRecipes(category)
         }
     }
 
@@ -171,21 +173,15 @@ class HomeFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun toast(message: String) {
-        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun loadingOverlay(flag: Int) {
-        binding.overlay.apply {
-            loadingView.visibility = flag
-            progressBar.visibility = flag
+    private fun loading(flag: Int) {
+        binding.loadingOverlay.all.visibility = flag
+        binding.loadingOverlay.progressBar.apply {
+            val params = layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams = params.apply { topMargin = (100 * context.resources.displayMetrics.density).toInt() }
         }
     }
 
-    private fun noInternetOverlay(flag: Int) {
-        binding.overlay.apply {
-            noInternet.visibility = flag
-            progressBar.visibility = GONE
-        }
+    private fun internetError(flag: Int) {
+        binding.internetErrorOverlay.all.visibility = flag
     }
 }

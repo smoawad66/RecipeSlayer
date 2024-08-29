@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.recipeslayer.R
 import com.example.recipeslayer.models.Recipe
 
-class RecipeAdapter(private var data: List<Recipe>) :
+class RecipeAdapter(private var data: List<Recipe> = listOf()) :
     RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     fun setData(data: List<Recipe>) {
