@@ -42,19 +42,8 @@
         android:name="com.example.recipeslayer.ui.auth.fragments.VerifyFragment"
         android:label="fragment_verify"
         tools:layout="@layout/fragment_verify">
-
         <argument
-            android:name="verificationCode"
-            app:argType="string" />
-        <argument
-            android:name="username"
-            app:argType="string" />
-        <argument
-            android:name="email"
-            app:argType="string" />
-        <argument
-            android:name="password"
-            app:argType="string" />
-
+            android:name="newUser"
+            app:argType="com.example.recipeslayer.models.User" />
     </fragment>
 </navigation>

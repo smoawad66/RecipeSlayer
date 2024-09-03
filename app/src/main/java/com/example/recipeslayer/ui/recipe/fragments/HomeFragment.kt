@@ -124,8 +124,8 @@ class HomeFragment : Fragment() {
                 internetError(VISIBLE)
                 return@launch
             }
-            loading(GONE)
             recipeViewModel.filterRecipes(category)
+            loading(GONE)
         }
     }
 

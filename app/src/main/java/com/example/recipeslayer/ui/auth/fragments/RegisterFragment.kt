@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.example.recipeslayer.R
 import com.example.recipeslayer.databinding.FragmentRegisterBinding
 import com.example.recipeslayer.local.LocalSource
@@ -18,6 +19,7 @@ import com.example.recipeslayer.utils.Validator
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.utils.Hash
 import com.example.recipeslayer.ui.recipe.RecipeActivity
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,7 +28,11 @@ class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,7 +62,7 @@ class RegisterFragment : Fragment() {
         if (!validateUserData(newUser))
             return
 
-        val repo = Repo(localSource = LocalSource.getInstance())
+        val repo = Repo()
 
         lifecycleScope.launch {
             val user = withContext(IO) { repo.getUser(newUser.email) as User? }
@@ -67,16 +73,7 @@ class RegisterFragment : Fragment() {
             val hash = Hash.hashPassword(newUser.password)
             newUser.password = hash
 
-            // Create user account
-            val userId = withContext(IO) { repo.insertUser(newUser) }
-
-
-            // Redirect user to home
-            Auth.login(userId).also {
-                navigateToHome()
-                toast("Account created successfully.")
-                activity?.finish()
-            }
+            navigateToVerify(newUser)
         }
     }
 
@@ -94,7 +91,7 @@ class RegisterFragment : Fragment() {
             }
 
             if (!Validator.validatePassword(password)) {
-                toast("Password enter stronger password.")
+                toast("Please enter a stronger password.")
                 return false
             }
         }
@@ -105,13 +102,12 @@ class RegisterFragment : Fragment() {
         findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
     }
 
+    private fun navigateToVerify(newUser: User) {
+        val action = RegisterFragmentDirections.actionRegisterFragmentToVerifyFragment(newUser)
+        findNavController().navigate(action)
+    }
+
     private fun toast(message: String) {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
-
-    private fun navigateToHome() {
-        val intent = Intent(requireContext(), RecipeActivity::class.java)
-        startActivity(intent)
-    }
-
 }
