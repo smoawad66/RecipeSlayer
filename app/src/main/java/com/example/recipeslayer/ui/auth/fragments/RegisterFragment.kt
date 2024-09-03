@@ -18,6 +18,7 @@ import com.example.recipeslayer.utils.Validator
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.utils.Hash
 import com.example.recipeslayer.ui.recipe.RecipeActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,39 +50,51 @@ class RegisterFragment : Fragment() {
         binding.tvLogin.setOnClickListener { navigateToLogin() }
     }
 
-
     private fun handleRegister(newUser: User) {
-
         // Validation
         if (!validateUserData(newUser))
             return
 
         val repo = Repo(localSource = LocalSource.getInstance())
+        val auth = FirebaseAuth.getInstance()
 
         lifecycleScope.launch {
             val user = withContext(IO) { repo.getUser(newUser.email) as User? }
 
-            if (user != null)
-                toast("User already exists!").also { return@launch }
-
-            val hash = Hash.hashPassword(newUser.password)
-            newUser.password = hash
-
-            // Create user account
-            val userId = withContext(IO) { repo.insertUser(newUser) }
-
-
-            // Redirect user to home
-            Auth.login(userId).also {
-                navigateToHome()
-                toast("Account created successfully.")
-                activity?.finish()
+            if (user != null) {
+                toast("User already exists!")
+                return@launch
             }
+
+            val (email, password) = newUser.email to newUser.password
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val firebaseUser = auth.currentUser
+                        firebaseUser?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
+                            if (verificationTask.isSuccessful) {
+                                // Save user to local database
+                                val hash = Hash.hashPassword(newUser.password)
+                                newUser.password = hash
+                                lifecycleScope.launch(IO) {
+                                    repo.insertUser(newUser)
+                                }
+                                // Redirect user to home
+                                toast("Verification email sent. Please check your email.")
+                                navigateToHome()
+                                activity?.finish()
+                            } else {
+                                toast("Failed to send verification email.")
+                            }
+                        }
+                    } else {
+                        toast("Account creation failed: ${task.exception?.message}")
+                    }
+                }
         }
     }
 
     private fun validateUserData(user: User): Boolean {
-
         with(user) {
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 toast("Missing data.")
@@ -94,7 +107,7 @@ class RegisterFragment : Fragment() {
             }
 
             if (!Validator.validatePassword(password)) {
-                toast("Password enter stronger password.")
+                toast("Password must be stronger.")
                 return false
             }
         }
@@ -113,5 +126,4 @@ class RegisterFragment : Fragment() {
         val intent = Intent(requireContext(), RecipeActivity::class.java)
         startActivity(intent)
     }
-
 }
