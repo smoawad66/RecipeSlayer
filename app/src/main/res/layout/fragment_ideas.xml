@@ -87,9 +87,7 @@
                             android:paddingBottom="40dp"
                             android:textColor="@color/details_text_color"
                             android:text="@string/generating_a_response_for_your_prompt"
-                            android:justificationMode="inter_word"
                             android:lineSpacingExtra="2dp"
-                            android:textAlignment="viewStart"
                             android:visibility="gone"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
