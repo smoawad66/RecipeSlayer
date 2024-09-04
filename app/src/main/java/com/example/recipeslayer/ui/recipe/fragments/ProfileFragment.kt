@@ -34,7 +34,6 @@ import kotlinx.coroutines.withContext
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private val IMAGE_PICK_CODE = 1000
     private var imageUri: Uri? = null
 
 
@@ -64,12 +63,8 @@ class ProfileFragment : Fragment() {
                 binding.edtName.setText(user.name)
                 binding.edtEmail.setText(user.email)
                 profilePicPath = user.picture
-                Log.i("lol", "11111111111111111____________________--$profilePicPath")
 
                 if (!profilePicPath.isNullOrEmpty()) {
-//                    val bmImg = BitmapFactory.decodeFile(profilePicPath)
-//                    Log.i("lol", "11111111111111111____________________--$bmImg")
-                    Log.i("lol", "33333333333________________--${profilePicPath?.toUri()}")
                     binding.profilePicIv.setImageURI(profilePicPath?.toUri())
                 }
                 else {
@@ -80,9 +75,6 @@ class ProfileFragment : Fragment() {
 
 
 
-        binding.profilePicIv.setOnClickListener {
-//            pickImageFromGallery()
-        }
         binding.floatingActionButton.setOnClickListener {
             ImagePicker.with(this)
                 .crop()
@@ -153,12 +145,6 @@ class ProfileFragment : Fragment() {
         return true
     }
 
-    private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"  // Limit to only images
-        startActivityForResult(intent, IMAGE_PICK_CODE)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -171,18 +157,6 @@ class ProfileFragment : Fragment() {
                 updateUserProfilePicture(imageUri.toString())
             }
         }
-    }
-
-    private fun getPathFromUri(uri: Uri): String {
-        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = requireActivity().contentResolver.query(uri, filePathColumn, null, null, null)
-        cursor?.moveToFirst()
-
-        val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
-        val picturePath = columnIndex?.let { cursor.getString(it) }
-        cursor?.close()
-
-        return picturePath ?: uri.toString()
     }
 
     private fun updateUserProfilePicture(picturePath: String) {
