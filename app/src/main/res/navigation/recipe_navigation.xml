@@ -22,9 +22,6 @@
         <action
             android:id="@+id/action_homeFragment_to_ideasFragment"
             app:destination="@id/ideasFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_imageLabelingFragment"
-            app:destination="@id/imageLabelingFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
@@ -74,13 +71,22 @@
         android:label="fragment_ideas"
         tools:layout="@layout/fragment_ideas" />
     <fragment
-        android:id="@+id/imageLabelingFragment"
-        android:name="com.example.recipeslayer.ui.recipe.fragments.ImageLabelingFragment"
-        android:label="fragment_image_labeling"
-        tools:layout="@layout/fragment_image_labeling" />
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.recipeslayer.ui.recipe.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.example.recipeslayer.ui.recipe.fragments.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
 </navigation>

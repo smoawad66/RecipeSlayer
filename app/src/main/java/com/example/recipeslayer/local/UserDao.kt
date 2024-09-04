@@ -3,6 +3,7 @@ package com.example.recipeslayer.local
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.recipeslayer.models.User
 
 @Dao
@@ -16,4 +17,7 @@ interface UserDao {
 
     @Insert
     suspend fun insertUser(user: User): Long
+
+    @Update
+    suspend fun updateUser(user: User)
 }

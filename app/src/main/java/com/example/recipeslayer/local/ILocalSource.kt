@@ -10,6 +10,7 @@ interface ILocalSource {
     suspend fun getUser(email: String): User
     suspend fun getUser(id: Long): User
     suspend fun insertUser(user: User): Long
+    suspend fun updateUser(user: User)
 
     suspend fun getRecipeAr(recipeId: Long): Recipe?
     suspend fun insertRecipe(recipe: Recipe)

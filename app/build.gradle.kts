@@ -100,4 +100,7 @@ dependencies {
     //smart reply
     implementation ("com.google.mlkit:smart-reply:17.0.4")
 
+    //image picker
+    implementation ("com.github.dhaval2404:imagepicker:2.1")
+
 }

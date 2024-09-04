@@ -63,5 +63,6 @@
     <string name="settings">الإعدادات</string>
     <string name="area">المنطقة</string>
 
+    <string name="change_password">تغيير كلمة المرور</string>
 
 </resources>
