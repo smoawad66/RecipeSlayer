@@ -1,5 +1,6 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.example.recipeslayer.R
 import com.example.recipeslayer.databinding.FragmentVerifyBinding
 import com.example.recipeslayer.models.User
 import com.example.recipeslayer.repo.Repo
+import com.example.recipeslayer.ui.recipe.RecipeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers.IO
@@ -70,7 +72,7 @@ class VerifyFragment2 : Fragment(R.layout.fragment_verify) {
                         firebaseUser.delete()
                         withContext(Main) {
                             toast("Profile updated.")
-                            requireActivity().supportFragmentManager.popBackStack()
+                            restart()
                         }
                     }
 
@@ -94,6 +96,13 @@ class VerifyFragment2 : Fragment(R.layout.fragment_verify) {
             tvVerificationSent.visibility = flag2
             btnVerify.visibility = flag2
         }
+    }
+
+    private fun restart() {
+        activity?.finish().also {
+            requireActivity().startActivity(Intent(activity, RecipeActivity::class.java))
+        }
+
     }
 
 }

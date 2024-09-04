@@ -23,5 +23,6 @@
     <color name="auth_et_main_color">#514141</color>
     <color name="auth_et_text_color">#191616</color>
     <color name="status_bar_color">#A8A7A7</color>
+    <color name="camera">#6F3733</color>
 
 </resources>

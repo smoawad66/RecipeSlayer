@@ -78,7 +78,13 @@ class HomeFragment : Fragment() {
                 loading(GONE)
                 return@launch
             }
-            withContext(IO) { recipeViewModel.getAllRecipes() }
+            withContext(IO) {
+                if (currentPosition == 0) {
+                    recipeViewModel.getAllRecipes()
+                } else {
+                    filterRecipes(currentPosition)
+                }
+            }
 
             loading(GONE)
         }

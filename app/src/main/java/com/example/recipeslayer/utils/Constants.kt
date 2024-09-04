@@ -45,7 +45,8 @@ object Constants {
             " Try to be as flexible as possible, don't upset the user and don't ask him many questions about the type of the recipe. If he doesn't specify the type, just give him some popular types." +
             " Just answer with appropriate fast user-friendly response." +
             " Answer the questions in the language with which user prompts you." +
-            " Generate GENDER-UNBIASED responses."
+            " Generate GENDER-UNBIASED responses." +
+            " talk with user as a digital assistant not boy or girl or adult."
 
 
     const val BASE_INGREDIENT_URL = "https://www.themealdb.com/images/ingredients"

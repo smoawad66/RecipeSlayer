@@ -52,8 +52,9 @@
                 app:layout_constraintEnd_toEndOf="@+id/profile_pic"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_pic"
                 android:clickable="true"
-                android:backgroundTint="#6F3733"
-                android:src="@drawable/baseline_add_a_photo_24" />
+                app:tint="#e0d3d3"
+                android:backgroundTint="@color/camera"
+                android:src="@drawable/camera" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nameInputLayout"

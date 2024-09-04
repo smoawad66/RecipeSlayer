@@ -20,7 +20,6 @@ import com.example.recipeslayer.local.LocalSource
 import com.example.recipeslayer.models.User
 import com.example.recipeslayer.repo.Repo
 import com.example.recipeslayer.ui.auth.AuthActivity
-import com.example.recipeslayer.ui.auth.fragments.RegisterFragmentDirections
 import com.example.recipeslayer.ui.recipe.RecipeActivity
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.utils.Validator
@@ -90,9 +89,13 @@ class ProfileFragment : Fragment() {
 
             lifecycleScope.launch {
                 val user = withContext(IO) { repo.getUser(id) }
-
                 user.name = name
                 user.email = email
+
+                if (imageUri != null) {
+                    user.picture = imageUri.toString()
+                }
+
                 handleUpdate(user)
 
                 withContext(Main) {
@@ -133,6 +136,7 @@ class ProfileFragment : Fragment() {
             // Email not changed
             withContext(IO) { repo.updateUser(user) }
             toast("Profile updated.")
+            restart()
         }
     }
 
@@ -156,32 +160,6 @@ class ProfileFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             imageUri = data?.data
             binding.profilePicIv.setImageURI(imageUri)
-
-            imageUri?.let {
-//                val picturePath = getPathFromUri(it)
-                updateUserProfilePicture(imageUri.toString())
-            }
-        }
-    }
-
-    private fun updateUserProfilePicture(picturePath: String) {
-        val repo = Repo()
-        val id = Auth.id()
-
-        lifecycleScope.launch {
-            val user = withContext(IO) { repo.getUser(id) }
-
-            withContext(Main) {
-                user.picture = picturePath
-                handleUpdate(user)
-                restart()
-            }
-        }
-    }
-
-    private fun restart() {
-        activity?.finish().also {
-            requireActivity().startActivity(Intent(activity, RecipeActivity::class.java))
         }
     }
 
@@ -192,5 +170,11 @@ class ProfileFragment : Fragment() {
     private fun navigateToVerify(user: User) {
         val action = ProfileFragmentDirections.actionProfileFragmentToVerifyFragment2(user)
         findNavController().navigate(action)
+    }
+
+    private fun restart() {
+        activity?.finish().also {
+            requireActivity().startActivity(Intent(activity, RecipeActivity::class.java))
+        }
     }
 }
