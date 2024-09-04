@@ -9,6 +9,8 @@
 <br><br>
 
 <p align="center">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://github.com/user-attachments/assets/78d41049-014e-4491-8900-ba388ece313f" alt="Group 47"/>
     &nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;
