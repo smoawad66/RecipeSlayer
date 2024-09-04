@@ -8,23 +8,10 @@
     <string name="about_us">عن الديفيلوبرز</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="all">الكل</string>
-    <string name="vegetarian">نباتي</string>
-    <string name="dessert">حلويات</string>
-    <string name="beef">لحوم</string>
-    <string name="chicken">دجاج</string>
-    <string name="breakfast">إفطار</string>
-    <string name="seafood">سمك</string>
-    <string name="lamb">حمَل</string>
-    <string name="miscellaneous">متنوع</string>
-    <string name="pasta">مكرونة</string>
-    <string name="side">جانبي</string>
-    <string name="starter">مقبلات</string>
-    <string name="vegan">نباتي فشخ</string>
-    <string name="goat">معيز</string>
     <string name="sign_up">اشتراك</string>
     <string name="name">الأسم</string>
     <string name="e_mail">الحساب</string>
-    <string name="password">كلمة السر</string>
+    <string name="password">كلمة المرور</string>
     <string name="already_have_an_account">بالفعل لديك حساب؟</string>
     <string name="login">تسجيل الدخول</string>
     <string name="logo_description">شعار تطبيقنا، مطرشم الوصفات، وهو عبارة عن فارس يحمل السكاكين وأدوات المطبخ ويرتدي قبعة الشيف.</string>
@@ -52,14 +39,13 @@
     <string name="category">القسم</string>
     <string name="ingredient">المكون</string>
     <string name="no_recommendation_yet">لا يوجد وصفات مفترحة</string>
-
     <string name="regional">اللغة</string>
     <string name="english">English</string>
     <string name="arabic">العربية</string>
     <string name="light_mode">فاتح</string>
     <string name="theme">النمط</string>
-    <string name="dark_mode">غامق</string>
-    <string name="recipe_slayer_version">مطرشم الوصفات . الاصدار 1.12</string>
+    <string name="dark_mode">داكن</string>
+    <string name="recipe_slayer_version">مطرشم الوصفات . الاصدار 1.2</string>
     <string name="settings">الإعدادات</string>
     <string name="area">المنطقة</string>
     <string name="try_again"><u>حاول مجددًا</u></string>
@@ -67,6 +53,9 @@
     <string name="check_your_internet_connection">تحقق من اتصالك بالإنترنت ثم حاول مرة أخري!</string>
     <string name="full_screen">شاشة كاملة</string>
     <string name="general">عام</string>
-
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="old_password">كلمة المرور القديمة</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
 
 </resources>

@@ -11,23 +11,31 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.NavController
 import com.example.recipeslayer.R
+import com.example.recipeslayer.repo.Repo
 import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.ui.recipe.fragments.AboutFragment
 import com.example.recipeslayer.ui.recipe.fragments.FavouriteFragment
 import com.example.recipeslayer.ui.recipe.fragments.HomeFragment
 import com.example.recipeslayer.ui.recipe.fragments.IdeasFragment
+import com.example.recipeslayer.ui.recipe.fragments.ProfileFragment
 import com.example.recipeslayer.ui.recipe.fragments.RecipeDetailFragment
 import com.example.recipeslayer.ui.recipe.fragments.SearchFragment
 import com.example.recipeslayer.ui.recipe.fragments.SettingsFragment
 import com.example.recipeslayer.ui.recipe.viewModels.FavouriteViewModel
 import com.example.recipeslayer.utils.Auth
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RecipeActivity : AppCompatActivity() {
     lateinit var bottomBar: ChipNavigationBar
@@ -55,6 +63,27 @@ class RecipeActivity : AppCompatActivity() {
         toggleButton.setOnClickListener { showPopupMenu(toggleButton) }
 
 
+        //profile_pic opens profile fragment
+        val profilePic = findViewById<ImageView>(R.id.logo_46)
+        profilePic.setOnClickListener {
+            navController.navigate(R.id.profileFragment)
+        }
+
+        val repo = Repo()
+        val id = Auth.id()
+        var profilePicPath: String? = null
+        lifecycleScope.launch {
+            val user = withContext(IO) { repo.getUser(id) }
+
+            withContext(Dispatchers.Main) {
+                profilePicPath = user.picture
+
+                if (!profilePicPath.isNullOrEmpty()) {
+                    profilePic.setImageURI(profilePicPath?.toUri())
+                }
+            }
+        }
+
         // Listen for any fragment that is resumed
         supportFragmentManager.registerFragmentLifecycleCallbacks(object :
             FragmentLifecycleCallbacks() {
@@ -67,6 +96,7 @@ class RecipeActivity : AppCompatActivity() {
                     is AboutFragment -> selectNavItem(R.string.about_us)
                     is SettingsFragment -> selectNavItem(R.string.settings)
                     is IdeasFragment -> selectNavItem(R.string.ideas)
+                    is ProfileFragment -> selectNavItem(R.string.profile)
                 }
             }
         }, true)

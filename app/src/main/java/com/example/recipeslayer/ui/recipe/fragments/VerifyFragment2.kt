@@ -1,6 +1,5 @@
-package com.example.recipeslayer.ui.auth.fragments
+package com.example.recipeslayer.ui.recipe.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,19 +14,18 @@ import com.example.recipeslayer.R
 import com.example.recipeslayer.databinding.FragmentVerifyBinding
 import com.example.recipeslayer.models.User
 import com.example.recipeslayer.repo.Repo
-import com.example.recipeslayer.ui.recipe.RecipeActivity
-import com.example.recipeslayer.utils.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class VerifyFragment : Fragment(R.layout.fragment_verify) {
+class VerifyFragment2 : Fragment(R.layout.fragment_verify) {
 
     private lateinit var binding: FragmentVerifyBinding
-    private val args: VerifyFragmentArgs by navArgs()
-    private lateinit var newUser: User
+    private val args: VerifyFragment2Args by navArgs()
+    private lateinit var user: User
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentVerifyBinding.inflate(inflater, container, false)
@@ -36,13 +34,13 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        newUser = args.newUser
+        user = args.user
         sendVerificationEmail()
     }
 
     private fun sendVerificationEmail() {
         val firebaseAuth = FirebaseAuth.getInstance()
-        firebaseAuth.createUserWithEmailAndPassword(newUser.email, newUser.password).addOnCompleteListener { task ->
+        firebaseAuth.createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val firebaseUser = firebaseAuth.currentUser
                 firebaseUser?.sendEmailVerification()
@@ -54,7 +52,7 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
                     }
 
             } else {
-                toast("Account creation failed: ${task.exception?.message}")
+                toast("Unexpected error happens! Please try again.")
                 requireActivity().supportFragmentManager.popBackStack()
             }
 
@@ -67,9 +65,13 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
             loading(VISIBLE)
             firebaseUser.reload().addOnCompleteListener {
                 if (it.isSuccessful && firebaseUser.isEmailVerified) {
-                    registerNewUser()
                     lifecycleScope.launch(IO) {
+                        Repo().updateUser(user)
                         firebaseUser.delete()
+                        withContext(Main) {
+                            toast("Profile updated.")
+                            requireActivity().supportFragmentManager.popBackStack()
+                        }
                     }
 
                 } else {
@@ -77,16 +79,6 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
                     toast("Email is not verified yet.")
                 }
             }
-        }
-    }
-
-    private fun registerNewUser() = lifecycleScope.launch {
-        val repo = Repo()
-        val userId = withContext(IO) { repo.insertUser(newUser) }
-        Auth.login(userId).also {
-            navigateToHome()
-            toast("Account created successfully.")
-            activity?.finish()
         }
     }
 
@@ -102,12 +94,6 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
             tvVerificationSent.visibility = flag2
             btnVerify.visibility = flag2
         }
-    }
-
-    private fun navigateToHome() {
-        val intent = Intent(requireContext(), RecipeActivity::class.java)
-        startActivity(intent)
-        activity?.finishAffinity()
     }
 
 }

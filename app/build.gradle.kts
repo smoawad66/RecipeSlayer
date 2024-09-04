@@ -55,7 +55,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 
-    // Dependencies (Gradle of Module)
+    // ViewModel & Navigation
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
@@ -65,7 +65,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     kapt("androidx.lifecycle:lifecycle-compiler:2.8.4")
-    // annotationProcessor ("androidx.lifecycle:lifecycle-compiler:2.8.4")
 
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
@@ -83,28 +82,29 @@ dependencies {
     //Glide
     implementation("com.github.bumptech.glide:glide:4.15.0")
 
-    // Bcrypt for password encryption
+    // Bcrypt For Password Encryption
     implementation("org.mindrot:jbcrypt:0.4")
 
-    // Lottie for splash
+    // Lottie For Splash
     implementation("com.airbnb.android:lottie:6.0.0")
 
     // Reflection
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
 
-    // Bottom navigation
+    // Bottom Navigation
     implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
 
     // Gemini
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 
-
     // Markdown
     implementation("io.noties.markwon:core:4.6.2")
-
 
     // Firebase Authentication
     implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
     implementation ("com.google.firebase:firebase-auth:21.0.1")
+
+    // Image picker
+    implementation ("com.github.dhaval2404:imagepicker:2.1")
 
 }

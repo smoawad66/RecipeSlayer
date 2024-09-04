@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/gradient_background"
-    tools:context=".ui.recipe.fragments.AboutFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.recipe.fragments.AboutFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_about_cl"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingBottom="30dp"
-        android:layout_width="match_parent">
+        android:paddingBottom="30dp">
 
         <ImageView
             android:id="@+id/logo_1023_login"
@@ -38,31 +37,28 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo_1023_login"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/logo_1023_login" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="2dp"
-            app:layout_constraintStart_toStartOf="@id/whoarewe"
-            app:layout_constraintEnd_toEndOf="@id/whoarewe"
-            app:layout_constraintTop_toBottomOf="@id/whoarewe"
             android:background="#D36A63"
-            />
+            app:layout_constraintEnd_toEndOf="@id/whoarewe"
+            app:layout_constraintStart_toStartOf="@id/whoarewe"
+            app:layout_constraintTop_toBottomOf="@id/whoarewe" />
 
         <ImageView
             android:id="@+id/elsayed_img"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/elsayed"
-            app:layout_constraintTop_toBottomOf="@+id/whoarewe"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="30dp"
-            />
+            android:src="@drawable/elsayed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/whoarewe" />
 
         <TextView
             android:id="@+id/elsayed_txt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="@string/elsayed_moawad"
@@ -71,21 +67,21 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/elsayed_img"
             app:layout_constraintStart_toEndOf="@+id/elsayed_img"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/elsayed_img" />
 
         <ImageView
             android:id="@+id/habsa_img"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/habsa"
-            app:layout_constraintTop_toBottomOf="@+id/elsayed_img"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="30dp"
-            />
+            android:src="@drawable/habsa"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/elsayed_img" />
 
         <TextView
             android:id="@+id/habsa_txt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="@string/abdallah_habsa"
@@ -93,6 +89,7 @@
             android:textSize="23sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/habsa_img"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/habsa_img"
             app:layout_constraintTop_toTopOf="@+id/habsa_img" />
 
@@ -100,15 +97,14 @@
             android:id="@+id/yasmeen_img"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/yasmeen"
-            app:layout_constraintTop_toBottomOf="@+id/habsa_img"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="30dp"
-            />
+            android:src="@drawable/yasmeen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/habsa_img" />
 
         <TextView
             android:id="@+id/yasmeen_txt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="@string/yasmeen_mohammed"
@@ -116,6 +112,7 @@
             android:textSize="23sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/yasmeen_img"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/yasmeen_img"
             app:layout_constraintTop_toTopOf="@+id/yasmeen_img" />
 

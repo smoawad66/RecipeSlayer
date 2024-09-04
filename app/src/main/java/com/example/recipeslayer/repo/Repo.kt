@@ -17,6 +17,7 @@ class Repo(
     override suspend fun getUser(email: String) = localSource.getUser(email)
     override suspend fun getUser(id: Long) = localSource.getUser(id)
     override suspend fun insertUser(user: User) = localSource.insertUser(user)
+    override suspend fun updateUser(user: User) = localSource.updateUser(user)
 
 
     override suspend fun getRecipeAr(recipeId: Long) = localSource.getRecipeAr(recipeId)

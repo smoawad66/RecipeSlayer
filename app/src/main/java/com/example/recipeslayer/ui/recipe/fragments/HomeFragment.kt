@@ -97,7 +97,7 @@ class HomeFragment : Fragment() {
         binding.btnImageLabeling.setOnClickListener {
             Toast.makeText(
                 requireActivity(),
-                "This feature is coming soon!!",
+                "This feature is coming soon!",
                 Toast.LENGTH_SHORT
             ).show()
         }

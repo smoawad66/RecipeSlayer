@@ -42,7 +42,7 @@
             android:id="@+id/logo_46"
             android:layout_width="46dp"
             android:layout_height="46dp"
-            android:src="@drawable/logo_46"
+            android:src="@drawable/no_profile_pic"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

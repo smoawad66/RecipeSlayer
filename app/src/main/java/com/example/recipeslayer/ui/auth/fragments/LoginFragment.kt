@@ -35,6 +35,14 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val email0 = activity?.intent?.extras?.getString("email")
+        if (email0 != null) {
+            binding.apply {
+                edtEmail.setText(email0)
+                edtPassword.requestFocus()
+            }
+        }
+
         binding.btnLogin.setOnClickListener {
             binding.apply {
                 val email = edtEmail.text.toString()
