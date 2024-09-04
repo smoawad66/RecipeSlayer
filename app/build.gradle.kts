@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
@@ -99,6 +100,8 @@ dependencies {
 
     // Markdown
     implementation("io.noties.markwon:core:4.6.2")
+    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
+    implementation ("com.google.firebase:firebase-auth:21.0.1")
 
     // Firebase Authentication
     implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
