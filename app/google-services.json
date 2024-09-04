@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1030117082231",
-    "project_id": "recipesalyer",
-    "storage_bucket": "recipesalyer.appspot.com"
+    "project_number": "339423480824",
+    "project_id": "recipeslayer-a5b41",
+    "storage_bucket": "recipeslayer-a5b41.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1030117082231:android:d2b8d37c93faeb32293272",
+        "mobilesdk_app_id": "1:339423480824:android:698e78c7db93275727240d",
         "android_client_info": {
           "package_name": "com.example.recipeslayer"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAKefVxrIGwSk2hNxrFpXgXEyy2Tcmi9aQ"
+          "current_key": "AIzaSyDyosmqbJkcTfAjK-0xyai1BJuo5PF0YVo"
         }
       ],
       "services": {
