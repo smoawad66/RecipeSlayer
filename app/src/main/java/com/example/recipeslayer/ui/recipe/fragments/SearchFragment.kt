@@ -40,6 +40,9 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         internetError(GONE)
         loading(GONE)
 
+        binding.searchView.isIconified = false
+        binding.searchView.requestFocus()
+
         binding.internetErrorOverlay.tryAgain.setOnClickListener {
             val query = binding.searchView.query.toString()
             onQueryTextSubmit(query)
