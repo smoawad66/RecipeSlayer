@@ -55,8 +55,9 @@ class RegisterFragment : Fragment() {
         lifecycleScope.launch {
             val user = withContext(IO) { repo.getUser(newUser.email) }
 
-            if (user != null)
-                toast("User already exists!").also { return@launch }
+            if (user != null) {
+                toast(getString(R.string.user_already_exists)).also { return@launch }
+            }
 
             val hash = Hash.hashPassword(newUser.password)
             newUser.password = hash
@@ -69,17 +70,17 @@ class RegisterFragment : Fragment() {
 
         with(user) {
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                toast("Missing data.")
+                toast(getString(R.string.missing_data))
                 return false
             }
 
             if (!Validator.validateEmail(email)) {
-                toast("Please enter a valid email.")
+                toast(getString(R.string.please_enter_a_valid_email))
                 return false
             }
 
             if (!Validator.validatePassword(password)) {
-                toast("Please enter a stronger password.")
+                toast(getString(R.string.please_enter_a_stronger_password))
                 return false
             }
         }

@@ -50,11 +50,11 @@ class VerifyFragment2 : Fragment(R.layout.fragment_verify) {
                         if (verificationTask.isSuccessful)
                             listenToVerify(firebaseUser)
                         else
-                            toast("Failed to send verification email.")
+                            toast(getString(R.string.failed_to_send_verification_email))
                     }
 
             } else {
-                toast("Unexpected error happens! Please try again.")
+                toast(getString(R.string.unexpected_error_happens_please_try_again))
                 requireActivity().supportFragmentManager.popBackStack()
             }
 
@@ -71,14 +71,14 @@ class VerifyFragment2 : Fragment(R.layout.fragment_verify) {
                         Repo().updateUser(user)
                         firebaseUser.delete()
                         withContext(Main) {
-                            toast("Profile updated.")
+                            toast(getString(R.string.profile_updated))
                             restart()
                         }
                     }
 
                 } else {
                     loading(GONE)
-                    toast("Email is not verified yet.")
+                    toast(getString(R.string.email_is_not_verified_yet))
                 }
             }
         }

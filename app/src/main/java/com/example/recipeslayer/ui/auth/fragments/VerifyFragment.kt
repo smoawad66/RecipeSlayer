@@ -50,11 +50,11 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
                         if (verificationTask.isSuccessful)
                             listenToVerify(firebaseUser)
                         else
-                            toast("Failed to send verification email.")
+                            toast(getString(R.string.failed_to_send_verification_email))
                     }
 
             } else {
-                toast("Account creation failed: ${task.exception?.message}")
+                toast(getString(R.string.account_creation_failed).plus(": ").plus(task.exception?.message))
                 requireActivity().supportFragmentManager.popBackStack()
             }
 
@@ -74,7 +74,7 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
 
                 } else {
                     loading(GONE)
-                    toast("Email is not verified yet.")
+                    toast(getString(R.string.email_is_not_verified_yet))
                 }
             }
         }
@@ -85,7 +85,7 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
         val userId = withContext(IO) { repo.insertUser(newUser) }
         Auth.login(userId).also {
             navigateToHome()
-            toast("Account created successfully.")
+            toast(getString(R.string.account_created_successfully))
             activity?.finish()
         }
     }

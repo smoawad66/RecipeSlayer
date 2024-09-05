@@ -70,13 +70,13 @@ class LoginFragment : Fragment() {
             val user = withContext(IO) { repo.getUser(email) as User? }
 
             if (user == null) {
-                toast("User doesn't exist!")
+                toast(getString(R.string.user_doesn_t_exist))
                 return@launch
             }
 
             // Attempt to Login
             if (!Hash.verifyPassword(password, user.password)) {
-                toast("Invalid Credentials!")
+                toast(getString(R.string.invalid_credentials))
                 binding.apply {
                     edtPassword.text?.clear()
                     edtPassword.requestFocus()
@@ -87,7 +87,7 @@ class LoginFragment : Fragment() {
             // Login and redirect user to home
             Auth.login(user.id).also {
                 navigateToHome()
-                toast("Welcome back ${user.name}.")
+                toast(getString(R.string.welcome_back).plus(" ").plus(user.name))
             }
         }
 
@@ -97,12 +97,12 @@ class LoginFragment : Fragment() {
     private fun validateUserData(email: String, password: String): Boolean {
 
         if (email.isEmpty() || password.isEmpty()) {
-            toast("Missing data.")
+            toast(getString(R.string.missing_data))
             return false
         }
 
         if (!Validator.validateEmail(email)) {
-            toast("Please enter a valid email.")
+            toast(getString(R.string.please_enter_a_valid_email))
             return false
         }
 

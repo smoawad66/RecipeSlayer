@@ -8,7 +8,7 @@
     tools:context=".ui.recipe.fragments.SearchFragment">
 
     <androidx.appcompat.widget.SearchView
-        app:queryHint="Search here"
+        app:queryHint="@string/search_here"
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
