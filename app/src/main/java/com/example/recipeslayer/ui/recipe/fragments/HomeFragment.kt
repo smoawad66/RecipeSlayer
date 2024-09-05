@@ -12,6 +12,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeslayer.R
@@ -23,6 +24,7 @@ import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
 import com.example.recipeslayer.utils.Cache
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,16 +36,16 @@ class HomeFragment : Fragment() {
     private val recommendViewModel: RecommendViewModel by viewModels()
     private lateinit var filterAdapter: FilterAdapter
     private lateinit var recipeAdapter: RecipeAdapter
-    private var currentPosition = 0
+    private var categoryPosition = 0
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("POSITION", currentPosition)
+        outState.putInt("category_position", categoryPosition)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (savedInstanceState != null) {
-            currentPosition = savedInstanceState.getInt("POSITION", 0)
+            categoryPosition = savedInstanceState.getInt("category_position", 0)
         }
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -53,11 +55,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recommendRecipes()
-        binding.internetErrorOverlay.tryAgain.setOnClickListener { filterRecipes(currentPosition) }
+        binding.internetErrorOverlay.tryAgain.setOnClickListener { filterRecipes(categoryPosition) }
 
         filterAdapter = FilterAdapter()
         binding.rvFilter.adapter = filterAdapter
-        filterAdapter.setSelectedPosition(currentPosition)
+        filterAdapter.setSelectedPosition(categoryPosition)
         filterAdapter.setOnItemClickListener { filterRecipes(it) }
 
         recipeAdapter = RecipeAdapter()
@@ -79,10 +81,8 @@ class HomeFragment : Fragment() {
                 return@launch
             }
             withContext(IO) {
-                if (currentPosition == 0) {
+                if (categoryPosition == 0) {
                     recipeViewModel.getAllRecipes()
-                } else {
-                    filterRecipes(currentPosition)
                 }
             }
 
@@ -119,7 +119,7 @@ class HomeFragment : Fragment() {
     private fun filterRecipes(position: Int) {
         val category = filterAdapter.getData()[position]
 
-        currentPosition = position
+        categoryPosition = position
         recipeAdapter.setData(listOf())
         binding.rvRecipes.adapter = recipeAdapter
 
