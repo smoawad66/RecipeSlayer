@@ -63,6 +63,8 @@
                 android:id="@+id/edt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/name_icon_1"
+                android:drawablePadding="10dp"
                 android:hint="@string/name"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/auth_et_text_color" />
@@ -91,6 +93,8 @@
                 android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/email_icon_1"
+                android:drawablePadding="10dp"
                 android:hint="@string/e_mail"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/auth_et_text_color" />
@@ -119,10 +123,24 @@
                 android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/password_icon_1"
+                android:drawablePadding="10dp"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textColor="@color/auth_et_text_color" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/password_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="#002A1D1D"
+            android:src="@drawable/show_pass"
+            app:layout_constraintBottom_toBottomOf="@id/passwordInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/passwordInputLayout"
+            app:layout_constraintTop_toTopOf="@id/passwordInputLayout" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_signup"
@@ -142,12 +160,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_signup"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="10dp">
+            app:layout_constraintTop_toBottomOf="@+id/btn_signup">
 
             <TextView
                 android:id="@+id/alreadyHaveAnAccount"

@@ -2,6 +2,8 @@ package com.example.recipeslayer.ui.auth.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,8 +19,10 @@ import com.example.recipeslayer.models.User
 import com.example.recipeslayer.repo.Repo
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.ui.recipe.RecipeActivity
+import com.example.recipeslayer.utils.Config.isArabic
 import com.example.recipeslayer.utils.Hash
 import com.example.recipeslayer.utils.Validator
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,6 +38,15 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (isArabic()) {
+            fun toDp(v: Int) = (v * resources.displayMetrics.density).toInt()
+            binding.edtPassword.setPadding(toDp(55), toDp(17), toDp(17), toDp(17))
+        }
+
+        binding.passwordToggle.setOnClickListener {
+            binding.edtPassword.togglePasswordVisibility()
+        }
 
         val email0 = activity?.intent?.extras?.getString("email")
         if (email0 != null) {
@@ -121,5 +134,16 @@ class LoginFragment : Fragment() {
         val intent = Intent(activity, RecipeActivity::class.java)
         startActivity(intent)
         activity?.finishAffinity()
+    }
+
+    private fun TextInputEditText.togglePasswordVisibility() {
+        if (this.transformationMethod == PasswordTransformationMethod.getInstance()) {
+            this.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            binding.passwordToggle.setImageResource(R.drawable.hide_pass)
+        } else {
+            this.transformationMethod = PasswordTransformationMethod.getInstance()
+            binding.passwordToggle.setImageResource(R.drawable.show_pass)
+        }
+        this.setSelection(this.text?.length ?: 0)
     }
 }

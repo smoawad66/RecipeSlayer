@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.internal.wait
 
 class RecipeViewModel : ViewModel() {
 
@@ -47,7 +48,8 @@ class RecipeViewModel : ViewModel() {
             if (category == "الكل")
                 return@launch _recipes.postValue(RECIPES_CACHE["الكل"])
 
-            val filteredRecipes = RECIPES_CACHE["الكل"]?.filter { it.strCategory == category } ?: listOf()
+            val filteredRecipes =
+                RECIPES_CACHE["الكل"]?.filter { it.strCategory == category } ?: listOf()
 
             withContext(Main) {
                 _recipes.value = filteredRecipes
@@ -65,17 +67,21 @@ class RecipeViewModel : ViewModel() {
             return _recipes.postValue(RECIPES_CACHE["All"])
         }
 
+        _recipes.value = emptyList()
         val categories = CATEGORIES.shuffled()
+
         for (cat in categories) {
-            val fetched = repo.getRecipesOnline(cat) ?: continue
-            val current = _recipes.value ?: listOf()
-            _recipes.postValue(current.plus(fetched))
+            val fetched = withContext(IO) { repo.getRecipesOnline(cat) } ?: continue
+            val current = _recipes.value!!
+            _recipes.value = current + fetched
         }
 
         RECIPES_CACHE["All"] = _recipes.value ?: listOf()
     }
 
     fun filterRecipes(category: String) {
+
+        Log.i("test", "from filterRecipes")
 
         if (isArabic())
             return filterRecipesAr(category)

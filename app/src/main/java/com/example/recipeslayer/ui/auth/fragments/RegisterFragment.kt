@@ -1,6 +1,8 @@
 package com.example.recipeslayer.ui.auth.fragments
 
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +14,10 @@ import com.example.recipeslayer.R
 import com.example.recipeslayer.databinding.FragmentRegisterBinding
 import com.example.recipeslayer.models.User
 import com.example.recipeslayer.repo.Repo
+import com.example.recipeslayer.utils.Config.isArabic
 import com.example.recipeslayer.utils.Validator
 import com.example.recipeslayer.utils.Hash
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,6 +33,16 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        if (isArabic()) {
+            fun toDp(v: Int) = (v * resources.displayMetrics.density).toInt()
+            binding.edtPassword.setPadding(toDp(55), toDp(17), toDp(17), toDp(17))
+        }
+
+        binding.passwordToggle.setOnClickListener {
+            binding.edtPassword.togglePasswordVisibility()
+        }
 
         binding.btnSignup.setOnClickListener {
             // ya 2alb a5ok (كلام حلو)
@@ -97,5 +111,16 @@ class RegisterFragment : Fragment() {
 
     private fun toast(message: String) {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun TextInputEditText.togglePasswordVisibility() {
+        if (this.transformationMethod == PasswordTransformationMethod.getInstance()) {
+            this.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            binding.passwordToggle.setImageResource(R.drawable.hide_pass)
+        } else {
+            this.transformationMethod = PasswordTransformationMethod.getInstance()
+            binding.passwordToggle.setImageResource(R.drawable.show_pass)
+        }
+        this.setSelection(this.text?.length ?: 0)
     }
 }

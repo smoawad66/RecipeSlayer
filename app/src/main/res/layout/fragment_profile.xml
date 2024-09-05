@@ -78,10 +78,11 @@
                     android:id="@+id/edt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=""
+                    android:hint="@string/name"
+                    android:drawablePadding="10dp"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/auth_et_text_color"
-                    android:drawableEnd="@drawable/name_icon"/>
+                    android:drawableStart="@drawable/name_icon"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -106,10 +107,11 @@
                     android:id="@+id/edt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=""
+                    android:hint="@string/e_mail"
+                    android:drawablePadding="10dp"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/auth_et_text_color"
-                    android:drawableEnd="@drawable/email_icon" />
+                    android:drawableStart="@drawable/email_icon" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton

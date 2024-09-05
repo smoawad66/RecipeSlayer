@@ -56,4 +56,6 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="verification_email_sent">Verification email sent.\nPlease check your email.</string>
+    <string name="verify_your_email">Verify Your Email</string>
 </resources>

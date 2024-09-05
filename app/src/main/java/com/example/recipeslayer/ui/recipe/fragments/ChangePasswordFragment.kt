@@ -21,6 +21,12 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.content.Intent
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
+import android.widget.ImageView
+import com.example.recipeslayer.R
+import com.example.recipeslayer.utils.Config.isArabic
+import com.google.android.material.textfield.TextInputEditText
 
 
 class ChangePasswordFragment : Fragment() {
@@ -38,6 +44,21 @@ class ChangePasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        if (isArabic()) {
+            fun toDp(v: Int) = (v * resources.displayMetrics.density).toInt()
+            binding.edtPass1.setPadding(toDp(55), toDp(17), toDp(17), toDp(17))
+            binding.edtPass2.setPadding(toDp(55), toDp(17), toDp(17), toDp(17))
+        }
+
+        binding.passwordToggle.setOnClickListener {
+            binding.edtPass1.togglePasswordVisibility(binding.passwordToggle)
+        }
+
+        binding.password2Toggle.setOnClickListener {
+            binding.edtPass2.togglePasswordVisibility(binding.password2Toggle)
+        }
 
         repo = Repo()
 
@@ -113,6 +134,17 @@ class ChangePasswordFragment : Fragment() {
 
     private fun toast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun TextInputEditText.togglePasswordVisibility(img: ImageView) {
+        if (this.transformationMethod == PasswordTransformationMethod.getInstance()) {
+            this.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            img.setImageResource(R.drawable.hide_pass)
+        } else {
+            this.transformationMethod = PasswordTransformationMethod.getInstance()
+            img.setImageResource(R.drawable.show_pass)
+        }
+        this.setSelection(this.text?.length ?: 0)
     }
 
 }

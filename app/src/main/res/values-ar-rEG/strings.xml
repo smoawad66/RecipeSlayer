@@ -10,7 +10,7 @@
     <string name="all">الكل</string>
     <string name="sign_up">اشتراك</string>
     <string name="name">الأسم</string>
-    <string name="e_mail">الحساب</string>
+    <string name="e_mail">البريد الإلكتروني</string>
     <string name="password">كلمة المرور</string>
     <string name="already_have_an_account">بالفعل لديك حساب؟</string>
     <string name="login">تسجيل الدخول</string>
@@ -57,5 +57,7 @@
     <string name="old_password">كلمة المرور القديمة</string>
     <string name="new_password">كلمة المرور الجديدة</string>
     <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="verification_email_sent">تم إرسال بريد التحقق.\nالرجاء تفقد بريدك الإلكتروني.</string>
+    <string name="verify_your_email">التحقق من بريدك الإلكتروني</string>
 
 </resources>

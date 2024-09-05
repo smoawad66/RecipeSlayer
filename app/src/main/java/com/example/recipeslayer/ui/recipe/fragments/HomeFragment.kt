@@ -81,18 +81,18 @@ class HomeFragment : Fragment() {
                 loading(GONE)
                 return@launch
             }
-            withContext(IO) {
-                if (categoryPosition == 0) {
-                    recipeViewModel.getAllRecipes()
-                }
-            }
+
+            if (categoryPosition == 0)
+                recipeViewModel.getAllRecipes()
 
             loading(GONE)
         }
 
         recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             recipeAdapter.setData(recipes)
-            binding.rvRecipes.adapter = recipeAdapter
+
+            recipeAdapter.notifyDataSetChanged()
+//            binding.rvRecipes.adapter = recipeAdapter
         }
 
 

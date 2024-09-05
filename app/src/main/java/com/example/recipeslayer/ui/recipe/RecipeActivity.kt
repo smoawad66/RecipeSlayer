@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
@@ -18,6 +20,7 @@ import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.recipeslayer.R
 import com.example.recipeslayer.repo.Repo
 import com.example.recipeslayer.ui.auth.AuthActivity
@@ -66,7 +69,9 @@ class RecipeActivity : AppCompatActivity() {
         //profile_pic opens profile fragment
         val profilePic = findViewById<ImageView>(R.id.logo_46)
         profilePic.setOnClickListener {
-            navController.navigate(R.id.profileFragment)
+            if (getCurrentFragment() !is ProfileFragment) {
+                navController.navigate(R.id.profileFragment)
+            }
         }
 
         val repo = Repo()
@@ -127,7 +132,10 @@ class RecipeActivity : AppCompatActivity() {
         val popupMenu = PopupMenu(this, view)
         val inflater: MenuInflater = popupMenu.menuInflater
         inflater.inflate(R.menu.options_menu, popupMenu.menu)
+
         popupMenu.setOnMenuItemClickListener { item ->
+            val currentFragment = getCurrentFragment()
+
             when (item.itemId) {
                 R.id.menu_logout -> {
                     Auth.logout()
@@ -139,12 +147,16 @@ class RecipeActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_about -> {
-                    navController.navigate(R.id.aboutFragment)
+                    if (currentFragment !is AboutFragment) {
+                        navController.navigate(R.id.aboutFragment)
+                    }
                     true
                 }
 
                 else -> {
-                    navController.navigate(R.id.settingsFragment)
+                    if (currentFragment !is SettingsFragment) {
+                        navController.navigate(R.id.settingsFragment)
+                    }
                     true
                 }
             }
@@ -161,9 +173,11 @@ class RecipeActivity : AppCompatActivity() {
         )
         if (items[key] == null) {
             items.forEach { bottomBar.setItemSelected(it.value, false) }
+            bottomBar.visibility = GONE
             return
         }
 
+        bottomBar.visibility = VISIBLE
         bottomBar.setOnItemSelectedListener {}
         bottomBar.setItemSelected(items[key]!!, true)
         listenToBottomBar()
@@ -180,5 +194,11 @@ class RecipeActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun getCurrentFragment(): Fragment? {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val currentFragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
+        return currentFragment
     }
 }
