@@ -15,6 +15,7 @@ import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.Content
 import com.google.ai.client.generativeai.type.GenerateContentResponse
+import com.google.ai.client.generativeai.type.UnknownException
 import com.google.ai.client.generativeai.type.content
 import com.google.android.material.textfield.TextInputEditText
 import io.noties.markwon.Markwon
@@ -69,18 +70,23 @@ class IdeasFragment : Fragment() {
                 withContext(Main) { generateBtn.isEnabled = false; generateBtn.alpha = 0.5f }
 
                 val userMessage = promptEt.text.toString()
-                val aiResponse = chat.sendMessage(userMessage).text ?: ""
 
-                chat.history.addAll(listOf(
-                    content("user") { text(userMessage) },
-                    content("model") { text(aiResponse) },
-                ))
+                try {
+                    val aiResponse = chat.sendMessage(userMessage).text ?: ""
+                    chat.history.addAll(
+                        listOf(
+                            content("user") { text(userMessage) },
+                            content("model") { text(aiResponse) }
+                        )
+                    )
 
-                withContext(Main) {
-                    markwon.setMarkdown(responseTv, aiResponse)
-                    promptEt.apply { text?.clear(); requestFocus() }
-                    generateBtn.isEnabled = true
-                    generateBtn.alpha = 1.0f
+                    withContext(Main) {
+                        markwon.setMarkdown(responseTv, aiResponse)
+                        promptEt.apply { text?.clear(); requestFocus() }
+                        generateBtn.isEnabled = true
+                        generateBtn.alpha = 1.0f
+                    }
+                } catch (_: UnknownException) {
                 }
 
             }

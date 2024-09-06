@@ -112,11 +112,11 @@ class RecipeDetailFragment : Fragment() {
         if (isFavourite) {
             withContext(IO) { favouriteViewModel.deleteFavourite(Favourite(Auth.id(), recipeId)) }
             binding.favBtn.setImageResource(R.drawable.fav_icon)
-            toast(getString(R.string.recipe_saved))
+            toast(getString(R.string.recipe_unsaved))
         } else {
             withContext(IO) { favouriteViewModel.insertFavourite(Favourite(Auth.id(), recipeId)) }
             binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
-            toast(getString(R.string.recipe_unsaved))
+            toast(getString(R.string.recipe_saved))
         }
         isFavourite = !isFavourite
     }
