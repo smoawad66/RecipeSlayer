@@ -2,12 +2,14 @@ package com.example.recipeslayer.ui.auth.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -22,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.example.recipeslayer.utils.toast.toast
 
 class VerifyFragment : Fragment(R.layout.fragment_verify) {
 
@@ -50,11 +53,11 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
                         if (verificationTask.isSuccessful)
                             listenToVerify(firebaseUser)
                         else
-                            toast(getString(R.string.failed_to_send_verification_email))
+                            toast(requireContext(), getString(R.string.failed_to_send_verification_email))
                     }
 
             } else {
-                toast(getString(R.string.account_creation_failed))
+                toast(requireContext(), getString(R.string.account_creation_failed))
                 requireActivity().supportFragmentManager.popBackStack()
             }
 
@@ -73,8 +76,8 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
                     }
 
                 } else {
+                    toast(requireContext(), getString(R.string.email_is_not_verified_yet))
                     loading(GONE)
-                    toast(getString(R.string.email_is_not_verified_yet))
                 }
             }
         }
@@ -84,14 +87,10 @@ class VerifyFragment : Fragment(R.layout.fragment_verify) {
         val repo = Repo()
         val userId = withContext(IO) { repo.insertUser(newUser) }
         Auth.login(userId).also {
+            toast(requireContext(), getString(R.string.account_created_successfully))
             navigateToHome()
-            toast(getString(R.string.account_created_successfully))
             activity?.finish()
         }
-    }
-
-    private fun toast(message: String) {
-        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun loading(flag: Int) {

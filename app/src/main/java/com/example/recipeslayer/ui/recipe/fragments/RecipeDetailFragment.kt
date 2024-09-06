@@ -3,6 +3,7 @@ package com.example.recipeslayer.ui.recipe.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import kotlin.reflect.full.memberProperties
 import android.view.LayoutInflater
@@ -15,8 +16,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.TextView
 import androidx.core.view.marginTop
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +40,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.example.recipeslayer.utils.toast.toast
 
 class RecipeDetailFragment : Fragment() {
     private lateinit var binding: FragmentRecipeDetailBinding
@@ -112,11 +113,11 @@ class RecipeDetailFragment : Fragment() {
         if (isFavourite) {
             withContext(IO) { favouriteViewModel.deleteFavourite(Favourite(Auth.id(), recipeId)) }
             binding.favBtn.setImageResource(R.drawable.fav_icon)
-            toast(getString(R.string.recipe_saved))
+            toast(requireContext(), getString(R.string.recipe_unsaved))
         } else {
             withContext(IO) { favouriteViewModel.insertFavourite(Favourite(Auth.id(), recipeId)) }
             binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
-            toast(getString(R.string.recipe_unsaved))
+            toast(requireContext(), getString(R.string.recipe_saved))
         }
         isFavourite = !isFavourite
     }
@@ -174,10 +175,6 @@ class RecipeDetailFragment : Fragment() {
             </html>
         """
         webView.loadData(htmlData, "text/html", "utf-8")
-    }
-
-    private fun toast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun getIngredients() {

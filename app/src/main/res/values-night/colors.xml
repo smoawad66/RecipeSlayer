@@ -22,5 +22,7 @@
     <color name="auth_et_text_color">#EBD7D7</color>
     <color name="status_bar_color">#2A1D1D</color>
     <color name="purple">#9F48D3</color>
+    <color name="toast_bg">#DDD3D3</color>
+    <color name="toast_text">#6F3733</color>
 
 </resources>

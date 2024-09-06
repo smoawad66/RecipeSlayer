@@ -66,8 +66,8 @@
 
             <ImageView
                 android:id="@+id/logo_46"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
                 android:background="@color/main_bg"
                 android:defaultFocusHighlightEnabled="false"
                 android:src="@drawable/no_profile_pic"

@@ -187,7 +187,7 @@ class RecipeActivity : AppCompatActivity() {
             items.forEach { bottomBar.setItemSelected(it.value, false) }
             bottomBar.visibility = GONE
             actionBar.visibility = GONE
-            fabClose.visibility = if (key == R.string.about_us) GONE else VISIBLE
+            fabClose.visibility = if (key == R.string.details) VISIBLE else GONE
             return
         }
 

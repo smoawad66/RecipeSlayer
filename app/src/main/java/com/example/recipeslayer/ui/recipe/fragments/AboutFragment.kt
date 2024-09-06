@@ -3,10 +3,12 @@ package com.example.recipeslayer.ui.recipe.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.recipeslayer.R
@@ -16,6 +18,7 @@ import com.example.recipeslayer.utils.Constants.HABSA_LINK
 import com.example.recipeslayer.utils.Constants.YASMEEN_LINK
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import kotlinx.coroutines.launch
+import com.example.recipeslayer.utils.toast.toast
 
 class AboutFragment : Fragment() {
 
@@ -41,11 +44,7 @@ class AboutFragment : Fragment() {
     private fun goToUrl(url: String) {
         lifecycleScope.launch {
             if (!isInternetAvailable()) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.check_your_internet_connection).substring(0, 30) + '!',
-                    Toast.LENGTH_SHORT
-                ).show()
+                toast(requireContext(), getString(R.string.check_your_internet_connection).substring(0, 30) + '!')
                 return@launch
             }
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
