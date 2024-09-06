@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
             // Login and redirect user to home
             Auth.login(user.id).also {
                 navigateToHome()
-                toast(getString(R.string.welcome_back) + "${user.name}.")
+                toast(getString(R.string.welcome_back) + " ${user.name}.")
             }
         }
 
