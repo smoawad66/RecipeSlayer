@@ -125,6 +125,7 @@
         app:cnb_unselectedColor="#797979"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:defaultFocusHighlightEnabled="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

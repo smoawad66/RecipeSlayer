@@ -75,7 +75,7 @@ class RecipeViewModel : ViewModel() {
             if (cat == "Vegetarian") {
                 fetched.find { it.idMeal == 53027L }?.apply {
                     strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
-                    strMealThumb = "https://drive.google.com/uc?export=view&id=1h1jD4d-uRYD-FeqnXYsR_W0fDFWCSln8"
+                    strMealThumb = "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
                     strIngredient9 =  "Tomatoes"
                     strMeasure9 =  "1/2 kilos"
                 }
@@ -111,7 +111,7 @@ class RecipeViewModel : ViewModel() {
             if (category == "Vegetarian") {
                 filteredRecipes.find { it.idMeal == 53027L }?.apply {
                     strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
-                    strMealThumb = "https://drive.google.com/uc?export=view&id=1h1jD4d-uRYD-FeqnXYsR_W0fDFWCSln8"
+                    strMealThumb = "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
                     strIngredient9 =  "Tomatoes"
                     strMeasure9 =  "1/2 kilos"
                 }
@@ -148,7 +148,7 @@ class RecipeViewModel : ViewModel() {
         if (result != null) {
             result.find { it.idMeal == 53027L }?.apply {
                 strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
-                strMealThumb = "https://drive.google.com/uc?export=view&id=1h1jD4d-uRYD-FeqnXYsR_W0fDFWCSln8"
+                strMealThumb = "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
                 strIngredient9 =  "Tomatoes"
                 strMeasure9 =  "1/2 kilos"
             }
