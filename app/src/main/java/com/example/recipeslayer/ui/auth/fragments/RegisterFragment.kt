@@ -3,12 +3,14 @@ package com.example.recipeslayer.ui.auth.fragments
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.example.recipeslayer.utils.toast.toast
 
 class RegisterFragment : Fragment() {
 
@@ -73,7 +76,7 @@ class RegisterFragment : Fragment() {
             val user = withContext(IO) { repo.getUser(newUser.email) }
 
             if (user != null)
-                toast(getString(R.string.user_already_exists)).also { return@launch }
+                toast(requireContext(), getString(R.string.user_already_exists)).also { return@launch }
 
             val hash = Hash.hashPassword(newUser.password)
             newUser.password = hash
@@ -86,17 +89,17 @@ class RegisterFragment : Fragment() {
 
         with(user) {
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                toast(getString(R.string.missing_data))
+                toast(requireContext(), getString(R.string.missing_data))
                 return false
             }
 
             if (!Validator.validateEmail(email)) {
-                toast(getString(R.string.please_enter_a_valid_email))
+                toast(requireContext(), getString(R.string.please_enter_a_valid_email))
                 return false
             }
 
             if (!Validator.validatePassword(password)) {
-                toast(getString(R.string.please_enter_a_stronger_password))
+                toast(requireContext(), getString(R.string.please_enter_a_stronger_password))
                 binding.passInstructions.visibility = VISIBLE
                 return false
             }
@@ -111,10 +114,6 @@ class RegisterFragment : Fragment() {
     private fun navigateToVerify(newUser: User) {
         val action = RegisterFragmentDirections.actionRegisterFragmentToVerifyFragment(newUser)
         findNavController().navigate(action)
-    }
-
-    private fun toast(message: String) {
-        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun TextInputEditText.togglePasswordVisibility() {

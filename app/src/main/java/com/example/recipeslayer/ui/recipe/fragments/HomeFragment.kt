@@ -32,7 +32,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.content.Context
 import android.util.DisplayMetrics
+import android.view.Gravity
+import android.widget.TextView
 import com.example.recipeslayer.utils.AutoSpanCount.setupRecyclerView
+import com.example.recipeslayer.utils.toast.toast
 
 class HomeFragment : Fragment() {
 
@@ -107,11 +110,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnImageLabeling.setOnClickListener {
-            Toast.makeText(
-                requireActivity(),
-                getString(R.string.this_feature_is_coming_soon),
-                Toast.LENGTH_SHORT
-            ).show()
+            toast(requireContext(), getString(R.string.this_feature_is_coming_soon))
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
@@ -196,5 +195,4 @@ class HomeFragment : Fragment() {
     private fun internetError(flag: Int) {
         binding.internetErrorOverlay.all.visibility = flag
     }
-
 }

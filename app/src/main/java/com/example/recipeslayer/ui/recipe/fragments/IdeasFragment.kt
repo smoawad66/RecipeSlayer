@@ -1,6 +1,7 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -70,25 +71,20 @@ class IdeasFragment : Fragment() {
                 withContext(Main) { generateBtn.isEnabled = false; generateBtn.alpha = 0.5f }
 
                 val userMessage = promptEt.text.toString()
-
                 try {
                     val aiResponse = chat.sendMessage(userMessage).text ?: ""
-                    chat.history.addAll(
-                        listOf(
-                            content("user") { text(userMessage) },
-                            content("model") { text(aiResponse) }
-                        )
-                    )
-
+                    chat.history.addAll(listOf(
+                        content("user") { text(userMessage) },
+                        content("model") { text(aiResponse) },
+                    ))
                     withContext(Main) {
                         markwon.setMarkdown(responseTv, aiResponse)
                         promptEt.apply { text?.clear(); requestFocus() }
                         generateBtn.isEnabled = true
                         generateBtn.alpha = 1.0f
                     }
-                } catch (_: UnknownException) {
                 }
-
+                catch (_: UnknownException){}
             }
         }
     }

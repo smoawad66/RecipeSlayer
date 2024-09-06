@@ -80,6 +80,6 @@
     <string name="welcome_back">Welcome back</string>
     <string name="password_changed">Password Changed!</string>
     <string name="search_here">Search here</string>
-    <string name="this_feature_is_coming_soon">This feature is coming soon!</string>
+    <string name="this_feature_is_coming_soon">Coming SOON!</string>
     <string name="password_instructions">Password should be at least 8 characters.\nContains uppercase and lowercase letters.\nContains numbers and symbols.</string>
 </resources>

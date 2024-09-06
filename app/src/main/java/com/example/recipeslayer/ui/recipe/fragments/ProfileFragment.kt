@@ -1,13 +1,15 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
+import android.R.layout
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -19,17 +21,15 @@ import com.example.recipeslayer.databinding.FragmentProfileBinding
 import com.example.recipeslayer.local.LocalSource
 import com.example.recipeslayer.models.User
 import com.example.recipeslayer.repo.Repo
-import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.ui.recipe.RecipeActivity
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.utils.Validator
 import com.github.dhaval2404.imagepicker.ImagePicker
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+import com.example.recipeslayer.utils.toast.toast
 
 class ProfileFragment : Fragment() {
 
@@ -123,7 +123,7 @@ class ProfileFragment : Fragment() {
             val oldUser = withContext(IO) {repo.getUser(user.email)}
 
             if (oldUser != null && oldUser.id != Auth.id()) {
-                toast(getString(R.string.a_user_with_the_provided_email_already_exists))
+                toast(requireContext(), getString(R.string.a_user_with_the_provided_email_already_exists))
                 return@launch
             }
 
@@ -135,7 +135,7 @@ class ProfileFragment : Fragment() {
 
             // Email not changed
             withContext(IO) { repo.updateUser(user) }
-            toast(getString(R.string.profile_updated))
+            toast(requireContext(), getString(R.string.profile_updated))
             restart()
         }
     }
@@ -143,12 +143,12 @@ class ProfileFragment : Fragment() {
     private fun validateUserData(user: User): Boolean {
         with(user) {
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                toast(getString(R.string.missing_data))
+                toast(requireContext(), getString(R.string.missing_data))
                 return false
             }
 
             if (!Validator.validateEmail(email)) {
-                toast(getString(R.string.please_enter_a_valid_email))
+                toast(requireContext(), getString(R.string.please_enter_a_valid_email))
                 return false
             }
         }
@@ -161,10 +161,6 @@ class ProfileFragment : Fragment() {
             imageUri = data?.data
             binding.profilePicIv.setImageURI(imageUri)
         }
-    }
-
-    private fun toast(message: String) {
-        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToVerify(user: User) {

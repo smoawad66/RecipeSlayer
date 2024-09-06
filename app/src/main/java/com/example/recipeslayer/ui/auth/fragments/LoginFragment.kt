@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +28,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.example.recipeslayer.utils.toast.toast
 
 class LoginFragment : Fragment() {
 
@@ -91,13 +94,13 @@ class LoginFragment : Fragment() {
             val user = withContext(IO) { repo.getUser(email) as User? }
 
             if (user == null) {
-                toast(getString(R.string.user_doesn_t_exist))
+                toast(requireContext(), getString(R.string.user_doesn_t_exist))
                 return@launch
             }
 
             // Attempt to Login
             if (!Hash.verifyPassword(password, user.password)) {
-                toast(getString(R.string.invalid_credentials))
+                toast(requireContext(), getString(R.string.invalid_credentials))
                 binding.apply {
                     edtPassword.text?.clear()
                     edtPassword.requestFocus()
@@ -107,8 +110,8 @@ class LoginFragment : Fragment() {
 
             // Login and redirect user to home
             Auth.login(user.id).also {
+                toast(requireContext(), getString(R.string.welcome_back).plus(" ").plus(user.name))
                 navigateToHome()
-                toast(getString(R.string.welcome_back) + " ${user.name}.")
             }
         }
 
@@ -118,20 +121,16 @@ class LoginFragment : Fragment() {
     private fun validateUserData(email: String, password: String): Boolean {
 
         if (email.isEmpty() || password.isEmpty()) {
-            toast(getString(R.string.missing_data))
+            toast(requireContext(), getString(R.string.missing_data))
             return false
         }
 
         if (!Validator.validateEmail(email)) {
-            toast(getString(R.string.please_enter_a_valid_email))
+            toast(requireContext(), getString(R.string.please_enter_a_valid_email))
             return false
         }
 
         return true
-    }
-
-    private fun toast(message: String) {
-        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToRegister() {

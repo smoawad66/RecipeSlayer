@@ -81,7 +81,7 @@
     <string name="welcome_back">مرحبًا بعودتك با </string>
     <string name="password_changed">تم تغيير كلمة المرور!</string>
     <string name="search_here">ابحث هنا</string>
-    <string name="this_feature_is_coming_soon">هذه الميزة قادمة قريبًا</string>
+    <string name="this_feature_is_coming_soon">قريبًا</string>
     <string name="password_instructions">كلمة المرور يجب أن تتكون من 8 أحرف علي الأقل.\nتحتوي علي أحرف إنجليزية كبيرة وصغيرة.\nتحتوي علي أرقام ورموز.</string>
 
 </resources>
