@@ -1,57 +1,55 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
-import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.recipeslayer.R
-import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import com.example.recipeslayer.databinding.FragmentAboutBinding
+import com.example.recipeslayer.utils.Constants.ELSAYED_LINK
+import com.example.recipeslayer.utils.Constants.HABSA_LINK
+import com.example.recipeslayer.utils.Constants.YASMEEN_LINK
+import com.example.recipeslayer.utils.Internet.isInternetAvailable
+import kotlinx.coroutines.launch
 
 class AboutFragment : Fragment() {
 
-//    private lateinit var bottomBar: ChipNavigationBar
-//    private lateinit var actionBarCl: ConstraintLayout
-//    private lateinit var closeBtn: ConstraintLayout
-    private lateinit var navController: NavController
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    @SuppressLint("MissingInflatedId")
+    private lateinit var binding: FragmentAboutBinding
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_about, container, false)
+        binding = FragmentAboutBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        // Initialize NavController
-        navController = findNavController()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(binding) {
+            ivElsayed.setOnClickListener { goToUrl(ELSAYED_LINK) }
+            iv7absa.setOnClickListener { goToUrl(HABSA_LINK) }
+            ivYasmeen.setOnClickListener { goToUrl(YASMEEN_LINK) }
+        }
+    }
 
-        // Initialize views
-//        closeBtn = view.findViewById(R.id.main_about_cl)
-//
-//        // Set click listener for the close button
-//        closeBtn.setOnClickListener {
-//            // Optionally, you can make the bottom bar and action bar visible if needed
-////            actionBarCl = view?.findViewById(R.id.cl)!!
-////            actionBarCl.visibility = View.VISIBLE
-////
-////            bottomBar = view?.findViewById(R.id.bottom_bar)!!
-////            bottomBar.visibility = View.VISIBLE
-//
-//            // Pop this fragment from the back stack
-////            navController.popBackStack()
-//            requireActivity().supportFragmentManager.popBackStack()
-////            requireActivity().finish()
-//        }
-
-        return view
+    private fun goToUrl(url: String) {
+        lifecycleScope.launch {
+            if (!isInternetAvailable()) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_your_internet_connection).substring(0, 30) + '!',
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@launch
+            }
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
     }
 }

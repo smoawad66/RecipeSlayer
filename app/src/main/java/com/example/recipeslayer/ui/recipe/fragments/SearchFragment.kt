@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeslayer.databinding.FragmentSearchBinding
 import com.example.recipeslayer.ui.recipe.viewModels.RecipeViewModel
 import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
+import com.example.recipeslayer.utils.AutoSpanCount.setupRecyclerView
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import kotlinx.coroutines.launch
 
@@ -52,6 +53,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.searchView.setOnQueryTextListener(this)
         recipeAdapter = RecipeAdapter(emptyList())
         recyclerView.adapter = recipeAdapter
+        setupRecyclerView(binding.rvSearch, 180)
 
         recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             recipeAdapter.setData(recipes.filter { it.strCategory != "Pork" })

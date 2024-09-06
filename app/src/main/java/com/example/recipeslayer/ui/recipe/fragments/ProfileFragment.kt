@@ -123,7 +123,7 @@ class ProfileFragment : Fragment() {
             val oldUser = withContext(IO) {repo.getUser(user.email)}
 
             if (oldUser != null && oldUser.id != Auth.id()) {
-                toast("A user with the provided email already exists!")
+                toast(getString(R.string.a_user_with_the_provided_email_already_exists))
                 return@launch
             }
 
@@ -135,7 +135,7 @@ class ProfileFragment : Fragment() {
 
             // Email not changed
             withContext(IO) { repo.updateUser(user) }
-            toast("Profile updated.")
+            toast(getString(R.string.profile_updated))
             restart()
         }
     }
@@ -143,12 +143,12 @@ class ProfileFragment : Fragment() {
     private fun validateUserData(user: User): Boolean {
         with(user) {
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                toast("Missing data.")
+                toast(getString(R.string.missing_data))
                 return false
             }
 
             if (!Validator.validateEmail(email)) {
-                toast("Please enter a valid email.")
+                toast(getString(R.string.please_enter_a_valid_email))
                 return false
             }
         }

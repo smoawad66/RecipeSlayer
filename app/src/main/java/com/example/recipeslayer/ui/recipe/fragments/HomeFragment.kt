@@ -1,5 +1,6 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -29,6 +30,9 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.content.Context
+import android.util.DisplayMetrics
+import com.example.recipeslayer.utils.AutoSpanCount.setupRecyclerView
 
 class HomeFragment : Fragment() {
 
@@ -63,6 +67,8 @@ class HomeFragment : Fragment() {
         filterAdapter.setSelectedPosition(categoryPosition)
         filterAdapter.setOnItemClickListener { filterRecipes(it) }
 
+        setupRecyclerView(binding.rvRecipes, 180)
+
         recipeAdapter = RecipeAdapter()
         binding.rvRecipes.adapter = recipeAdapter
         recipeAdapter.setOnItemClickListener {
@@ -90,7 +96,6 @@ class HomeFragment : Fragment() {
 
         recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             recipeAdapter.setData(recipes)
-
             recipeAdapter.notifyDataSetChanged()
 //            binding.rvRecipes.adapter = recipeAdapter
         }
@@ -104,7 +109,7 @@ class HomeFragment : Fragment() {
         binding.btnImageLabeling.setOnClickListener {
             Toast.makeText(
                 requireActivity(),
-                "This feature is coming soon!",
+                getString(R.string.this_feature_is_coming_soon),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -184,11 +189,12 @@ class HomeFragment : Fragment() {
         binding.loadingOverlay.all.visibility = flag
         binding.loadingOverlay.progressBar.apply {
             val params = layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams = params.apply { topMargin = (100 * context.resources.displayMetrics.density).toInt() }
+            layoutParams = params.apply { topMargin = (90 * context.resources.displayMetrics.density).toInt() }
         }
     }
 
     private fun internetError(flag: Int) {
         binding.internetErrorOverlay.all.visibility = flag
     }
+
 }

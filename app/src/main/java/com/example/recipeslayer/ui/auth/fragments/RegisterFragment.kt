@@ -6,6 +6,8 @@ import android.text.method.PasswordTransformationMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -46,6 +48,7 @@ class RegisterFragment : Fragment() {
 
         binding.btnSignup.setOnClickListener {
             // ya 2alb a5ok (كلام حلو)
+            binding.passInstructions.visibility = GONE
             binding.apply {
                 val name = edtName.text.toString()
                 val email = edtEmail.text.toString()
@@ -70,7 +73,7 @@ class RegisterFragment : Fragment() {
             val user = withContext(IO) { repo.getUser(newUser.email) }
 
             if (user != null)
-                toast("User already exists!").also { return@launch }
+                toast(getString(R.string.user_already_exists)).also { return@launch }
 
             val hash = Hash.hashPassword(newUser.password)
             newUser.password = hash
@@ -83,17 +86,18 @@ class RegisterFragment : Fragment() {
 
         with(user) {
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                toast("Missing data.")
+                toast(getString(R.string.missing_data))
                 return false
             }
 
             if (!Validator.validateEmail(email)) {
-                toast("Please enter a valid email.")
+                toast(getString(R.string.please_enter_a_valid_email))
                 return false
             }
 
             if (!Validator.validatePassword(password)) {
-                toast("Please enter a stronger password.")
+                toast(getString(R.string.please_enter_a_stronger_password))
+                binding.passInstructions.visibility = VISIBLE
                 return false
             }
         }

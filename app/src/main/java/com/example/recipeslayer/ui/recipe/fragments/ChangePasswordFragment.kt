@@ -23,6 +23,8 @@ import kotlinx.coroutines.withContext
 import android.content.Intent
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import com.example.recipeslayer.R
 import com.example.recipeslayer.utils.Config.isArabic
@@ -64,6 +66,7 @@ class ChangePasswordFragment : Fragment() {
 
         binding.btnUpdatePass.setOnClickListener {
 
+            binding.passInstructions.visibility = GONE
             val id = Auth.id()
             val oldPass = binding.edtPass0.text.toString()
             val pass1 = binding.edtPass1.text.toString()
@@ -76,12 +79,12 @@ class ChangePasswordFragment : Fragment() {
                 val user = withContext(IO) { repo.getUser(id) }
 
                 if (!Hash.verifyPassword(oldPass, user.password)) {
-                    toast("Wrong password!")
+                    toast(getString(R.string.wrong_password))
                     return@launch
                 }
 
                 if (pass1 != pass2) {
-                    toast("Passwords don't match!")
+                    toast(getString(R.string.passwords_don_t_match))
                     binding.edtPass1.text?.clear()
                     binding.edtPass1.requestFocus()
                     binding.edtPass2.text?.clear()
@@ -101,7 +104,7 @@ class ChangePasswordFragment : Fragment() {
     private fun updateUserPassword(user: User) {
         lifecycleScope.launch {
             withContext(IO) { repo.updateUser(user) }
-            toast("Password Changed!")
+            toast(getString(R.string.password_changed))
             Auth.logout()
             val intent = Intent(requireContext(), AuthActivity::class.java)
             intent.putExtra("splashTime", 0L)
@@ -114,13 +117,14 @@ class ChangePasswordFragment : Fragment() {
     private fun validatePasswords(oldPass: String, newPass: String, confirmPass: String): Boolean {
 
         if (oldPass.isEmpty() || newPass.isEmpty() || confirmPass.isEmpty()) {
-            toast("Missing data")
+            toast(getString(R.string.missing_data))
             return false
         }
 
 
         if (!Validator.validatePassword(newPass)) {
-            toast("Please enter a stronger password.")
+            toast(getString(R.string.please_enter_a_stronger_password))
+            binding.passInstructions.visibility = VISIBLE
             binding.apply {
                 edtPass1.text?.clear()
                 edtPass1.clearFocus()

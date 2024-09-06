@@ -5,8 +5,22 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.recipe.RecipeActivity"
-    android:background="@color/main_bg">
+    android:background="@color/main_bg"
+    tools:context=".ui.recipe.RecipeActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:backgroundTint="@color/fab_close_color"
+        android:visibility="gone"
+        android:src="@drawable/baseline_close_24"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="#e0d3d3" />
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -17,50 +31,49 @@
         tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl"
+        android:id="@+id/actionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_2"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/fragment_title"
-            android:padding="10dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            app:layout_constraintStart_toEndOf="@+id/profile_pic"
-            app:layout_constraintEnd_toStartOf="@+id/option_menu"
+            android:padding="10dp"
             android:text="@string/home"
-            android:textStyle="bold"
-            android:textSize="35sp"
             android:textColor="#D36A63"
-            />
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/option_menu"
+            app:layout_constraintStart_toEndOf="@+id/profile_pic" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/profile_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:background="@color/main_bg"
             app:cardCornerRadius="500dp"
             app:cardElevation="0dp"
-            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/logo_46"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
+                android:background="@color/main_bg"
+                android:defaultFocusHighlightEnabled="false"
                 android:src="@drawable/no_profile_pic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@color/main_bg"
-                android:defaultFocusHighlightEnabled="false"/>
-
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.cardview.widget.CardView>
@@ -70,13 +83,13 @@
             android:id="@+id/option_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:defaultFocusHighlightEnabled="false"
+            android:padding="15dp"
             android:src="@drawable/ic_overflow"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:padding="15dp"
-            android:layout_marginEnd="5dp"
-            android:defaultFocusHighlightEnabled="false"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -86,32 +99,32 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:navGraph="@navigation/recipe_navigation"
         app:defaultNavHost="true"
-        app:layout_constraintTop_toBottomOf="@+id/cl"
         app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/actionBar"
+        app:navGraph="@navigation/recipe_navigation" />
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:cnb_menuResource="@menu/bottom_menu"
-        app:cnb_orientationMode="horizontal"
+        android:elevation="16dp"
+        android:padding="20dp"
         app:cnb_addBottomInset="false"
         app:cnb_addLeftInset="false"
-        app:cnb_textAppearance="@style/BottomMenuTextAppearance"
         app:cnb_addRightInset="false"
         app:cnb_addTopInset="false"
-        app:cnb_unselectedColor="#797979"
         app:cnb_badgeColor="#D36A63"
         app:cnb_iconSize="30dp"
-        android:padding="20dp"
-        android:elevation="16dp"/>
+        app:cnb_menuResource="@menu/bottom_menu"
+        app:cnb_orientationMode="horizontal"
+        app:cnb_textAppearance="@style/BottomMenuTextAppearance"
+        app:cnb_unselectedColor="#797979"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@
     <string name="all">الكل</string>
     <string name="sign_up">اشتراك</string>
     <string name="name">الأسم</string>
-    <string name="e_mail">البريد الإلكتروني</string>
+    <string name="e_mail">الحساب</string>
     <string name="password">كلمة المرور</string>
     <string name="already_have_an_account">بالفعل لديك حساب؟</string>
     <string name="login">تسجيل الدخول</string>
@@ -29,7 +29,7 @@
     <string name="ideas">أفكار</string>
     <string name="enter_your_ingredients_demands_and_prompts">تحدث إلي مطرشم الوصفات شخصيًا</string>
     <string name="generating_a_response_for_your_prompt">جاري إنشاء استجابة لطلبك…</string>
-    <string name="ideas_unleash_your_creativity">!الأفكار، أطلق العنان لإبداعك</string>
+    <string name="ideas_unleash_your_creativity">الأفكار، أطلق العنان لإبداعك!</string>
     <string name="generate">إنشاء</string>
     <string name="profile">الملف التعريفي</string>
     <string name="upload">تحميل</string>
@@ -57,7 +57,31 @@
     <string name="old_password">كلمة المرور القديمة</string>
     <string name="new_password">كلمة المرور الجديدة</string>
     <string name="confirm_password">تأكيد كلمة المرور</string>
-    <string name="verification_email_sent">تم إرسال بريد التحقق.\nالرجاء تفقد بريدك الإلكتروني.</string>
+    <string name="update_changes">حفظ التغييرات</string>
     <string name="verify_your_email">التحقق من بريدك الإلكتروني</string>
+    <string name="verification_email_sent">تم إرسال بريد إلكتروني للتحقق. يرجى التحقق من بريدك الإلكتروني.</string>
+    <string name="verify">تأكيد</string>
+    <string name="missing_data">بيانات مفقودة.</string>
+    <string name="please_enter_a_valid_email">الرجاء إدخال بريد إلكتروني صحيح.</string>
+    <string name="please_enter_a_stronger_password">الرجاء إدخال كلمة مرور أقوى.</string>
+    <string name="user_doesn_t_exist">المستخدم غير موجود!</string>
+    <string name="invalid_credentials">بيانات الاعتماد غير صالحة!</string>
+    <string name="user_already_exists">المستخدم موجود بالفعل!</string>
+    <string name="recipe_unsaved">تم إلغاء حفظ الوصفة</string>
+    <string name="recipe_saved">تم حفظ الوصفة</string>
+    <string name="failed_to_send_verification_email">فشل في إرسال رسالة التحقق</string>
+    <string name="account_creation_failed">فشل إنشاء الحساب</string>
+    <string name="wrong_password">كلمة المرور خاطئة!</string>
+    <string name="passwords_don_t_match">كلمات المرور غير متطابقة!</string>
+    <string name="unexpected_error_happens_please_try_again">حدث خطأ غير متوقع! يرجى المحاولة مرة أخرى.</string>
+    <string name="a_user_with_the_provided_email_already_exists">يوجد مستخدم لديه البريد الإلكتروني المقدم بالفعل!</string>
+    <string name="profile_updated">تم تحديث الملف الشخصي.</string>
+    <string name="email_is_not_verified_yet">لم يتم التحقق من البريد الإلكتروني بعد.</string>
+    <string name="account_created_successfully">تم إنشاء الحساب بنجاح.</string>
+    <string name="welcome_back">مرحبًا بعودتك با </string>
+    <string name="password_changed">تم تغيير كلمة المرور!</string>
+    <string name="search_here">ابحث هنا</string>
+    <string name="this_feature_is_coming_soon">هذه الميزة قادمة قريبًا</string>
+    <string name="password_instructions">كلمة المرور يجب أن تتكون من 8 أحرف علي الأقل.\nتحتوي علي أحرف إنجليزية كبيرة وصغيرة.\nتحتوي علي أرقام ورموز.</string>
 
 </resources>

@@ -13,6 +13,7 @@ import com.example.recipeslayer.databinding.FragmentFavouriteBinding
 import com.example.recipeslayer.ui.recipe.viewModels.FavouriteViewModel
 import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
 import com.example.recipeslayer.utils.Auth
+import com.example.recipeslayer.utils.AutoSpanCount.setupRecyclerView
 
 class FavouriteFragment : Fragment() {
 
@@ -30,6 +31,8 @@ class FavouriteFragment : Fragment() {
 
         val adapter = RecipeAdapter(emptyList())
         binding.rvFavourite.adapter = adapter
+
+        setupRecyclerView(binding.rvFavourite, 180)
 
         loading(VISIBLE)
         favouriteViewModel.getFavouriteRecipes(Auth.id())

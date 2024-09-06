@@ -46,9 +46,14 @@ object Constants {
             " Just answer with appropriate fast user-friendly response." +
             " Answer the questions in the language with which user prompts you." +
             " Generate GENDER-UNBIASED responses." +
-            " talk with user as a digital assistant not boy or girl or adult."
+            " Talk with user as a digital assistant not boy or girl or adult."
 
 
     const val BASE_INGREDIENT_URL = "https://www.themealdb.com/images/ingredients"
     const val GEMINI_API_KEY = "AIzaSyBJDwCxczi8DQa6LY5ig0SZNOO-dUIyoYM"
+
+    const val ELSAYED_LINK = "https://github.com/smoawad66"
+    const val HABSA_LINK = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    const val YASMEEN_LINK = "https://github.com/yasmenmohamed12"
+
 }

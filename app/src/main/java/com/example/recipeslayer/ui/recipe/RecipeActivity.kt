@@ -1,6 +1,8 @@
 package com.example.recipeslayer.ui.recipe
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuInflater
 import android.view.View
@@ -11,7 +13,9 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -34,6 +38,7 @@ import com.example.recipeslayer.ui.recipe.fragments.SearchFragment
 import com.example.recipeslayer.ui.recipe.fragments.SettingsFragment
 import com.example.recipeslayer.ui.recipe.viewModels.FavouriteViewModel
 import com.example.recipeslayer.utils.Auth
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
@@ -44,12 +49,21 @@ class RecipeActivity : AppCompatActivity() {
     lateinit var bottomBar: ChipNavigationBar
     private lateinit var fragmentTitle: TextView
     private lateinit var navController: NavController
+    private lateinit var fabClose: FloatingActionButton
+    private lateinit var actionBar: ConstraintLayout
     private val favouriteViewModel: FavouriteViewModel by viewModels()
     private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
+
+        actionBar = findViewById(R.id.actionBar)
+        fabClose = findViewById(R.id.fab_close)
+
+        fabClose.setOnClickListener {
+            supportFragmentManager.popBackStack()
+        }
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
 
@@ -66,7 +80,6 @@ class RecipeActivity : AppCompatActivity() {
         toggleButton.setOnClickListener { showPopupMenu(toggleButton) }
 
 
-        //profile_pic opens profile fragment
         val profilePic = findViewById<ImageView>(R.id.logo_46)
         profilePic.setOnClickListener {
             if (getCurrentFragment() !is ProfileFragment) {
@@ -89,7 +102,6 @@ class RecipeActivity : AppCompatActivity() {
             }
         }
 
-        // Listen for any fragment that is resumed
         supportFragmentManager.registerFragmentLifecycleCallbacks(object :
             FragmentLifecycleCallbacks() {
             override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
@@ -174,10 +186,15 @@ class RecipeActivity : AppCompatActivity() {
         if (items[key] == null) {
             items.forEach { bottomBar.setItemSelected(it.value, false) }
             bottomBar.visibility = GONE
+            actionBar.visibility = GONE
+            fabClose.visibility = if (key == R.string.about_us) GONE else VISIBLE
             return
         }
 
         bottomBar.visibility = VISIBLE
+        actionBar.visibility = VISIBLE
+        fabClose.visibility = GONE
+
         bottomBar.setOnItemSelectedListener {}
         bottomBar.setItemSelected(items[key]!!, true)
         listenToBottomBar()
@@ -197,7 +214,8 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     private fun getCurrentFragment(): Fragment? {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val currentFragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
         return currentFragment
     }

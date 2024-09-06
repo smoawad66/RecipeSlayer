@@ -66,6 +66,8 @@ class IdeasFragment : Fragment() {
                     return@launch
                 }
 
+                withContext(Main) { generateBtn.isEnabled = false; generateBtn.alpha = 0.5f }
+
                 val userMessage = promptEt.text.toString()
                 val aiResponse = chat.sendMessage(userMessage).text ?: ""
 
@@ -77,7 +79,10 @@ class IdeasFragment : Fragment() {
                 withContext(Main) {
                     markwon.setMarkdown(responseTv, aiResponse)
                     promptEt.apply { text?.clear(); requestFocus() }
+                    generateBtn.isEnabled = true
+                    generateBtn.alpha = 1.0f
                 }
+
             }
         }
     }

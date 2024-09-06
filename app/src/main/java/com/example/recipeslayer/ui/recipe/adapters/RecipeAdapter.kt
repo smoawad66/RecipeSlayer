@@ -19,7 +19,6 @@ class RecipeAdapter(private var data: List<Recipe> = listOf()) :
 
     fun getData() = data
 
-
     private var listener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
@@ -41,23 +40,7 @@ class RecipeAdapter(private var data: List<Recipe> = listOf()) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-
-//        if (Locale.getDefault().language == "ar") {
-//            val generativeModel = GenerativeModel(
-//                modelName = "gemini-1.5-flash",
-//                apiKey = "AIzaSyBJDwCxczi8DQa6LY5ig0SZNOO-dUIyoYM"
-//            )
-//
-//            val prompt = "Translate ${data[position].strMeal} into arabic, answer with the word only."
-//            MainScope().launch {
-//                val response = generativeModel.generateContent(prompt)
-//                holder.tv.text = response.text
-//                Log.i("lol", "onCreate: ______${response.text}")
-//            }
-//
-//        } else {
         holder.tv.text = data[position].strMeal
-//        }
 
         Glide.with(holder.itemView)
             .load(data[position].strMealThumb)

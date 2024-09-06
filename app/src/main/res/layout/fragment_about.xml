@@ -7,119 +7,110 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
     android:orientation="vertical"
+    android:scrollbars="none"
     tools:context=".ui.recipe.fragments.AboutFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_about_cl"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingBottom="30dp">
+        android:layout_height="wrap_content">
+
 
         <ImageView
-            android:id="@+id/logo_1023_login"
+            android:id="@+id/iv_elsayed"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:src="@drawable/logo_1024"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/elsayed"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.45"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/whoarewe"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/elsayed_moawad"
             android:gravity="center"
-            android:text="@string/whoarewe"
-            android:textColor="#D36A63"
-            android:textSize="50sp"
+            android:textSize="30sp"
             android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_margin="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo_1023_login" />
+            app:layout_constraintBottom_toBottomOf="@id/iv_elsayed" />
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="#D36A63"
-            app:layout_constraintEnd_toEndOf="@id/whoarewe"
-            app:layout_constraintStart_toStartOf="@id/whoarewe"
-            app:layout_constraintTop_toBottomOf="@id/whoarewe" />
-
-        <ImageView
-            android:id="@+id/elsayed_img"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="30dp"
-            android:src="@drawable/elsayed"
+            android:id="@+id/v"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/whoarewe" />
-
-        <TextView
-            android:id="@+id/elsayed_txt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="30dp"
-            android:layout_marginStart="30dp"
-            android:text="@string/elsayed_moawad"
-            android:textColor="#D36A63"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/elsayed_img"
-            app:layout_constraintStart_toEndOf="@+id/elsayed_img"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/elsayed_img" />
+            app:layout_constraintTop_toBottomOf="@id/iv_elsayed"
+            android:background="#000000"
+            />
 
         <ImageView
-            android:id="@+id/habsa_img"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="30dp"
+            android:id="@+id/iv_7absa"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:src="@drawable/habsa"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/elsayed_img" />
+            app:layout_constraintTop_toBottomOf="@+id/v" />
 
         <TextView
-            android:id="@+id/habsa_txt"
-            android:layout_width="0dp"
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="30dp"
-            android:layout_marginStart="30dp"
             android:text="@string/abdallah_habsa"
-            android:textColor="#D36A63"
-            android:textSize="23sp"
+            android:gravity="center"
+            android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/habsa_img"
+            android:textColor="@color/black"
+            android:layout_margin="35dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/habsa_img"
-            app:layout_constraintTop_toTopOf="@+id/habsa_img" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_7absa" />
+
+        <View
+            android:id="@+id/v2"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_7absa"
+            android:background="#000000"
+            />
 
         <ImageView
-            android:id="@+id/yasmeen_img"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="30dp"
+            android:id="@+id/iv_yasmeen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:src="@drawable/yasmeen"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/habsa_img" />
+            app:layout_constraintTop_toBottomOf="@+id/v2" />
+
 
         <TextView
-            android:id="@+id/yasmeen_txt"
-            android:layout_width="0dp"
+            android:id="@+id/tv3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="30dp"
-            android:layout_marginStart="30dp"
             android:text="@string/yasmeen_mohammed"
-            android:textColor="#D36A63"
-            android:textSize="23sp"
+            android:gravity="center"
+            android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/yasmeen_img"
+            android:textColor="@color/white"
+            android:layout_margin="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/yasmeen_img"
-            app:layout_constraintTop_toTopOf="@+id/yasmeen_img" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_yasmeen" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </ScrollView>

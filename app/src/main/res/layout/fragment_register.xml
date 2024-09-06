@@ -142,20 +142,32 @@
             app:layout_constraintEnd_toEndOf="@id/passwordInputLayout"
             app:layout_constraintTop_toTopOf="@id/passwordInputLayout" />
 
+
+        <TextView
+            android:id="@+id/pass_instructions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"
+            app:layout_constraintStart_toStartOf="@id/passwordInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/passwordInputLayout"
+            android:visibility="gone"
+            android:text="@string/password_instructions"
+            android:textColor="@color/auth_text_color_2" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginVertical="20dp"
             android:background="@drawable/button_background"
             android:gravity="center"
             android:text="@string/sign_up"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout"
-            tools:layout_editor_absoluteX="20dp" />
+            app:layout_constraintTop_toBottomOf="@+id/pass_instructions" />
 
         <LinearLayout
             android:layout_width="match_parent"
