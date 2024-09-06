@@ -15,7 +15,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.wait
 
 class RecipeViewModel : ViewModel() {
 
@@ -73,12 +72,7 @@ class RecipeViewModel : ViewModel() {
         for (cat in categories) {
             val fetched = withContext(IO) { repo.getRecipesOnline(cat) } ?: continue
             if (cat == "Vegetarian") {
-                fetched.find { it.idMeal == 53027L }?.apply {
-                    strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
-                    strMealThumb = "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
-                    strIngredient9 =  "Tomatoes"
-                    strMeasure9 =  "1/2 kilos"
-                }
+                fetched.find { it.idMeal == 53027L }?.modifyKoshari()
 
             }
             val current = _recipes.value!!
@@ -109,12 +103,7 @@ class RecipeViewModel : ViewModel() {
             val filteredRecipes = repo.getRecipesOnline(category) ?: listOf()
 
             if (category == "Vegetarian") {
-                filteredRecipes.find { it.idMeal == 53027L }?.apply {
-                    strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
-                    strMealThumb = "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
-                    strIngredient9 =  "Tomatoes"
-                    strMeasure9 =  "1/2 kilos"
-                }
+                filteredRecipes.find { it.idMeal == 53027L }?.modifyKoshari()
             }
 
             withContext(Main) {
@@ -146,13 +135,17 @@ class RecipeViewModel : ViewModel() {
         val result = if (isArabic()) repo.searchRecipesAr(name) else repo.searchRecipes(name)
 
         if (result != null) {
-            result.find { it.idMeal == 53027L }?.apply {
-                strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
-                strMealThumb = "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
-                strIngredient9 =  "Tomatoes"
-                strMeasure9 =  "1/2 kilos"
-            }
+            result.find { it.idMeal == 53027L }?.modifyKoshari()
         }
         _recipes.postValue(result ?: listOf())
+    }
+
+    private fun Recipe.modifyKoshari() {
+        this.apply {
+            strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
+            strMealThumb = "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
+            strIngredient9 =  "Tomatoes"
+            strMeasure9 =  "1/2 kilos"
+        }
     }
 }
