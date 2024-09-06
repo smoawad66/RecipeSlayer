@@ -46,7 +46,7 @@ object Constants {
             " Just answer with appropriate fast user-friendly response." +
             " Answer the questions in the language with which user prompts you." +
             " Generate GENDER-UNBIASED responses." +
-            " Talk with user as a digital assistant not boy or girl or adult."
+            " Talk with user as a digital assistant not male or female."
 
 
     const val BASE_INGREDIENT_URL = "https://www.themealdb.com/images/ingredients"

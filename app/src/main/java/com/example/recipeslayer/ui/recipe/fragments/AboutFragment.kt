@@ -3,13 +3,10 @@ package com.example.recipeslayer.ui.recipe.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.recipeslayer.R
 import com.example.recipeslayer.databinding.FragmentAboutBinding
@@ -18,7 +15,7 @@ import com.example.recipeslayer.utils.Constants.HABSA_LINK
 import com.example.recipeslayer.utils.Constants.YASMEEN_LINK
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import kotlinx.coroutines.launch
-import com.example.recipeslayer.utils.toast.toast
+import com.example.recipeslayer.utils.Toast.toast
 
 class AboutFragment : Fragment() {
 

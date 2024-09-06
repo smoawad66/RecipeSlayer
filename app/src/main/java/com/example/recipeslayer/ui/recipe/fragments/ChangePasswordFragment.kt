@@ -1,13 +1,10 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.recipeslayer.databinding.FragmentChangePasswordBinding
 import com.example.recipeslayer.models.User
@@ -16,22 +13,19 @@ import com.example.recipeslayer.ui.auth.AuthActivity
 import com.example.recipeslayer.utils.Auth
 import com.example.recipeslayer.utils.Hash
 import com.example.recipeslayer.utils.Validator
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.content.Intent
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.view.Gravity
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
-import android.widget.TextView
 import com.example.recipeslayer.R
 import com.example.recipeslayer.utils.Config.isArabic
 import com.google.android.material.textfield.TextInputEditText
-import com.example.recipeslayer.utils.toast.toast
+import com.example.recipeslayer.utils.Toast.toast
 
 
 class ChangePasswordFragment : Fragment() {

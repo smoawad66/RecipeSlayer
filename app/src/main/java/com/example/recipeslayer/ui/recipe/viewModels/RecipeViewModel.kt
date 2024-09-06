@@ -72,9 +72,20 @@ class RecipeViewModel : ViewModel() {
 
         for (cat in categories) {
             val fetched = withContext(IO) { repo.getRecipesOnline(cat) } ?: continue
+            if (cat == "Vegetarian") {
+                fetched.find { it.idMeal == 53027L }?.apply {
+                    strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
+                    strMealThumb = "https://drive.google.com/uc?export=view&id=1h1jD4d-uRYD-FeqnXYsR_W0fDFWCSln8"
+                    strIngredient9 =  "Tomatoes"
+                    strMeasure9 =  "1/2 kilos"
+                }
+
+            }
             val current = _recipes.value!!
             _recipes.value = current + fetched
         }
+
+
 
         RECIPES_CACHE["All"] = _recipes.value ?: listOf()
     }
@@ -96,6 +107,15 @@ class RecipeViewModel : ViewModel() {
                 return@launch getAllRecipes()
 
             val filteredRecipes = repo.getRecipesOnline(category) ?: listOf()
+
+            if (category == "Vegetarian") {
+                filteredRecipes.find { it.idMeal == 53027L }?.apply {
+                    strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
+                    strMealThumb = "https://drive.google.com/uc?export=view&id=1h1jD4d-uRYD-FeqnXYsR_W0fDFWCSln8"
+                    strIngredient9 =  "Tomatoes"
+                    strMeasure9 =  "1/2 kilos"
+                }
+            }
 
             withContext(Main) {
                 _recipes.postValue(filteredRecipes)
@@ -124,6 +144,15 @@ class RecipeViewModel : ViewModel() {
             return@launch
         }
         val result = if (isArabic()) repo.searchRecipesAr(name) else repo.searchRecipes(name)
+
+        if (result != null) {
+            result.find { it.idMeal == 53027L }?.apply {
+                strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
+                strMealThumb = "https://drive.google.com/uc?export=view&id=1h1jD4d-uRYD-FeqnXYsR_W0fDFWCSln8"
+                strIngredient9 =  "Tomatoes"
+                strMeasure9 =  "1/2 kilos"
+            }
+        }
         _recipes.postValue(result ?: listOf())
     }
 }

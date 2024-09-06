@@ -2,8 +2,6 @@ package com.example.recipeslayer.ui.recipe.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import kotlin.reflect.full.memberProperties
 import android.view.LayoutInflater
@@ -15,9 +13,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.core.view.marginTop
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -31,16 +26,14 @@ import com.example.recipeslayer.ui.recipe.viewModels.FavouriteViewModel
 import com.example.recipeslayer.ui.recipe.adapters.IngredientAdapter
 import com.example.recipeslayer.ui.recipe.viewModels.RecipeViewModel
 import com.example.recipeslayer.utils.Auth
-import com.example.recipeslayer.utils.Config
 import com.example.recipeslayer.utils.Config.isArabic
 import com.example.recipeslayer.utils.Constants.BASE_INGREDIENT_URL
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.example.recipeslayer.utils.toast.toast
+import com.example.recipeslayer.utils.Toast.toast
 
 class RecipeDetailFragment : Fragment() {
     private lateinit var binding: FragmentRecipeDetailBinding
@@ -78,7 +71,7 @@ class RecipeDetailFragment : Fragment() {
             withContext(IO) {
                 isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
 
-                if (isFavourite) {
+                if (isFavourite || recipeId == 53027L || recipeId == 530270L) {
                     recipe = recipeViewModel.getRecipeOffline(recipeId)
                     val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
                     recipeEn = recipeViewModel.getRecipeOffline(recipeEnId)

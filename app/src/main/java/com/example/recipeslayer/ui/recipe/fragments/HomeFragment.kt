@@ -1,20 +1,16 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeslayer.R
@@ -25,17 +21,10 @@ import com.example.recipeslayer.ui.recipe.adapters.FilterAdapter
 import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
 import com.example.recipeslayer.utils.Cache
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import android.content.Context
-import android.util.DisplayMetrics
-import android.view.Gravity
-import android.widget.TextView
 import com.example.recipeslayer.utils.AutoSpanCount.setupRecyclerView
-import com.example.recipeslayer.utils.toast.toast
+import com.example.recipeslayer.utils.Toast.toast
 
 class HomeFragment : Fragment() {
 
