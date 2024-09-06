@@ -88,6 +88,9 @@ class HomeFragment : Fragment() {
 
         recipeViewModel.recipes.observe(viewLifecycleOwner) { recipes ->
             recipeAdapter.setData(recipes)
+            if (recipeAdapter.itemCount > 0) {
+                loading(GONE)
+            }
             recipeAdapter.notifyDataSetChanged()
 //            binding.rvRecipes.adapter = recipeAdapter
         }
