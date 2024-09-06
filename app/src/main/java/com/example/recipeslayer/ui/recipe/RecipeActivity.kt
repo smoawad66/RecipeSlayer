@@ -183,17 +183,16 @@ class RecipeActivity : AppCompatActivity() {
             R.string.search to R.id.search,
             R.string.favorites to R.id.favourites
         )
+        fabClose.visibility = if (key == R.string.details) VISIBLE else GONE
         if (items[key] == null) {
             items.forEach { bottomBar.setItemSelected(it.value, false) }
             bottomBar.visibility = GONE
             actionBar.visibility = GONE
-            fabClose.visibility = if (key == R.string.details) VISIBLE else GONE
             return
         }
 
         bottomBar.visibility = VISIBLE
         actionBar.visibility = VISIBLE
-        fabClose.visibility = GONE
 
         bottomBar.setOnItemSelectedListener {}
         bottomBar.setItemSelected(items[key]!!, true)
@@ -214,8 +213,7 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     private fun getCurrentFragment(): Fragment? {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val currentFragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
         return currentFragment
     }

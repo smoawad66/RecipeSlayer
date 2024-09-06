@@ -34,6 +34,8 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.example.recipeslayer.utils.Toast.toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class RecipeDetailFragment : Fragment() {
     private lateinit var binding: FragmentRecipeDetailBinding
@@ -60,6 +62,8 @@ class RecipeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().findViewById<ChipNavigationBar>(R.id.bottom_bar).visibility = GONE
+
         binding.internetErrorOverlay.tryAgain.setOnClickListener { activity?.recreate() }
 
         userId = Auth.id()
@@ -71,7 +75,7 @@ class RecipeDetailFragment : Fragment() {
             withContext(IO) {
                 isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
 
-                if (isFavourite || recipeId == 53027L || recipeId == 530270L) {
+                if (isFavourite || recipeId in listOf(53027L, 530270L)) {
                     recipe = recipeViewModel.getRecipeOffline(recipeId)
                     val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
                     recipeEn = recipeViewModel.getRecipeOffline(recipeEnId)
