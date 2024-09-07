@@ -8,7 +8,7 @@
         android:id="@+id/all"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:constraint_referenced_ids="view, server, network, try_again" />
+        app:constraint_referenced_ids="view, iv_server, tv_network, tv_try_again" />
 
     <View
         android:id="@+id/view"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/server"
+        android:id="@+id/iv_server"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/server_solid"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/network"
+        android:id="@+id/tv_network"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -43,22 +43,22 @@
         android:textSize="23sp"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/try_again"
-        app:layout_constraintStart_toStartOf="@id/server"
-        app:layout_constraintTop_toBottomOf="@id/server" />
+        app:layout_constraintEnd_toStartOf="@id/tv_try_again"
+        app:layout_constraintStart_toStartOf="@id/iv_server"
+        app:layout_constraintTop_toBottomOf="@id/iv_server" />
 
     <TextView
-        android:id="@+id/try_again"
+        android:id="@+id/tv_try_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/try_again"
         android:textColor="@color/button_selected_text"
         android:textSize="16sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/network"
-        app:layout_constraintEnd_toEndOf="@id/server"
-        app:layout_constraintStart_toEndOf="@id/network"
-        app:layout_constraintTop_toTopOf="@id/network" />
+        app:layout_constraintBottom_toBottomOf="@id/tv_network"
+        app:layout_constraintEnd_toEndOf="@id/iv_server"
+        app:layout_constraintStart_toEndOf="@id/tv_network"
+        app:layout_constraintTop_toTopOf="@id/tv_network" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@ import android.content.ContextWrapper
 import android.os.LocaleList
 import java.util.*
 
-class ContextWrapper(base: Context) : ContextWrapper(base) {
+class LanguageContextWrapper(base: Context) : ContextWrapper(base) {
     companion object {
         fun wrap(context: Context, newLocale: Locale): ContextWrapper {
             var newContext = context

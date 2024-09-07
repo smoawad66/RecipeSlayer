@@ -8,20 +8,6 @@
     android:background="@color/main_bg"
     tools:context=".ui.recipe.RecipeActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:backgroundTint="@color/fab_close_color"
-        android:visibility="gone"
-        android:src="@drawable/baseline_close_24"
-        app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="#e0d3d3" />
-
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"

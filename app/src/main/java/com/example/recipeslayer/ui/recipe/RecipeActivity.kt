@@ -49,7 +49,6 @@ class RecipeActivity : AppCompatActivity() {
     lateinit var bottomBar: ChipNavigationBar
     private lateinit var fragmentTitle: TextView
     private lateinit var navController: NavController
-    private lateinit var fabClose: FloatingActionButton
     private lateinit var actionBar: ConstraintLayout
     private val favouriteViewModel: FavouriteViewModel by viewModels()
     private lateinit var toolbar: Toolbar
@@ -59,11 +58,6 @@ class RecipeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_recipe)
 
         actionBar = findViewById(R.id.actionBar)
-        fabClose = findViewById(R.id.fab_close)
-
-        fabClose.setOnClickListener {
-            supportFragmentManager.popBackStack()
-        }
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
 
@@ -183,7 +177,6 @@ class RecipeActivity : AppCompatActivity() {
             R.string.search to R.id.search,
             R.string.favorites to R.id.favourites
         )
-        fabClose.visibility = if (key == R.string.details) VISIBLE else GONE
         if (items[key] == null) {
             items.forEach { bottomBar.setItemSelected(it.value, false) }
             bottomBar.visibility = GONE

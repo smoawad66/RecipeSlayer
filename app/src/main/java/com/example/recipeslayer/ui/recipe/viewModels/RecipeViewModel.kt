@@ -15,6 +15,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import retrofit2.http.HTTP
 
 class RecipeViewModel : ViewModel() {
 
@@ -44,11 +46,11 @@ class RecipeViewModel : ViewModel() {
         viewModelScope.launch(IO) {
             if (!isFound("الكل"))
                 getAllRecipesAr()
-            if (category == "الكل")
-                return@launch _recipes.postValue(RECIPES_CACHE["الكل"])
 
-            val filteredRecipes =
-                RECIPES_CACHE["الكل"]?.filter { it.strCategory == category } ?: listOf()
+            if (category == "الكل")
+                return@launch
+
+            val filteredRecipes = RECIPES_CACHE["الكل"]?.filter { it.strCategory == category } ?: listOf()
 
             withContext(Main) {
                 _recipes.value = filteredRecipes
@@ -61,32 +63,24 @@ class RecipeViewModel : ViewModel() {
     suspend fun getAllRecipes() {
         if (isArabic())
             return getAllRecipesAr()
-
-        if (!RECIPES_CACHE["All"].isNullOrEmpty()) {
+        if (isFound("All")) {
             return _recipes.postValue(RECIPES_CACHE["All"])
         }
-
         _recipes.value = emptyList()
         val categories = CATEGORIES.shuffled()
-
         for (cat in categories) {
             val fetched = withContext(IO) { repo.getRecipesOnline(cat) } ?: continue
             if (cat == "Vegetarian") {
                 fetched.find { it.idMeal == 53027L }?.modifyKoshari()
-
             }
+
             val current = _recipes.value!!
             _recipes.value = current + fetched
         }
-
-
-
         RECIPES_CACHE["All"] = _recipes.value ?: listOf()
     }
 
     fun filterRecipes(category: String) {
-
-        Log.i("test", "from filterRecipes")
 
         if (isArabic())
             return filterRecipesAr(category)
@@ -97,8 +91,6 @@ class RecipeViewModel : ViewModel() {
         }
 
         viewModelScope.launch(IO) {
-            if (category == "All")
-                return@launch getAllRecipes()
 
             val filteredRecipes = repo.getRecipesOnline(category) ?: listOf()
 
@@ -132,20 +124,22 @@ class RecipeViewModel : ViewModel() {
             _recipes.postValue(listOf())
             return@launch
         }
-        val result = if (isArabic()) repo.searchRecipesAr(name) else repo.searchRecipes(name)
-
-        if (result != null) {
-            result.find { it.idMeal == 53027L }?.modifyKoshari()
-        }
-        _recipes.postValue(result ?: listOf())
+        try {
+            val result = if (isArabic()) repo.searchRecipesAr(name) else repo.searchRecipes(name)
+            if (result != null) {
+                result.find { it.idMeal == 53027L }?.modifyKoshari()
+            }
+            _recipes.postValue(result ?: listOf())
+        } catch (_: HttpException) {  }
     }
 
     private fun Recipe.modifyKoshari() {
         this.apply {
             strYoutube = "https://www.youtube.com/watch?v=RX6k_VjkM1M"
-            strMealThumb = "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
-            strIngredient9 =  "Tomatoes"
-            strMeasure9 =  "1/2 kilos"
+            strMealThumb =
+                "https://drive.google.com/uc?export=view&id=1EsOLpXx7Q2F1cUIYP0ENRaH5F_i718He"
+            strIngredient9 = "Tomatoes"
+            strMeasure9 = "1/2 kilos"
         }
     }
 }
