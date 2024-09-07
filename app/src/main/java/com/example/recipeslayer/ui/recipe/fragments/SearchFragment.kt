@@ -18,6 +18,8 @@ import com.example.recipeslayer.ui.recipe.adapters.RecipeAdapter
 import com.example.recipeslayer.utils.AutoSpanCount.setupRecyclerView
 import com.example.recipeslayer.utils.Internet.isInternetAvailable
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -44,7 +46,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.searchView.isIconified = false
         binding.searchView.requestFocus()
 
-        binding.internetErrorOverlay.tryAgain.setOnClickListener {
+        binding.internetErrorOverlay.tvTryAgain.setOnClickListener {
             val query = binding.searchView.query.toString()
             onQueryTextSubmit(query)
         }
@@ -81,6 +83,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
                 loading(GONE)
                 return@launch
             }
+
             recipeViewModel.searchByName(newText)
             loading(GONE)
         }

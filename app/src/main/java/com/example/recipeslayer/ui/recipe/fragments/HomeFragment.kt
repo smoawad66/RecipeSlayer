@@ -1,16 +1,22 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
+import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.DisplayMetrics
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.View.SCROLL_AXIS_HORIZONTAL
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeslayer.R
@@ -25,6 +31,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.example.recipeslayer.utils.AutoSpanCount.setupRecyclerView
 import com.example.recipeslayer.utils.Toast.toast
+import java.net.SocketTimeoutException
 
 class HomeFragment : Fragment() {
 
@@ -33,6 +40,7 @@ class HomeFragment : Fragment() {
     private val recommendViewModel: RecommendViewModel by viewModels()
     private lateinit var filterAdapter: FilterAdapter
     private lateinit var recipeAdapter: RecipeAdapter
+    private lateinit var recommendAdapter: RecipeAdapter
     private var categoryPosition = 0
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -40,7 +48,11 @@ class HomeFragment : Fragment() {
         outState.putInt("category_position", categoryPosition)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         if (savedInstanceState != null) {
             categoryPosition = savedInstanceState.getInt("category_position", 0)
         }
@@ -48,11 +60,14 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         recommendRecipes()
-        binding.internetErrorOverlay.tryAgain.setOnClickListener { filterRecipes(categoryPosition) }
+        binding.internetErrorOverlay.tvTryAgain.setOnClickListener { filterRecipes(categoryPosition) }
+        binding.fabUp.setOnClickListener { binding.rvRecipes.smoothScrollToPosition(0) }
+        handleUpFab()
 
         filterAdapter = FilterAdapter()
         binding.rvFilter.adapter = filterAdapter
@@ -80,8 +95,13 @@ class HomeFragment : Fragment() {
                 return@launch
             }
 
-            if (categoryPosition == 0)
-                recipeViewModel.getAllRecipes()
+            if (categoryPosition == 0) {
+                try {
+                    recipeViewModel.getAllRecipes()
+                } catch (e: SocketTimeoutException) {
+                    internetError(VISIBLE)
+                }
+            }
 
             loading(GONE)
         }
@@ -92,7 +112,6 @@ class HomeFragment : Fragment() {
                 loading(GONE)
             }
             recipeAdapter.notifyDataSetChanged()
-//            binding.rvRecipes.adapter = recipeAdapter
         }
 
 
@@ -127,35 +146,42 @@ class HomeFragment : Fragment() {
                 internetError(VISIBLE)
                 return@launch
             }
-            recipeViewModel.filterRecipes(category)
-            loading(GONE)
+            try {
+                if (position == 0)
+                    recipeViewModel.getAllRecipes()
+                else
+                    recipeViewModel.filterRecipes(category)
+            } catch (e: SocketTimeoutException) {
+                internetError(VISIBLE)
+            } finally {
+                loading(GONE)
+            }
         }
     }
 
     private fun recommendRecipes() {
-        val adapter = RecipeAdapter(emptyList())
+        recommendAdapter = RecipeAdapter(emptyList())
         val rv = binding.rvRecommend
-        rv.adapter = adapter
+        rv.adapter = recommendAdapter
 
         recommendViewModel.recommendRecipes()
 
         recommendViewModel.recipes.observe(viewLifecycleOwner) {
-            adapter.setData(it.shuffled())
-            rv.adapter = adapter
+            recommendAdapter.setData(it.shuffled())
+            rv.adapter = recommendAdapter
             if (it.isNotEmpty()) {
-                binding.tvRecommend.visibility = VISIBLE
                 binding.tvRecommend.text = getString(R.string.recommended_recipes)
                 rv.visibility = VISIBLE
                 PagerSnapHelper().attachToRecyclerView(rv)
-                autoScrollRecyclerView(rv, adapter.itemCount)
+                autoScrollRecyclerView(rv, recommendAdapter.itemCount)
 
             } else {
                 binding.tvRecommend.text = getString(R.string.no_recommendation_yet)
             }
         }
 
-        adapter.setOnItemClickListener {
-            val recipe = adapter.getData()[it]
+        recommendAdapter.setOnItemClickListener {
+            val recipe = recommendAdapter.getData()[it]
             navigateToDetails(recipe.idMeal)
         }
     }
@@ -180,11 +206,29 @@ class HomeFragment : Fragment() {
         binding.loadingOverlay.all.visibility = flag
         binding.loadingOverlay.progressBar.apply {
             val params = layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams = params.apply { topMargin = (90 * context.resources.displayMetrics.density).toInt() }
+            layoutParams =
+                params.apply { topMargin = (90 * context.resources.displayMetrics.density).toInt() }
         }
     }
 
     private fun internetError(flag: Int) {
         binding.internetErrorOverlay.all.visibility = flag
     }
+
+    private fun handleUpFab() {
+        binding.rvRecipes.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val position = (recyclerView.layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
+                binding.fabUp.visibility = if (position > 50) VISIBLE else GONE
+            }
+        })
+    }
+
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        setupRecyclerView(binding.rvRecipes, 180)
+    }
+
 }

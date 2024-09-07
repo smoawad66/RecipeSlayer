@@ -1,6 +1,9 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import kotlin.reflect.full.memberProperties
@@ -13,6 +16,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -58,50 +62,51 @@ class RecipeDetailFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().findViewById<ChipNavigationBar>(R.id.bottom_bar).visibility = GONE
+        activity?.findViewById<ChipNavigationBar>(R.id.bottom_bar)?.visibility = GONE
 
-        binding.internetErrorOverlay.tryAgain.setOnClickListener { activity?.recreate() }
+        binding.fabClose.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        binding.internetErrorOverlay.tvTryAgain.setOnClickListener { onViewCreated(view, savedInstanceState) }
 
         userId = Auth.id()
         recipeId = args.recipeId
 
         loading(VISIBLE)
         internetError(GONE)
-        lifecycleScope.launch {
-            withContext(IO) {
-                isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
+        lifecycleScope.launch(IO) {
+            isFavourite = favouriteViewModel.isFavourite(userId, recipeId)
 
-                if (isFavourite || recipeId in listOf(53027L, 530270L)) {
-                    recipe = recipeViewModel.getRecipeOffline(recipeId)
-                    val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
-                    recipeEn = recipeViewModel.getRecipeOffline(recipeEnId)
-                    withContext(Main) { bindRecipeData(view); loading(GONE) }
-                    return@withContext
-                }
-
-                if (!isInternetAvailable()) {
-                    withContext(Main) {
-                        internetError(VISIBLE)
-                    }
-                    return@withContext
-                }
-
+            if (isFavourite || recipeId in listOf(53027L, 530270L)) {
+                recipe = recipeViewModel.getRecipeOffline(recipeId)
                 val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
-                recipeEn = recipeViewModel.getRecipeOnline(recipeEnId)
-                recipeViewModel.insertRecipe(recipeEn!!)
-                recipe = recipeEn
-
-                if (isArabic()) {
-                    recipe = recipeViewModel.getRecipeOffline(recipeId)
-                }
-
-                if (isInternetAvailable())
-                    withContext(Main) { bindRecipeData(view); loading(GONE) }
+                recipeEn = recipeViewModel.getRecipeOffline(recipeEnId)
+                withContext(Main) { bindRecipeData(view); loading(GONE) }
+                return@launch
             }
+
+            if (!isInternetAvailable()) {
+                withContext(Main) {
+                    internetError(VISIBLE)
+                }
+                return@launch
+            }
+
+            val recipeEnId = if (isArabic()) recipeId / 10 else recipeId
+            recipeEn = recipeViewModel.getRecipeOnline(recipeEnId)
+            recipeViewModel.insertRecipe(recipeEn!!)
+            recipe = recipeEn
+
+            if (isArabic()) {
+                recipe = recipeViewModel.getRecipeOffline(recipeId)
+            }
+
+            if (isInternetAvailable())
+                withContext(Main) { bindRecipeData(view); loading(GONE) }
         }
 
     }
@@ -158,7 +163,21 @@ class RecipeDetailFragment : Fragment() {
         webView.settings.mediaPlaybackRequiresUserGesture = false
         webView.webViewClient = WebViewClient()
         webView.settings.javaScriptEnabled = true
+
         webView.webChromeClient = WebChromeClient()
+
+        webView.webViewClient = object : WebViewClient() {
+            @Deprecated("Deprecated in Java")
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                if (url != null) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
+                    return true
+                }
+                return false
+            }
+        }
+
         webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
         webView.settings.domStorageEnabled = true
         webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null)
@@ -173,6 +192,7 @@ class RecipeDetailFragment : Fragment() {
         """
         webView.loadData(htmlData, "text/html", "utf-8")
     }
+
 
     private fun getIngredients() {
         for (i in 1..20) {

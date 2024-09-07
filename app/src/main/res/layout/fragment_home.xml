@@ -5,6 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:backgroundTint="@color/fab_close_color"
+        android:src="@drawable/round_arrow_upward_24"
+        app:fabSize="mini"
+        android:visibility="gone"
+        app:maxImageSize="24dp"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="#e0d3d3" />
+
     <ScrollView
         android:id="@+id/nested_sv"
         android:layout_width="match_parent"
