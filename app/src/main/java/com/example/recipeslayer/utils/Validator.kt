@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 object Validator {
 
     fun validatePassword(password: String): Boolean {
-        val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*\\W).{8,}$"
+        val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$"
         return matchRegex(passwordPattern, password)
     }
 

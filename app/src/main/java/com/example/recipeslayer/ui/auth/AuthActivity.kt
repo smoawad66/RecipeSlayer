@@ -17,7 +17,6 @@ class AuthActivity : AppCompatActivity() {
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
 
-
         if (Auth.sharedPreferences.getBoolean("fullScreen", false)) {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

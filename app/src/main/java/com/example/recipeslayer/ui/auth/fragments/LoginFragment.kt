@@ -61,7 +61,7 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             binding.apply {
-                val email = edtEmail.text.toString()
+                val email = edtEmail.text.toString().trim()
                 val password = edtPassword.text.toString()
                 handleLogin(email, password)
             }

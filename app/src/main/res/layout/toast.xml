@@ -20,6 +20,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Toast"
+        android:paddingEnd="10dp"
+        android:paddingStart="0dp"
         android:textColor="@color/toast_text"
         android:layout_gravity="center_vertical"
         android:textSize="15sp"

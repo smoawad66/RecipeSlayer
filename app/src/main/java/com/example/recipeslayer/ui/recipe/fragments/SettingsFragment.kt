@@ -1,7 +1,5 @@
 package com.example.recipeslayer.ui.recipe.fragments
 
-import android.annotation.SuppressLint
-import android.app.UiModeManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,11 +11,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.os.LocaleListCompat
+import com.example.recipeslayer.App.AppUtils.restartApplication
 import com.example.recipeslayer.R
 import com.example.recipeslayer.databinding.FragmentSettingsBinding
-import com.example.recipeslayer.ui.recipe.RecipeActivity
 import com.example.recipeslayer.utils.Auth
-import com.example.recipeslayer.utils.Config
 import com.example.recipeslayer.utils.Config.isArabic
 
 class SettingsFragment : Fragment() {
@@ -37,6 +34,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         isFullscreen = Auth.sharedPreferences.getBoolean("fullScreen", false)
 
         binding.apply {
@@ -50,7 +48,7 @@ class SettingsFragment : Fragment() {
             fullscreenSwitch.setOnClickListener {
                 isFullscreen = !isFullscreen
                 Auth.sharedPreferences.edit().putBoolean("fullScreen", isFullscreen).apply()
-                restart()
+                activity?.finish().also { requireActivity().startActivity(requireActivity().intent) }
             }
 
             lightDarkSwitch.setOnClickListener {
@@ -65,6 +63,7 @@ class SettingsFragment : Fragment() {
                         Auth.sharedPreferences.edit().putString("theme", "light").apply()
                     }
                 }
+                restartApplication(requireContext())
             }
 
             languageRadioGroup.check(if (isArabic()) R.id.arabic else R.id.english)
@@ -82,15 +81,7 @@ class SettingsFragment : Fragment() {
     private fun setLocale(languageCode: String) {
         val localeList = LocaleListCompat.forLanguageTags(languageCode)
         AppCompatDelegate.setApplicationLocales(localeList)
-        Auth.sharedPreferences.edit().putString("selected_language", languageCode).apply()
-        restart()
-    }
-
-
-    private fun restart() {
-        activity?.finish().also {
-            requireActivity().startActivity(Intent(activity, RecipeActivity::class.java))
-        }
-
+        Auth.sharedPreferences.edit().putString("language", languageCode).apply()
+        restartApplication(requireContext())
     }
 }

@@ -2,7 +2,7 @@ package com.example.recipeslayer.ui.recipe.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.ActivityInfo
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,7 +16,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.FrameLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -38,7 +37,6 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.example.recipeslayer.utils.Toast.toast
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class RecipeDetailFragment : Fragment() {
@@ -67,11 +65,18 @@ class RecipeDetailFragment : Fragment() {
 
         activity?.findViewById<ChipNavigationBar>(R.id.bottom_bar)?.visibility = GONE
 
+        setWebViewHeightPercentage()
+
         binding.fabClose.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        binding.internetErrorOverlay.tvTryAgain.setOnClickListener { onViewCreated(view, savedInstanceState) }
+        binding.internetErrorOverlay.tvTryAgain.setOnClickListener {
+            onViewCreated(
+                view,
+                savedInstanceState
+            )
+        }
 
         userId = Auth.id()
         recipeId = args.recipeId
@@ -176,6 +181,9 @@ class RecipeDetailFragment : Fragment() {
                 }
                 return false
             }
+            override fun onPageFinished(view: WebView?, url: String?) {
+                binding.videoProgressBar.visibility = GONE
+            }
         }
 
         webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
@@ -185,14 +193,13 @@ class RecipeDetailFragment : Fragment() {
         val videoId = youtubeLink?.substringAfter("=")
         val htmlData = """
             <html>
-            <body style="margin:0;padding:0;">
+            <body style="margin:0;padding:0;background-color: black;">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/$videoId" frameborder="0" allowfullscreen></iframe>
             </body>
             </html>
         """
         webView.loadData(htmlData, "text/html", "utf-8")
     }
-
 
     private fun getIngredients() {
         for (i in 1..20) {
@@ -218,5 +225,15 @@ class RecipeDetailFragment : Fragment() {
 
     private fun internetError(flag: Int) {
         binding.internetErrorOverlay.all.visibility = flag
+    }
+
+
+    private fun setWebViewHeightPercentage() {
+        val displayMetrics = Resources.getSystem().displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+        val desiredHeight = (9.0 * screenWidth / 16.0 + 5).toInt()
+        val params = binding.webview.layoutParams
+        params.height = desiredHeight
+        binding.webview.layoutParams = params
     }
 }

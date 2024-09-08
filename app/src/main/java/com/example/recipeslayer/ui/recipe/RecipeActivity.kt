@@ -1,8 +1,7 @@
 package com.example.recipeslayer.ui.recipe
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuInflater
 import android.view.View
@@ -13,7 +12,6 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -38,7 +36,6 @@ import com.example.recipeslayer.ui.recipe.fragments.SearchFragment
 import com.example.recipeslayer.ui.recipe.fragments.SettingsFragment
 import com.example.recipeslayer.ui.recipe.viewModels.FavouriteViewModel
 import com.example.recipeslayer.utils.Auth
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
@@ -210,4 +207,5 @@ class RecipeActivity : AppCompatActivity() {
         val currentFragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
         return currentFragment
     }
+
 }
