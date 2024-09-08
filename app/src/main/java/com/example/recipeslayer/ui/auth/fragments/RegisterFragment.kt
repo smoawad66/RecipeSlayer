@@ -50,8 +50,8 @@ class RegisterFragment : Fragment() {
             // ya 2alb a5ok (كلام حلو)
             binding.passInstructions.visibility = GONE
             binding.apply {
-                val name = edtName.text.toString()
-                val email = edtEmail.text.toString()
+                val name = edtName.text.toString().trim()
+                val email = edtEmail.text.toString().trim()
                 val password = edtPassword.text.toString()
                 val user = User(name, email, password)
                 handleRegister(user)

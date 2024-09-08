@@ -78,10 +78,16 @@
     <string name="profile_updated">تم تحديث الملف الشخصي</string>
     <string name="email_is_not_verified_yet">لم يتم التحقق من البريد الإلكتروني بعد</string>
     <string name="account_created_successfully">تم إنشاء الحساب بنجاح</string>
-    <string name="welcome_back">مرحبًا بعودتك يا </string>
+    <string name="welcome_back">مرحبًا بعودتك يا</string>
     <string name="password_changed">تم تغيير كلمة المرور!</string>
     <string name="search_here">ابحث هنا</string>
     <string name="this_feature_is_coming_soon">قريبًا</string>
-    <string name="password_instructions">كلمة المرور يجب أن تتكون من 8 أحرف علي الأقل.\nتحتوي علي أحرف إنجليزية كبيرة وصغيرة.\nتحتوي علي أرقام ورموز.</string>
+    <string name="password_instructions">
+    كلمة المرور يجب أن تتكون من 8 أحرف علي الأقل تتضمن:\n
+    \t&#8226; أحرف إنجليزية كبيرة وصغيرة.\n
+    \t&#8226; أرقام ورموز.
+    </string>
+    <string name="you_have_reached_the_limit">عذرًا لقد تخطيت الحدود المسموح بها! يرجي المحاولة مرة أخري لاحقًا أو جرب:</string>
+    <string name="start_new_chat"><u>بدأ محادثة جديدة</u></string>
 
 </resources>

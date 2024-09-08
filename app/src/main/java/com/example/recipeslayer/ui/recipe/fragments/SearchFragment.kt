@@ -86,6 +86,10 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
             recipeViewModel.searchByName(newText)
             loading(GONE)
+
+            if(recipeAdapter.itemCount == 0) {
+                binding.searchFill.visibility = VISIBLE
+            }
         }
         return true
     }

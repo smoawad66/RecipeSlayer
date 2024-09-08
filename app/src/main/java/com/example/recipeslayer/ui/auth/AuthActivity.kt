@@ -16,15 +16,5 @@ class AuthActivity : AppCompatActivity() {
         setContentView(R.layout.activity_auth)
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
-
-
-        if (Auth.sharedPreferences.getBoolean("fullScreen", false)) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-        }
     }
 }
