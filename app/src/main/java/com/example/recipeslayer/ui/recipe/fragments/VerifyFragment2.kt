@@ -28,6 +28,8 @@ class VerifyFragment2 : Fragment(R.layout.fragment_verify) {
     private lateinit var binding: FragmentVerifyBinding
     private val args: VerifyFragment2Args by navArgs()
     private lateinit var user: User
+    private val staticPassword = "Password@123"
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentVerifyBinding.inflate(inflater, container, false)
@@ -37,28 +39,56 @@ class VerifyFragment2 : Fragment(R.layout.fragment_verify) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         user = args.user
-        sendVerificationEmail()
+
+        verifyUserEmail()
     }
 
-    private fun sendVerificationEmail() {
+    private fun verifyUserEmail() {
         val firebaseAuth = FirebaseAuth.getInstance()
-        firebaseAuth.createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val firebaseUser = firebaseAuth.currentUser
-                firebaseUser?.sendEmailVerification()
-                    ?.addOnCompleteListener { verificationTask ->
-                        if (verificationTask.isSuccessful)
-                            listenToVerify(firebaseUser)
-                        else
-                            toast(requireContext(), getString(R.string.failed_to_send_verification_email))
-                    }
 
+        firebaseAuth.signInWithEmailAndPassword(user.email, staticPassword).addOnCompleteListener { task->
+            if (task.isSuccessful) {
+                deleteAndCreateNewUser(firebaseAuth.currentUser)
+            } else {
+                createFirebaseUser()
+            }
+        }
+    }
+
+    private fun deleteAndCreateNewUser(firebaseUser: FirebaseUser?){
+        firebaseUser?.delete()?.addOnCompleteListener { task->
+            if (task.isSuccessful) {
+                createFirebaseUser()
             } else {
                 toast(requireContext(), getString(R.string.unexpected_error_happens_please_try_again))
                 requireActivity().supportFragmentManager.popBackStack()
             }
+        }
+    }
 
-            loading(GONE)
+    private fun createFirebaseUser() {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.createUserWithEmailAndPassword(user.email, staticPassword).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                sendVerificationEmail(firebaseAuth.currentUser!!)
+            }
+            else {
+                toast(requireContext(), getString(R.string.unexpected_error_happens_please_try_again))
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+        }
+    }
+
+    private fun sendVerificationEmail(firebaseUser: FirebaseUser) {
+        firebaseUser.sendEmailVerification().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                loading(GONE)
+                listenToVerify(firebaseUser)
+            }
+            else {
+                toast(requireContext(), getString(R.string.failed_to_send_verification_email))
+                requireActivity().supportFragmentManager.popBackStack()
+            }
         }
     }
 
