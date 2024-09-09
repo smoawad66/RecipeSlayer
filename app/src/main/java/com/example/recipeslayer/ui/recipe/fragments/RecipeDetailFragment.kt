@@ -139,8 +139,14 @@ class RecipeDetailFragment : Fragment() {
         if (isFavourite) binding.favBtn.setImageResource(R.drawable.fav_filled_icon)
         binding.favBtn.setOnClickListener { handleFavouriteButton() }
 
+        val img = if(recipeId in listOf(53027L, 530270L)) {
+            R.drawable.koshary
+        } else {
+            recipe?.strMealThumb
+        }
+
         Glide.with(view)
-            .load(recipe?.strMealThumb)
+            .load(img)
             .placeholder(R.drawable.loading)
             .error(R.drawable.baseline_error_24)
             .into(thumbnail)

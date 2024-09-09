@@ -1,5 +1,7 @@
 package com.example.recipeslayer.ui.recipe.adapters
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +44,14 @@ class RecipeAdapter(private var data: List<Recipe> = listOf()) :
 
         holder.tv.text = data[position].strMeal
 
+        val img = if(data[position].idMeal in listOf(53027L, 530270L)) {
+            R.drawable.koshary
+        } else {
+            data[position].strMealThumb
+        }
+
         Glide.with(holder.itemView)
-            .load(data[position].strMealThumb)
+            .load(img)
             .error(R.drawable.baseline_error_24)
             .into(holder.iv)
     }
