@@ -45,7 +45,7 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="recipe_slayer_version">Recipe Slayer . Version 1.2.05</string>
     <string name="settings">Settings</string>
-    <string name="no_recommendation_yet">No recommendation yet</string>
+    <string name="no_recommendation_yet">No recommendations yet</string>
     <string name="area">Area</string>
     <string name="try_again"><u>try again</u></string>
     <string name="network_error">Network Error</string>
