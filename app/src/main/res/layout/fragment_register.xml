@@ -67,7 +67,7 @@
                 android:drawableStart="@drawable/name_icon_1"
                 android:drawablePadding="10dp"
                 android:hint="@string/name"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:textColor="@color/auth_et_text_color" />
         </com.google.android.material.textfield.TextInputLayout>
 
