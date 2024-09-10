@@ -13,7 +13,7 @@
         android:layout_width="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/main_bg">
 
             <androidx.cardview.widget.CardView
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
                     android:drawablePadding="10dp"
-                    android:inputType="textEmailAddress"
+                    android:inputType="text"
                     android:textColor="@color/auth_et_text_color"
                     android:drawableStart="@drawable/name_icon"/>
             </com.google.android.material.textfield.TextInputLayout>

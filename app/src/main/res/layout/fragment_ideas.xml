@@ -54,7 +54,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/enter_your_ingredients_demands_and_prompts"
-                                    android:inputType="textEmailAddress"
+                                    android:inputType="text"
                                     android:textColor="@color/auth_et_text_color"
                                      />
                         </com.google.android.material.textfield.TextInputLayout>
